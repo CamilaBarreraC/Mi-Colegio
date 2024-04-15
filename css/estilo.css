@@ -1,0 +1,151 @@
+@import url(https://fonts.googleapis.com/css2?family=Barlow:wght@100&display=swap);
+@import url(https://fonts.googleapis.com/css2?family=Barlow:wght@700&display=swap);
+@import url(https://fonts.googleapis.com/css2?family=Barlow:ital,wght@1,500&display=swap);
+@import url(https://fonts.googleapis.com/css2?family=Aleo&display=swap);
+@import url(https://fonts.googleapis.com/css2?family=Barlow:ital,wght@1,600&display=swap);
+
+* {
+    margin: 0;
+}
+
+/* Definir tamaño de panel de escritorio (1440 * 1024 */
+
+.Panel_escritorio {
+    width: 1440px; 
+    height: 600px; 
+    position: relative; 
+}
+
+.cuadro_decoracion{
+    width: 1440px; 
+    height: 60px; 
+    left: 0px; 
+    top: 0px; 
+    position: absolute; 
+    background: #1458A7;
+}
+
+.logo{
+    width: 120px; 
+    height: 70px; 
+    left: 1235px; 
+    top: 0px; 
+    position: absolute
+}
+
+.logo_user{
+    width: 60px; 
+    height: 47px; 
+    left: 523px; 
+    top: 369px; 
+    position: absolute;
+}
+
+.logo_pass{
+    width: 52px; 
+    height: 45px; 
+    left: 527px; 
+    top: 445px; 
+    position: absolute
+}
+
+.decoracion {
+    width: 1440px; 
+    height: 336px; 
+    left: 0px; 
+    top: 408px; 
+    position: absolute;
+}
+
+.container{
+    width: 628px; 
+    height: 651px; 
+    left: 406px; 
+    top: 120px; 
+    position: absolute;
+}
+
+/* Imagen de cuadro de login junto con logo */
+.cuadrologin{
+    width: 450px; 
+    height: 520px; 
+    left: 73px; 
+    top: 10px; 
+    position: absolute;
+}
+
+/* inputs de usuario y contraseña */
+
+.container form input[type=text],
+.container form input[type=password]{
+    width: 400px; 
+    height: 50px; 
+    left: 110px; 
+    top: 245px; 
+    margin-bottom: 20px ;
+    position: relative; 
+    background: #E6EAFF; 
+    border-radius: 5px;
+
+    text-align: center; 
+    font-size: 26px; 
+    font-family: Barlow; 
+    font-style: italic; 
+    font-weight: 800; 
+    border-color: #E6EAFF;
+    text-decoration-color: #B6B3CB;
+}
+
+.container form input[type=text]:focus,
+.container form input[type=password]:focus{
+    border-color: #ffffff;
+    box-shadow:0 0 8px 0 rgb(0, 102, 255);
+}
+
+.container form input[type=text]:hover,
+.container form input[type=password]:hover{
+    border-color: #6600ff;
+    box-shadow:0 0 7px 0 rgb(0, 102, 255);
+}
+
+.container form input[type=submit]{
+    padding: 8px;
+    border:2px solid #ffffff;
+    outline:none;
+    transition:.3s;
+}
+
+/* Cambio de color al pasar mouse */
+.container form input[type=submit]:hover {
+    background: rgb(239, 248, 255);
+    color: rgb(81, 0, 255);
+    border: 10px solid #6600ff;
+}
+
+.cuadroiniciar{
+    width: 286.06px; 
+    height: 84.26px; 
+    left: 171px; 
+    top: 497px; 
+    position: absolute;
+}
+
+.boton{
+    width: 260px; 
+    height: 70px; 
+    left: 15px; 
+    top: -60px; 
+    position: absolute; 
+    background: linear-gradient(0deg, #4200FF 0%, #4200FF 100%), linear-gradient(0deg, #4200FF 0%, #4200FF 100%), linear-gradient(0deg, #4200FF 0%, #4200FF 100%), linear-gradient(0deg, #4169E1 0%, #4169E1 100%); 
+    border-radius: 8px; 
+    border: 1px #001AFF solid;
+
+    /*letra del boton*/
+    position: absolute; 
+    text-align: center; 
+    color: white; 
+    font-size: 35px; 
+    font-family: Barlow; 
+    font-style: italic; 
+    font-weight: 800; 
+}
