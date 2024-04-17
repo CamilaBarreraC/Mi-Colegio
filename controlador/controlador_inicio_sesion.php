@@ -66,7 +66,7 @@ if ( !empty($_POST["btniniciar"]) ){ #verifica que no esten vacios los campos de
                         });
                     </script>     
                     <?php 
-                    header("Location: PaginaCliente/PagCliente.php");  
+                    header("Location: PagCliente.php");  
                 }               
              
         }else{          
