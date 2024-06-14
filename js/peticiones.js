@@ -21,7 +21,7 @@ function fetchAndSetData(url, formData, targetElement) {
 
 function getComunas() {
     let region = cbxRegion.value;
-    let url = 'inc/getMunicipios.php';
+    let url = 'inc/getComunas.php';
     let formData = new FormData();
     formData.append('id_region', region);
 
@@ -38,7 +38,7 @@ function getComunas() {
 
 function getColegios() {
     let comuna = cbxComuna.value;
-    let url = 'inc/getLocalidades.php';
+    let url = 'inc/getColegios.php';
     let formData = new FormData();
     formData.append('id_comuna', comuna);
 

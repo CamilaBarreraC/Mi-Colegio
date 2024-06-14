@@ -1,14 +1,5 @@
 <?php
 
-/**
- * Este script PHP establece una conexión a la base de datos 'mexico' en el servidor local.
- * Si la conexión es exitosa, proporciona un objeto $mysqli para interactuar con la base de datos.
- * Si hay un error de conexión, imprime un mensaje de error y termina la ejecución del script.
- *
- * @link https://github.com/mroblesdev
- * @author mroblesdev
- */
-
 $mysqli = new mysqli('localhost', 'root', 'ipchile', 'mi_colegio');
 
 if ($mysqli->connect_error) {

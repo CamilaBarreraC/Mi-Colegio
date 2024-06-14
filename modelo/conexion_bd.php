@@ -3,7 +3,7 @@
 
     $conexion = mysqli_connect("localhost","root","ipchile","mi_colegio");
     $conexion->set_charset("utf8");
-
+    
     // Verificar la conexión
     if (!$conexion) {
         ?>

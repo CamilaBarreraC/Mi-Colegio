@@ -36,11 +36,11 @@ if($isScssconverted){
 
     $compine_css = "assets/css/app.min.css";
 
-    $source_scss = "assets/scss/config/default/app.scss";
+    $source_scss = "assets/scss/config/interactive/app.scss";
 
     $scssContents = file_get_contents($source_scss);
 
-    $import_path = "assets/scss/config/default";
+    $import_path = "assets/scss/config/interactive";
     $compiler->addImportPath($import_path);
     $target_css = $compine_css;
 
@@ -52,4 +52,4 @@ if($isScssconverted){
 }
 ?>
 <!doctype html>
-<html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
+<html lang="en" data-layout="vertical" data-layout-style="detached" data-sidebar="light" data-topbar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">

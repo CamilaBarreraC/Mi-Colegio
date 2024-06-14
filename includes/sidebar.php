@@ -1,133 +1,120 @@
-<!-- ========== App Menu ========== -->
+<!-- SIDEBAR-->
 
 <style>
-    .app-menu{
-        background-color: rgb(196, 209, 255) !important;
-    }
-
-    :root[data-sidebar=light] {
-        --vz-vertical-menu-bg: #405189;
-        --vz-vertical-menu-border: #405189;
-        --vz-vertical-menu-item-color: rgb(196, 209, 255);
-        --vz-vertical-menu-item-bg: rgb(196, 209, 255);
-        --vz-vertical-menu-item-hover-color: #ff0000;
-        --vz-vertical-menu-item-active-color: #fff;
-        --vz-vertical-menu-item-active-bg: rgb(196, 209, 255);
-        --vz-vertical-menu-sub-item-color: #ffffff;
-        --vz-vertical-menu-sub-item-hover-color: #ff0000;
-        --vz-vertical-menu-sub-item-active-color: #fff;
-        --vz-vertical-menu-title-color: rgb(196, 209, 255);
-        --vz-twocolumn-menu-iconview-bg: #ffffff;
-        --vz-vertical-menu-box-shadow: 0 2px 4px rgba(255, 255, 255, 0.879);
-        --vz-vertical-menu-dropdown-box-shadow: 0 2px 4px rgba(15, 34, 58, 0.12);
-    }
-
-    a:hover{
+    span:hover{
         color: blue;
     }
 </style>
 
-<div class="app-menu navbar-menu" style="background-color: rgb(1, 79, 197);">
+<div class="app-menu navbar-menu" style="background-color: rgba(219, 228, 255, 0.8); ">
     <!-- LOGO -->
-    <div class="navbar-brand-box" style="background-color: rgb(1, 79, 197);">
+    <div class="navbar-brand-box" >      
         <!-- Light Logo-->
-        <a href="Administracion.php" class="logo logo-light">
+        <a href="index.php" class="logo logo-light">
+            <span class="logo-sm">
+                <img src="assets/images/logo-sm.png" alt="" height="22">
+            </span>
             <span class="logo-lg">
-                <img src="micolegioImg/logo_sidebar.png" alt="" height="100" width="110" style="margin-bottom: 30px;margin-top:20px">
+                <img src="assets/images/logo-light.png" alt="" height="17">
             </span>
         </a>
-        <button type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover" id="vertical-hover">
+        <button type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover" id="vertical-hover" style="background-color: rgba(225, 233, 255, 0.44) ;">
             <i class="ri-record-circle-line"></i>
         </button>
     </div>
 
-    <div id="scrollbar" style="background-color: rgb(1, 79, 197);">
-        <div class="container-fluid" style="background-color:rgb(1, 79, 197);">
+    <div id="scrollbar">
+        <div class="container-fluid" style="background-color: white ;">
 
-            <div id="two-column-menu">
+            <div id="two-column-menu" style="background-color: rgba(230, 237, 252, 1) ;">
             </div>
             <ul class="navbar-nav" id="navbar-nav">
-                <li class="menu-title" style="color: white"><span data-key="t-menu">Menú</span></li>
-
-                <!-- Lista de usuarios en sidebar -->
+                <li class="menu-title"><span data-key="t-menu" style="color: rgba(0, 12, 82, 1);">Menú</span></li>
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarDashboards" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
-                        <i class=" ri-user-fill" style="color: white"></i> <span style="color: white; font-family: Barlow; font-style: italic; font-size:20px">Usuarios</span>
+                        <i class="bx bx-user-circle"></i> <span data-key="t-dashboards">Usuarios</span>
                     </a>
-                    <!-- Sublistas de usuario -->
                     <div class="collapse menu-dropdown" id="sidebarDashboards">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="registro_usuario.php" class="nav-link" style="color: white"></i> <span style="color: white; font-family: Barlow; font-style: italic; font-size:15px"> Agregar usuario </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="verUsuarios.php" class="nav-link" style="color: white"></i> <span style="color: white; font-family: Barlow; font-style: italic; font-size:15px"> Ver empleados </a>
+                                <a href="Usuarios.php" class="nav-link"> Gestionar usuarios </a>
                             </li>
                         </ul>
                     </div>
-                </li><!-- end Dashboard Menu -->
-
-                <!-- Lista de cliente en sidebar -->
-                <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarTasks" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarTasks">
-                        <i class=" ri-user-fill" style="color: white;"></i> <span style="color: white; font-family: Barlow; font-style: italic; font-size:20px">Colegios</span>
-                    </a>
-                    <!-- Sublistas de cliente -->
-                    <div class="collapse menu-dropdown" id="sidebarTasks">
-                        <ul class="nav nav-sm flex-column">
-                            <li class="nav-item">
-                                <a href="Colegios.php" class="nav-link" style="color: white"></i> <span style="color: white; font-family: Barlow; font-style: italic; font-size:15px"> Buscar colegios </a>
-                            </li>
-                        </ul>
-                    </div>
-                </li><!-- end Dashboard Menu -->
+                </li> <!-- end Dashboard Menu -->
 
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarEcommerce" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarTasks">
-                        <i class="ri-file-edit-fill" style="color:white" ></i> <span style="color: white; font-family: Barlow; font-style: italic; font-size:20px">Clases</span>
+                    <a class="nav-link menu-link" href="#sidebarCRM" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
+                        <i class=" bx bx-user-plus"></i> <span data-key="t-dashboards">Alumnos</span>
                     </a>
-                    <div class="collapse menu-dropdown" id="sidebarEcommerce">
+                    <div class="collapse menu-dropdown" id="sidebarCRM">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="ingresoclases.php" class="nav-link"> Ingreso de clases </a>
-                            </li>            
+                                <a href="Alumnos.php" class="nav-link"> Gestionar alumnos </a>
+                            </li>
                         </ul>
                     </div>
-                </li><!-- end Dashboard Menu -->
+                </li> <!-- end Dashboard Menu -->
 
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarApps" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarApps">
-                        <i class="bx bxs-calendar-event" style="color:white"></i> <span style="color: white; font-family: Barlow; font-style: italic; font-size:20px">Reportes</span>
+                        <i class="bx bxs-school"></i> <span data-key="t-apps">Colegios</span>
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarApps">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="Reporte.php" class="nav-link" style="color: white"></i> <span style="color: white; font-family: Barlow; font-style: italic; font-size:15px"> Reporte </a>
-                            </li>
+                                <a href="Colegios.php" class="nav-link"> Gestionar colegios y cursos </a>
+                            </li>                                                                                     
                         </ul>
                     </div>
-                </li><!-- end Dashboard Menu -->
+                </li>
+
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarLayouts" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarLayouts">
-                        <i class="mdi-dumbbell" style="color:white"></i> <span style="color: white; font-family: Barlow; font-style: italic; font-size:20px">Inventario</span>
+                    <a class="nav-link menu-link" href="#sidebarTasks" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
+                        <i class=" bx bx-list-ol"></i> <span data-key="t-dashboards">Listas</span>
                     </a>
-                    <div class="collapse menu-dropdown" id="sidebarLayouts">
+                    <div class="collapse menu-dropdown" id="sidebarTasks">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="equipos.php" class="nav-link">Equipos de gimnasio</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="salas.php" class="nav-link">Salas de entrenamiento</a>
+                                <a href="Listas1.php" class="nav-link"> Gestionar listas </a>
                             </li>
                         </ul>
                     </div>
-                </li><!-- end Dashboard Menu -->
+                </li> <!-- end Dashboard Menu -->
+
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="#sidebarProjects" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
+                        <i class=" bx bx-pencil"></i> <span data-key="t-dashboards">Productos</span>
+                    </a>
+                    <div class="collapse menu-dropdown" id="sidebarProjects">
+                        <ul class="nav nav-sm flex-column">
+                            <li class="nav-item">
+                                <a href="Productos.php" class="nav-link"> Gestionar productos y categorías</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li> <!-- end Dashboard Menu -->
+
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="#sidebarEcommerce" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
+                        <i class=" ri-clipboard-line"></i> <span data-key="t-dashboards">Pedidos</span>
+                    </a>
+                    <div class="collapse menu-dropdown" id="sidebarEcommerce">
+                        <ul class="nav nav-sm flex-column">
+                            <li class="nav-item">
+                                <a href="Pedidos.php" class="nav-link"> Gestionar pedidos </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li> <!-- end Dashboard Menu -->
 
             </ul>
         </div>
         <!-- Sidebar -->
     </div>
 
-    <div class="sidebar-background" style="background-color: 282828;"></div>
+    <div class="sidebar-background"></div>
 </div>
-
+<!-- Left Sidebar End -->
+<!-- Vertical Overlay-->
+<div class="vertical-overlay"></div>

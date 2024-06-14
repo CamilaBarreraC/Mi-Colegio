@@ -1,10 +1,11 @@
-<!-- ========== App Menu ========== -->
+<!-- SIDEBAR 2 PARA PÁGINA CLIENTE, SIRVE PARA QUE FUNCIONE EL SELECT DE LOS COLEGIOS CON BÚSQUEDA -->
 
 <style>
     .app-menu{
         background-color: rgb(196, 209, 255) !important;
     }
 
+    /* STYLE PARA CAMBIAR COLOR AL SIDEBAR */
     :root[data-sidebar=light] {
         --vz-vertical-menu-bg: #405189;
         --vz-vertical-menu-border: #405189;

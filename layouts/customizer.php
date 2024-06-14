@@ -652,7 +652,7 @@
                             <label class="form-check-label p-0 avatar-sm h-auto" for="sidebarimg-01">
                                 <img src="assets/images/sidebar/img-1.jpg" alt="" class="avatar-md w-auto object-fit-cover">
                             </label>
-                        </div>	
+                        </div>
 
                         <div class="form-check sidebar-setting card-radio">
                             <input class="form-check-input" type="radio" name="data-sidebar-image" id="sidebarimg-02" value="img-2">
@@ -700,7 +700,7 @@
                                             </span>
                                         </span>
                                     </span>
-                                    <!-- <div id="preloader"> -->
+                                    <!-- <div id="status"> -->
                                     <div id="status" class="d-flex align-items-center justify-content-center">
                                         <div class="spinner-border text-primary avatar-xxs m-auto" role="status">
                                             <span class="visually-hidden">Loading...</span>

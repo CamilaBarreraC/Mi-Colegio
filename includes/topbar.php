@@ -6,26 +6,46 @@
     @import url(https://fonts.googleapis.com/css2?family=Barlow:ital,wght@1,600&display=swap);
 </style>
 
-<header id="page-topbar">
-    <div class="layout-width">
-        <div class="navbar-header" style="background-color: white;">
-            <div class="d-flex align-items-center">
-                <h1 style="align-items: center;text-align:center; color:#3F98FF;font-family: Barlow; font-style: italic;font-weight: 1000; font-size: 40px; ">Mi Colegio</h1>
+<header id="page-topbar" style="background-color: rgba(105, 94, 239, 1);">
+    <div class="layout-width" style="background-color: rgba(105, 94, 239, 1)">
+        <div class="navbar-header" style="background-color: rgba(105, 94, 239, 1);">
+            <div class="d-flex" style="background-color: rgba(105, 94, 239, 1);">
+                <!-- LOGO -->
+                <div class="navbar-brand-box horizontal-logo">
+                    <a href="Administracion.php" class="logo logo-light">        
+                        <span class="logo-lg">
+                            <img src="micolegioImg/logo_sidebar.png" alt="" height="65">           
+                        </span>
+                    </a>
+                </div>
+                <h1 style="align-items: center;text-align:center; color:rgba(230, 237, 252, 1);font-family: Barlow; font-style: italic;font-weight: 1000; font-size: 40px; margin-top: 10px">Mi Colegio</h1>
+
+                <!-- NO BORRAR -->
+                <button type="button" class="btn btn-sm px-3 fs-16 header-item vertical-menu-btn topnav-hamburger" id="topnav-hamburger-icon">
+                    <span class="hamburger-icon">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </span>
+                </button>      
             </div>
+                
 
             <div class="d-flex align-items-center">
-                <div class="dropdown ms-sm-3 header-item topbar-user" style="background-color: rgb(241, 251, 255);">
+                <div class="dropdown ms-sm-3 header-item topbar-user" style="background-color: #223558; width:140px;">
                     <button type="button" class="btn" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
                         <span class="d-flex align-items-center" >
                             <!-- Datos del usuario que inicia sesión, imagen de perfil y nombre del usuario -->
-                            <img class="rounded-circle header-profile-user" src="micolegioImg/logo.png" alt="Header Avatar">
+                            <img class="rounded-circle header-profile-user" src="micolegioImg/logo_sidebar.png" alt="Header Avatar">
                             <span class="text-start ms-xl-2" >                              
-                                <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text" style="color:rgb(40, 5, 116)"> <?php echo $_SESSION['nombre_cliente']; ?> </span>
+                                <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text" style="color:white"> <?php echo $_SESSION['nombre_cliente']; ?> </span>
                                 <span class="d-none d-xl-block ms-1 fs-12 user-name-sub-text"><?php  ?></span>
                             </span>
                         </span>
                     </button>
-                    <div class="dropdown-menu dropdown-menu-end">
+                    <div class="dropdown-menu dropdown-menu-end" >
+                        <h6 class="dropdown-header">¡Bienvenid@ <?php echo $_SESSION['nombre_cliente']; ?>!</h6>
+                        <a class="dropdown-item" href="pages-profile.php"><i class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Mis datos</span></a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href=#><i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i> <span class="align-middle" data-key="t-logout" onclick="confirmCerrar()">Cerrar sesión</span></a>
                         <!-- botón cerrar sesión -->
@@ -44,13 +64,12 @@
                                     confirmButtonText: "Sí, cerrar sesión",
                                     cancelButtonText: "Cancelar"
                                 }).then((result) => {
-                                    window.location.href = "Administracion.php";
+
                                     if (result.isConfirmed) {
                                         // Redireccionar a la página de iniciar sesión
                                         window.location.href = "index.php";
                                         session_unset();
-                                        session_destroy();
-                                        
+                                        session_destroy();                    
                                     }
                                 });
                             }
