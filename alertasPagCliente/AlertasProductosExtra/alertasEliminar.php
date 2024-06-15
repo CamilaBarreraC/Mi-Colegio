@@ -25,31 +25,30 @@
 
 <body>
     <?php
-    // Verificar si está el id en la URL para saber si la inserción está correcta
-    if (isset($_GET['nombre_alumno'])) {
-        echo '<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>';
-        echo '<script>
-                Swal.fire({
-                    imageUrl: "https://cdn.lordicon.com/gsqxdxog.json",
-                    title: "¡Éxito!",
-                    text: "Alumno ingresado correctamente.",
-                    showConfirmButton: false
-                }).then(() => {
-                    window.location.href = "../../DatosUsuario.php";
-                });
-                
-            </script>';
-    } else {
-        // Si no hay id en la URL, muestra mensaje de error y redirecciona a la página de colegios
+    if (isset($_GET['id_extras'])) {
+        // En el caso de delete, se mostrará mensaje de error si aún existe un ID
+        // Si no envía un ID, significa que se eliminó correctamente
         echo '<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>';
         echo '<script>
                 Swal.fire({
                     icon: "error",
                     title: "Error",
-                    text: "Hubo un error al ingresar el alumno.",
+                    text: "Hubo un error al eliminar el producto del carro.",
                     showConfirmButton: false
                 }).then(() => {
-                    window.location.href = "../../DatosUsuario.php";
+                    window.location.href = "../../ProductosPagCliente.php";
+                });
+            </script>';
+    } else {
+        echo '<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>';
+        echo '<script>
+                Swal.fire({
+                    icon: "success",
+                    title: "¡Eliminado!",
+                    text: "Producto eliminado correctamente del carro.",
+                    showConfirmButton: false
+                }).then(() => {
+                    window.location.href = "../../ProductosPagCliente.php";
                 });
             </script>';
         exit();

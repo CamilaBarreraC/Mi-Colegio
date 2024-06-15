@@ -66,6 +66,9 @@
     <!--Swiper slider css-->
     <link href="assets/libs/swiper/swiper-bundle.min.css" rel="stylesheet" type="text/css" />
 
+    <!-- swiper css -->
+    <link rel="stylesheet" href="assets/libs/swiper/swiper-bundle.min.css">
+
     <?php include 'layouts/head-css.php'; ?>
 </head>
 
@@ -191,7 +194,7 @@
                         <div class="card">
                             
                             <div class="card-body">
-                                <form method="post">
+                                <form method="post" action="procesarProductoExtra.php">
                                     <div class="row gallery-wrapper">
                                         <!-- INICIO CARD PARA PRODUCTOS -->
                                         <?php while ($fila = mysqli_fetch_assoc($resultado)): ?>
@@ -205,6 +208,11 @@
                                                     </a>
                                                 </div> 
 
+                                                <!-- INPUTS INVISIBLES RELLENADOS CON LOS DATOS PARA INGRESARLOS A LA BASE DE DATOS -->
+                                                <input type="hidden" name="id_producto" value="<?php echo $fila['id_producto'] ?>">
+                                                <input type="hidden" name="estado" value="Pendiente">
+                                                <input type="hidden" name="rut_cliente" value="<?= $_SESSION['rut_cliente'] ?>">
+
                                                 <div class="box-content" >
                                                     <div class="d-flex align-items-center mt-1" style="margin-bottom: 10px;">
                                                         <div class="flex-grow-1 text-muted" style="font-size: 18px;"><?php echo $fila['nombre_producto']; ?></div>
@@ -216,15 +224,17 @@
                                                             </div>
                                                         </div>
                                                     </div>
+
                                                     <div style="display: flex; flex-direction: column; align-items: center;">
-                                                        <button type="button" class="btn btn-primary waves-effect waves-light" style="width: 300px;font-size:18px"><i class="bx bxs-cart"></i> Añadir al carro</button>
+                                                        <button type="submit" class="btn btn-primary waves-effect waves-light" style="width: 300px;font-size:18px"><i class="bx bxs-cart"></i> Añadir al carro</button>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <!-- end col -->
                                         <?php endwhile; ?>
-                                    </div>                                                         
+                                    </div>                                                     
+                                    
                                 </form>
 
                                 <?php
@@ -299,6 +309,15 @@
 
         <!-- App js -->
         <script src="assets/js/app.js"></script>
+
+        <!-- profile-setting init js -->
+        <script src="assets/js/pages/profile-setting.init.js"></script>
+
+        <!-- input step init -->
+        <script src="assets/js/pages/form-input-spin.init.js"></script>
+
+        <!-- ecommerce cart js -->
+        <script src="assets/js/pages/ecommerce-cart.init.js"></script>
 
     </body>
 </html>

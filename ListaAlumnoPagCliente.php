@@ -121,7 +121,7 @@
 
                                                     <!-- INPUTS PARA AÑADIR UNA NUEVA LISTA 2 CON EL ID_CURSO E ID_COLEGIO -->
                                                     <!-- INPUTS INVISIBLES RELLENADOS CON LOS ID de colegio y curso -->
-                                                    <!-- Obtener id_curso e id_colegio del primer elemento de $alumno -->
+                                                    <!-- Obtener id_curso e id_colegio de $alumno -->
                                                     <?php 
                                                     $id_curso = $alumno[0]['id_curso'];
                                                     $id_colegio = $alumno[0]['id_colegio'];
@@ -161,7 +161,6 @@
                                                                             <input type="hidden" name="productos[<?= $index ?>][id_producto]" value="<?= $id_producto ?>">
                                                                             <input type="hidden" name="productos[<?= $index ?>][id_curso]" value="<?= $id_curso ?>">
                                                                             <input type="hidden" name="productos[<?= $index ?>][estado]" value="Pendiente">
-                                                                            <!-- CONCEPTO = SI PERTENECE A UNA LISTA O ES UN PRODUCTO EXTRA -->
                                                                             <input type="hidden" name="productos[<?= $index ?>][rut_cliente]" value="<?= $_SESSION['rut_cliente'] ?>">
 
                                                                         </ul>
