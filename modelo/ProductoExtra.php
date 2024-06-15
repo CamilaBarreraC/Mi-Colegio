@@ -8,10 +8,11 @@ class ModeloProductoExtra {
         $this->PDO = $con -> conexion();
     }
 
-    public function insertarProductoExtra($id_producto, $estado, $rut_cliente ) {
+    public function insertarProductoExtra($id_producto , $cantidad , $estado, $rut_cliente ) {
         // Ejecutar la consulta en la base de datos
-        $stmt = $this->PDO->prepare("INSERT INTO productos_extra (id_producto, estado, rut_cliente) VALUES (:id_producto, :estado, :rut_cliente) ");
+        $stmt = $this->PDO->prepare("INSERT INTO productos_extra (id_producto, cantidad, estado, rut_cliente) VALUES (:id_producto, :cantidad, :estado, :rut_cliente) ");
         $stmt->bindParam(':id_producto', $id_producto);
+        $stmt->bindParam(':cantidad', $cantidad);
         $stmt->bindParam(':estado', $estado);
         $stmt->bindParam(':rut_cliente', $rut_cliente);
         
@@ -33,10 +34,11 @@ class ModeloProductoExtra {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function actualizarProductoExtra($id_producto , $estado, $rut_cliente, $id_extras){
-        $stmt = $this->PDO->prepare("UPDATE productos_extra SET id_producto = :id_producto, estado = :estado, rut_cliente = :rut_cliente WHERE id_extras = :id_extras");
+    public function actualizarProductoExtra($id_producto , $cantidad , $estado, $rut_cliente, $id_extras){
+        $stmt = $this->PDO->prepare("UPDATE productos_extra SET id_producto = :id_producto, cantidad = :cantidad, estado = :estado, rut_cliente = :rut_cliente WHERE id_extras = :id_extras");
         
         $stmt->bindParam(':id_producto', $id_producto);
+        $stmt->bindParam(':cantidad', $cantidad);
         $stmt->bindParam(':estado', $estado);
         $stmt->bindParam(':rut_cliente', $rut_cliente);
         $stmt->bindParam(':id_extras', $id_extras);

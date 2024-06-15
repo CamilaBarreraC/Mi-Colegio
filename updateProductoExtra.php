@@ -5,6 +5,6 @@
         
         
     $obj = new ControladorProductoExtra();
-    $obj->actualizarProductoExtra($_POST['id_producto'], $_POST['estado'], $_POST['rut_cliente'], $_POST['id_extras']);
+    $obj->actualizarProductoExtra($_POST['id_producto'], $_POST['cantidad'], $_POST['estado'], $_POST['rut_cliente'], $_POST['id_extras']);
 
 ?>

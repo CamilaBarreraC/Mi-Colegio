@@ -17,6 +17,7 @@
     $sql = "SELECT *
     FROM lista_2 
     JOIN curso ON lista_2.id_curso = curso.id_curso
+    JOIN colegio ON curso.id_colegio = colegio.id_colegio
     JOIN l2_productos ON lista_2.id_curso = l2_productos.id_curso 
     JOIN cliente ON lista_2.rut_cliente = cliente.rut_cliente
     JOIN productos ON l2_productos.id_producto = productos.id_producto
@@ -79,48 +80,95 @@
                         <div data-simplebar style="max-height: 300px;">
                             <div class="p-2">
 
-                            <?php $totalCarro = 0; ?>
-                                
-                            <?php if ($resultProd->num_rows > 0) : ?>
-                                <?php while($row = $resultProd->fetch_assoc()) : ?>
-                                    <div class="d-block dropdown-item dropdown-item-cart text-wrap px-3 py-2">
-                                        <div class="d-flex align-items-center">
-                                            <img src="<?php echo $row['dir']; ?>" class="me-3 rounded-circle avatar-sm p-2 bg-light" alt="user-pic">
-                                            <div class="flex-grow-1">
-                                                <h6 class="mt-0 mb-1 fs-14">
-                                                    <a href="apps-ecommerce-product-details.php" class="text-reset"><?php echo $row['nombre_producto']; ?></a>
-                                                </h6>
-                                                <p class="mb-0 fs-12 text-muted">
-                                                    Cantidad: <span><?php echo $row['cantidad']; ?></span>
-                                                </p>
-                                            </div>
-                                            <div class="px-2">
-                                                <h5 class="m-0 fw-normal">$<span class="cart-item-price"><?php echo $row['precio']; ?></span></h5>
-                                            </div>
-                                            <div class="ps-2">
-                                                <button type="button" class="btn btn-icon btn-sm btn-ghost-secondary remove-item-btn"><i class="ri-close-fill fs-16"></i></button>
+                                <?php $totalCarro = 0; ?>
+                                    
+                                <?php if ($resultProd->num_rows > 0) : ?>
+                                    
+                                    <?php while($row = $resultProd->fetch_assoc()) : ?>
+                                        <div class="px-2" style="margin-top: 15px;">
+                                            <h5 class="m-0 fw-normal"><?php echo $row['nombre_curso']; ?>  Colegio: <?php echo $row['nombre_de_colegio']; ?></h5>
+                                        </div>
+
+                                        <div class="d-block dropdown-item dropdown-item-cart text-wrap px-3 py-2">
+                                            <div class="d-flex align-items-center">
+                                                <img src="<?php echo $row['dir']; ?>" class="me-3 rounded-circle avatar-sm p-2 bg-light" alt="user-pic">
+                                                <div class="flex-grow-1">
+                                                    <h6 class="mt-0 mb-1 fs-14">
+                                                        <a href="apps-ecommerce-product-details.php" class="text-reset"><?php echo $row['nombre_producto']; ?></a>
+                                                    </h6>
+                                                    <p class="mb-0 fs-12 text-muted">
+                                                        Cantidad: <span><?php echo $row['cantidad']; ?></span>
+                                                    </p>
+                                                </div>
+                                                <div class="px-2">
+                                                    <h5 class="m-0 fw-normal">$<span class="cart-item-price"><?php echo $row['precio']; ?></span></h5>
+                                                </div>
+                                                <div class="ps-2">
+                                                    <button type="button" class="btn btn-icon btn-sm btn-ghost-secondary remove-item-btn"><i class="ri-close-fill fs-16"></i></button>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
 
-                                    <!-- Suma el precio de cada artículo al total -->
-                                    <?php $totalCarro += $row['precio']; ?>
+                                        <!-- Suma el precio de cada artículo al total -->
+                                        <?php $totalCarro += $row['precio']; ?>
 
-                                <?php endwhile; ?>
-                            <?php else : ?>
-                                <div class="text-center empty-cart" id="empty-cart">
-                                    <div class="avatar-md mx-auto my-3">
-                                        <div class="avatar-title bg-info-subtle text-info fs-36 rounded-circle">
-                                            <i class='bx bx-cart'></i>
+                                    <?php endwhile; ?>
+
+                                <?php else : ?>
+                                    <div class="text-center empty-cart" id="empty-cart">
+                                        <div class="avatar-md mx-auto my-3">
+                                            <div class="avatar-title bg-info-subtle text-info fs-36 rounded-circle">
+                                                <i class='bx bx-cart'></i>
+                                            </div>
                                         </div>
+                                        <h5 class="mb-3">Su carrito está vacío!</h5>
+                                        <a href="ProductosPagCliente.php" class="btn btn-success w-md mb-3">Ver productos</a>
                                     </div>
-                                    <h5 class="mb-3">Su carrito está vacío!</h5>
-                                    <a href="apps-ecommerce-products.php" class="btn btn-success w-md mb-3">Ver productos</a>
-                                </div>
-                            <?php endif; ?>
+                                <?php endif; ?>
+
+                                <?php if ($resultExtras->num_rows > 0) : ?>
+                                    <div class="px-2" style="margin-top: 20px;">
+                                        <h5 class="m-0 fw-normal" style="font-size: 25px;">Extras :</h5>
+                                    </div>
+
+                                    <?php while($rowExtras = $resultExtras->fetch_assoc()) : ?>
+                                    
+                                        <div class="d-block dropdown-item dropdown-item-cart text-wrap px-3 py-2">
+                                            <div class="d-flex align-items-center">
+                                                <img src="<?php echo $rowExtras['dir']; ?>" class="me-3 rounded-circle avatar-sm p-2 bg-light" alt="user-pic">
+                                                <div class="flex-grow-1">
+                                                    <h6 class="mt-0 mb-1 fs-14">
+                                                        <a href="apps-ecommerce-product-details.php" class="text-reset"><?php echo $rowExtras['nombre_producto']; ?></a>
+                                                    </h6>
+                                                    <p class="mb-0 fs-12 text-muted">
+                                                        Cantidad: <span><?php echo $rowExtras['cantidad']; ?></span>
+                                                    </p>
+                                                </div>
+                                                <div class="px-2">
+                                                    <h5 class="m-0 fw-normal">$<span class="cart-item-price"><?php echo $rowExtras['precio']; ?></span></h5>
+                                                </div>
+                                                <div class="ps-2">
+                                                    <button type="button" class="btn btn-icon btn-sm btn-ghost-secondary remove-item-btn"><i class="ri-close-fill fs-16"></i></button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    <?php endwhile; ?>
+                                <?php else : ?>
+                                    <div class="text-center empty-cart" id="empty-cart">
+                                        <div class="avatar-md mx-auto my-3">
+                                            <div class="avatar-title bg-info-subtle text-info fs-36 rounded-circle">
+                                                <i class='bx bx-cart'></i>
+                                            </div>
+                                        </div>
+                                        <h5 class="mb-3">Su carrito está vacío!</h5>
+                                        <a href="ProductosPagCliente.php" class="btn btn-success w-md mb-3">Ver productos</a>
+                                    </div>
+                                <?php endif; ?>
                                                                
                             </div>
                         </div>
+                        
                         <div class="p-3 border-bottom-0 border-start-0 border-end-0 border-dashed border" id="checkout-elem">
                             <div class="d-flex justify-content-between align-items-center pb-3">
                                 <h5 class="m-0 text-muted">Total:</h5>

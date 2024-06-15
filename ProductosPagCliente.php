@@ -194,7 +194,7 @@
                         <div class="card">
                             
                             <div class="card-body">
-                                <form method="post" action="procesarProductoExtra.php">
+                                
                                     <div class="row gallery-wrapper">
                                         <!-- INICIO CARD PARA PRODUCTOS -->
                                         <?php while ($fila = mysqli_fetch_assoc($resultado)): ?>
@@ -208,27 +208,35 @@
                                                     </a>
                                                 </div> 
 
-                                                <!-- INPUTS INVISIBLES RELLENADOS CON LOS DATOS PARA INGRESARLOS A LA BASE DE DATOS -->
-                                                <input type="hidden" name="id_producto" value="<?php echo $fila['id_producto'] ?>">
-                                                <input type="hidden" name="estado" value="Pendiente">
-                                                <input type="hidden" name="rut_cliente" value="<?= $_SESSION['rut_cliente'] ?>">
+                                                <form method="post" action="procesarProductoExtra.php">
+                                                    <!-- INPUTS INVISIBLES RELLENADOS CON LOS DATOS PARA INGRESARLOS A LA BASE DE DATOS -->
+                                                    <input type="hidden" name="id_producto" value="<?php echo $fila['id_producto'] ?>">
+                                                    <input type="hidden" name="estado" value="Pendiente">
+                                                    <input type="hidden" name="rut_cliente" value="<?= $_SESSION['rut_cliente'] ?>">
 
-                                                <div class="box-content" >
-                                                    <div class="d-flex align-items-center mt-1" style="margin-bottom: 10px;">
-                                                        <div class="flex-grow-1 text-muted" style="font-size: 18px;"><?php echo $fila['nombre_producto']; ?></div>
-                                                        <div class="flex-shrink-0">
-                                                            <div class="d-flex gap-3">
-                                                                <button type="button" class="btn btn-sm fs-12 btn-link text-body text-decoration-none px-0">
-                                                                    <h5><i class=" bx bx-dollar"></i><?php echo $fila['precio']; ?></h2>
-                                                                </button>
+                                                    <div class="box-content" >
+                                                        <div class="d-flex align-items-center mt-1" style="margin-bottom: 10px;">
+                                                            <div class="flex-grow-1 text-muted" style="font-size: 18px;"><?php echo $fila['nombre_producto']; ?></div>
+                                                            <div class="flex-shrink-0">
+                                                                <div class="d-flex gap-3">
+                                                                    <button type="button" class="btn btn-sm fs-12 btn-link text-body text-decoration-none px-0">
+                                                                        <h5><i class=" bx bx-dollar"></i><?php echo $fila['precio']; ?></h2>
+                                                                    </button>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
 
-                                                    <div style="display: flex; flex-direction: column; align-items: center;">
-                                                        <button type="submit" class="btn btn-primary waves-effect waves-light" style="width: 300px;font-size:18px"><i class="bx bxs-cart"></i> Añadir al carro</button>
+                                                        <div class="input-step step-secondary" style="display: flex; justify-content: center; align-items: center; margin-bottom: 10px;">
+                                                            <button type="button" class="minus">–</button>
+                                                            <input type="number" class="product-quantity" name="cantidad" value="1" min="1" max="100">
+                                                            <button type="button" class="plus">+</button>
+                                                        </div>
+
+                                                        <div style="display: flex; flex-direction: column; align-items: center;">
+                                                            <button type="submit" class="btn btn-primary waves-effect waves-light" style="width: 300px;font-size:18px"><i class="bx bxs-cart"></i> Añadir al carro</button>
+                                                        </div>
                                                     </div>
-                                                </div>
+                                                </form>
                                             </div>
                                         </div>
                                         <!-- end col -->

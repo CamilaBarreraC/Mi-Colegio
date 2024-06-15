@@ -30,7 +30,7 @@
         echo '<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>';
         echo '<script>
                 Swal.fire({
-                    imageUrl: "https://cdn.lordicon.com/gsqxdxog.json",
+                    icon: "success",
                     title: "¡Éxito!",
                     text: "Alumno ingresado correctamente.",
                     showConfirmButton: false

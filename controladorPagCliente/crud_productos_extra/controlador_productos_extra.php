@@ -14,14 +14,14 @@ class ControladorProductoExtra {
         $this->PDO = $con -> conexion();
     }
 
-    public function insertarProductoExtra($id_producto, $estado, $rut_cliente) {
-        $this->modelo->insertarProductoExtra($id_producto, $estado, $rut_cliente);
+    public function insertarProductoExtra($id_producto , $cantidad , $estado, $rut_cliente) {
+        $this->modelo->insertarProductoExtra($id_producto , $cantidad , $estado, $rut_cliente);
         return ($id_producto != false) ? header("Location: alertasPagCliente/AlertasProductosExtra/alertaIngresar.php?id_producto=".$id_producto) : header("Location: alertasPagCliente/AlertasProductosExtra/alertaIngresar.php");        
 
     }
 
-    public function actualizarProductoExtra($id_producto, $estado, $rut_cliente, $id_extras){
-        return ($this->modelo->actualizarProductoExtra($id_producto, $estado, $rut_cliente, $id_extras) != false) ? header("Location: alertasPagCliente/AlertasProductosExtra/alertaActualizar.php?id_extras=".$id_extras) : header("Location: alertasPagCliente/AlertasProductosExtra/alertaActualizar.php");
+    public function actualizarProductoExtra($id_producto , $cantidad , $estado, $rut_cliente, $id_extras){
+        return ($this->modelo->actualizarProductoExtra($id_producto , $cantidad , $estado, $rut_cliente, $id_extras) != false) ? header("Location: alertasPagCliente/AlertasProductosExtra/alertaActualizar.php?id_extras=".$id_extras) : header("Location: alertasPagCliente/AlertasProductosExtra/alertaActualizar.php");
     }
 
     public function showProductoExtra($id_extras){
