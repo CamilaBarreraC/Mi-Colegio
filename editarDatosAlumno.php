@@ -102,10 +102,9 @@
                                             <form action="updateAlumnoPagCliente.php" method="post">
                                                 <div class="row">
                                                     
-                                                    <div class="col-lg-6">
+                                                    <div class="col-lg-6" style="display: none;">
                                                         <div class="mb-3">
-                                                            <label for="firstnameInput" class="form-label">ID alumno</label>
-                                                            <input type="number" class="form-control" name="id_alumno" id="firstnameInput" placeholder="" value="<?php echo $alumno['id_alumno']; ?>" readonly required>
+                                                            <input type="hidden" class="form-control" name="id_alumno" id="firstnameInput" placeholder="" value="<?php echo $alumno['id_alumno']; ?>" readonly required>
                                                         </div>
                                                     </div>
                                                     <!--end col-->
@@ -167,8 +166,7 @@
 
                                                     <div class="col-lg-6">
                                                         <div class="mb-3">
-                                                            <label for="phonenumberInput" class="form-label">RUT apoderado</label>
-                                                            <input type="text" class="form-control" name="rut_apoderado" id="phonenumberInput" placeholder="Ingrese el RUT" value="<?php echo $alumno['rut_apoderado']; ?>" required>
+                                                            <input type="hidden" class="form-control" name="rut_apoderado" id="phonenumberInput" placeholder="Ingrese el RUT" value="<?php echo $alumno['rut_apoderado']; ?>" required readonly>
                                                         </div>
                                                     </div>
                                                     <!--end col-->

@@ -31,6 +31,9 @@
     WHERE productos_extra.rut_cliente = ". $rut_cliente;
     $resultExtras = $conn->query($sqlExtras);
 
+    // Variable para el total
+    $subtotal = 0;
+
 ?>
 
 <header id="page-topbar" style="background-color: #5c46ea">
@@ -79,29 +82,48 @@
                         </div>
                         <div data-simplebar style="max-height: 300px;">
                             <div class="p-2">
-
-                                <?php $totalCarro = 0; ?>
                                     
                                 <?php if ($resultProd->num_rows > 0) : ?>
+
+                                    <?php
+                                        //Definir variables vacías fuera del while para mostrar el curso y colegio por los productos de una lista
+                                        $NomCurso = null;
+                                        $NomColegio = null;
+                                    ?>
                                     
                                     <?php while($row = $resultProd->fetch_assoc()) : ?>
-                                        <div class="px-2" style="margin-top: 15px;">
-                                            <h5 class="m-0 fw-normal"><?php echo $row['nombre_curso']; ?>  Colegio: <?php echo $row['nombre_de_colegio']; ?></h5>
-                                        </div>
+                                        <?php //Validador para que no se repitan los nombres de curso y colegio
+                                        // que se muestran en el carro
+
+                                        if ($row['nombre_curso'] !== $NomCurso || $row['nombre_de_colegio'] !== $NomColegio) : ?>
+                                            <div class="px-2" style="margin-top: 15px;">
+                                                <h5 class="m-0 fw-normal"><?php echo $row['nombre_curso']; ?>  Colegio: <?php echo $row['nombre_de_colegio']; ?></h5>
+                                            </div>
+                                            <?php
+                                                // Actualiza las variables $prevCurso y $prevColegio con los nombres actuales del while
+                                                $NomCurso = $row['nombre_curso'];
+                                                $NomColegio = $row['nombre_de_colegio'];
+                                            ?>
+                                        <?php endif; ?>
+
+                                        <?php
+                                            // Calcular el subtotal de los productos (cantidad * precio)
+                                            $subtotal = $row['cantidad'] * $row['precio'];
+                                        ?>
 
                                         <div class="d-block dropdown-item dropdown-item-cart text-wrap px-3 py-2">
                                             <div class="d-flex align-items-center">
                                                 <img src="<?php echo $row['dir']; ?>" class="me-3 rounded-circle avatar-sm p-2 bg-light" alt="user-pic">
                                                 <div class="flex-grow-1">
                                                     <h6 class="mt-0 mb-1 fs-14">
-                                                        <a href="apps-ecommerce-product-details.php" class="text-reset"><?php echo $row['nombre_producto']; ?></a>
+                                                        <a href="#" class="text-reset"><?php echo $row['nombre_producto']; ?></a>
                                                     </h6>
                                                     <p class="mb-0 fs-12 text-muted">
                                                         Cantidad: <span><?php echo $row['cantidad']; ?></span>
                                                     </p>
                                                 </div>
                                                 <div class="px-2">
-                                                    <h5 class="m-0 fw-normal">$<span class="cart-item-price"><?php echo $row['precio']; ?></span></h5>
+                                                    <div>Subtotal : $<span class="product-line-price"><?= $subtotal ?></span></div>
                                                 </div>
                                                 <div class="ps-2">
                                                     <button type="button" class="btn btn-icon btn-sm btn-ghost-secondary remove-item-btn"><i class="ri-close-fill fs-16"></i></button>
@@ -109,10 +131,8 @@
                                             </div>
                                         </div>
 
-                                        <!-- Suma el precio de cada artículo al total -->
-                                        <?php $totalCarro += $row['precio']; ?>
-
                                     <?php endwhile; ?>
+                                    <hr>
 
                                 <?php else : ?>
                                     <div class="text-center empty-cart" id="empty-cart">
@@ -132,20 +152,25 @@
                                     </div>
 
                                     <?php while($rowExtras = $resultExtras->fetch_assoc()) : ?>
+
+                                        <?php
+                                            // Calcular el subtotal de los productos (cantidad * precio)
+                                            $subtotal = $rowExtras['cantidad'] * $rowExtras['precio'];
+                                        ?>
                                     
                                         <div class="d-block dropdown-item dropdown-item-cart text-wrap px-3 py-2">
                                             <div class="d-flex align-items-center">
                                                 <img src="<?php echo $rowExtras['dir']; ?>" class="me-3 rounded-circle avatar-sm p-2 bg-light" alt="user-pic">
                                                 <div class="flex-grow-1">
                                                     <h6 class="mt-0 mb-1 fs-14">
-                                                        <a href="apps-ecommerce-product-details.php" class="text-reset"><?php echo $rowExtras['nombre_producto']; ?></a>
+                                                        <a href="#" class="text-reset"><?php echo $rowExtras['nombre_producto']; ?></a>
                                                     </h6>
                                                     <p class="mb-0 fs-12 text-muted">
                                                         Cantidad: <span><?php echo $rowExtras['cantidad']; ?></span>
                                                     </p>
                                                 </div>
                                                 <div class="px-2">
-                                                    <h5 class="m-0 fw-normal">$<span class="cart-item-price"><?php echo $rowExtras['precio']; ?></span></h5>
+                                                    <div>Subtotal : $<span class="product-line-price"><?= $subtotal ?></span></div>
                                                 </div>
                                                 <div class="ps-2">
                                                     <button type="button" class="btn btn-icon btn-sm btn-ghost-secondary remove-item-btn"><i class="ri-close-fill fs-16"></i></button>
@@ -171,14 +196,11 @@
                         
                         <div class="p-3 border-bottom-0 border-start-0 border-end-0 border-dashed border" id="checkout-elem">
                             <div class="d-flex justify-content-between align-items-center pb-3">
-                                <h5 class="m-0 text-muted">Total:</h5>
-                                <div class="px-2">
-                                    <h5 class="m-0" id="cart-item-total">$<?php echo ($totalCarro); ?></h5>
-                                </div>
+                                
                             </div>
 
-                            <a href="CheckoutCompra.php" class="btn btn-success text-center w-100">
-                                Pagar
+                            <a href="DetallesCarro.php" class="btn btn-success text-center w-100">
+                                Ver detalles
                             </a>
                         </div>
                     </div>

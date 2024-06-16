@@ -103,7 +103,7 @@
                                             <form action="update.php" method="post">
                                                 <div class="row">
                                                     <?php while ($row = $result->fetch_assoc()): ?>
-                                                    <div class="col-lg-6">
+                                                    <div class="col-lg-6" style="display: none;">
                                                         <div class="mb-3">
                                                             <label for="firstnameInput" class="form-label">RUT cliente</label>
                                                             <input type="number" class="form-control" name="rut_cliente" id="firstnameInput" placeholder="" value="<?php echo $row['rut_cliente']; ?>" readonly required>

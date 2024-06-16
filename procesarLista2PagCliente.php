@@ -5,7 +5,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['productos'])) {
     $controlador = new ControladorLista2Productos();
     $conexion = new mysqli("localhost", "root", "ipchile", "mi_colegio");
 
-    // Verificar la conexión
     if ($conexion->connect_error) {
         die("Error de conexión: " . $conexion->connect_error);
     }
@@ -19,10 +18,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['productos'])) {
     // Verificar si la lista ya existe antes de insertar en lista_2
     if ($controlador->existeLista2($rut_cliente, $id_curso, $id_colegio)) {
         // Si la lista ya existe, redireccionar a la página de alerta
+        // Para evitar que se ingresen 2 listas iguales
         header("Location: alertasPagCliente/AlertasLista2Productos/alertaIngresar.php?duplicado=true");
         exit();
     } else {
-        // Preparar la sentencia para insertar en lista_2
+        // Sentencia para insertar en lista_2, heredando el curso y colegio
         $stmtLista2 = $conexion->prepare("INSERT INTO lista_2 (id_curso, id_colegio, rut_cliente) VALUES (?, ?, ?)");
         if ($stmtLista2 === false) {
             die("Error en la preparación de la consulta: " . $conexion->error);
@@ -38,10 +38,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['productos'])) {
         $stmtLista2->close();
         $conexion->close();
 
-        // Llamar al método del controlador para insertar los productos
+        // Controlador para insertar los productos
         $controlador->insertarLista2Productos($productos, $rut_cliente, $id_curso, $id_colegio);
     }
 } else {
-    echo "No se recibieron productos.";
+    echo "No se insertaron los productos.";
 }
 ?>

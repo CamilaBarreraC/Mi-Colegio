@@ -132,6 +132,7 @@
                                                     <input type="hidden" name="rut_cliente" value="<?= $rut_cliente ?>">
 
                                                     <?php foreach ($alumno as $index => $alumnos) : 
+                                                        // FOREACH PARA INGRESAR TODOS LOS PRODUCTO DEL RESULTADO DE WHILE
                                                         $dir = $alumnos['dir'];
                                                         $id_producto = $alumnos['id_producto'];
                                                         $nombre_producto = $alumnos['nombre_producto'];
@@ -152,7 +153,7 @@
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-sm">
-                                                                        <h5 class="fs-14 text-truncate"><a href="ecommerce-product-detail.php" class="text-body"><?= $nombre_producto ?></a></h5>
+                                                                        <h5 class="fs-14 text-truncate"><a href="#" class="text-body"><?= $nombre_producto ?></a></h5>
                                                                         <input type="text" class="form-control" id="nombre_producto" name="nombre_producto" value="<?= $nombre_producto ?>" style="display: none;" >
 
                                                                         <ul class="list-inline text-muted">
