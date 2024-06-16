@@ -75,213 +75,215 @@
 
                 <?php includeFileWithVariables('layouts/page-title.php', array('pagetitle' => 'Ecommerce', 'title' => 'Carro de compras')); ?>
 
-                <div class="row mb-3">
-                    <div class="col-xl-8">
-                        <div class="row align-items-center gy-3 mb-3">
-                            <div class="col-sm">
-                                <div>
-                                    <h5 class="fs-14 mb-0">Hay <?php echo "$totalProductos"; ?> productos en su carro de compras</h5>
+                <form method="post" action="actualizarCantidades.php">
+                    <div class="row mb-3">
+                        <div class="col-xl-8">
+                            <div class="row align-items-center gy-3 mb-3">
+                                <div class="col-sm">
+                                    <div>
+                                        <h5 class="fs-14 mb-0">Hay <?php echo "$totalProductos"; ?> productos en su carro de compras</h5>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-sm-auto">
-                                <a href="ProductosPagCliente.php" class="link-primary text-decoration-underline">Continuar comprando</a>
-                            </div>
-                        </div>   
+                                <div class="col-sm-auto">
+                                    <a href="ProductosPagCliente.php" class="link-primary text-decoration-underline">Continuar comprando</a>
+                                </div>
+                            </div>   
 
-                        <?php if ($result->num_rows > 0) : ?>
+                            <?php if ($result->num_rows > 0) : ?>
 
-                            <?php
-                                //Definir variables vacías fuera del while para mostrar el curso y colegio por los productos de una lista
-                                $NomCurso = null;
-                                $NomColegio = null;
-                            ?>
+                                <?php
+                                    //Definir variables vacías fuera del while para mostrar el curso y colegio por los productos de una lista
+                                    $NomCurso = null;
+                                    $NomColegio = null;
+                                ?>
 
-                            <?php while ($row = $result->fetch_assoc()): ?>
+                                <?php while ($row = $result->fetch_assoc()): ?>
 
-                                <?php //Validador para que no se repitan los nombres de curso y colegio
-                                // que se muestran en el carro
+                                    <?php //Validador para que no se repitan los nombres de curso y colegio
+                                    // que se muestran en el carro
 
-                                if ($row['nombre_curso'] !== $NomCurso || $row['nombre_de_colegio'] !== $NomColegio) : ?>
-                                    <div class="px-2" style="margin-top: 15px; margin-bottom:20px">
-                                        <h5 class="m-0 fw-normal" style="font-size: 25px; color:#5c46ea">
-                                            Lista de <?php echo $row['nombre_curso']; ?>  Colegio: <?php echo $row['nombre_de_colegio']; ?>
-                                        </h5>
-                                    </div>
-                                    <?php
-                                        // Actualiza las variables $prevCurso y $prevColegio con los nombres actuales del while
-                                        $NomCurso = $row['nombre_curso'];
-                                        $NomColegio = $row['nombre_de_colegio'];
-                                    ?>
-                                <?php endif; ?>
-
-                                <div class="card product">
-                                    <div class="card-body">
-                                        <div class="row gy-3">
-                                            <div class="col-sm-auto">
-                                                <div class="avatar-lg bg-light rounded p-1">
-                                                    <img src="<?php echo $row['dir']; ?>" alt="" style="height: 95%; width:100%" class="img-fluid d-block">
-                                                </div>
-                                            </div>
-                                            <div class="col-sm">
-                                                <h5 class="fs-14 text-truncate"><a href="ecommerce-product-detail.php" class="text-body"><?php echo $row['nombre_producto']; ?></a></h5>
-                                                <ul class="list-inline text-muted">
-                                                    <li class="list-inline-item">Categoría : <span class="fw-medium"><?php echo $row['nombre_categoria']; ?></span></li>                                        </ul>
-
-                                                <div class="input-step">
-                                                    <button type="button" class="minus">–</button>
-                                                    <input type="number" class="product-quantity" value="<?php echo $row['cantidad']; ?>" min="1" max="50">
-                                                    <button type="button" class="plus">+</button>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-auto">
-                                                <div class="text-lg-end">
-                                                    <p class="text-muted mb-1">Precio:</p>
-                                                    <h5 class="fs-14">$<span id="ticket_price" class="product-price"><?php echo $row['precio']; ?></span></h5>
-                                                </div>
-                                            </div>
+                                    if ($row['nombre_curso'] !== $NomCurso || $row['nombre_de_colegio'] !== $NomColegio) : ?>
+                                        <div class="px-2" style="margin-top: 15px; margin-bottom:20px">
+                                            <h5 class="m-0 fw-normal" style="font-size: 25px; color:#5c46ea">
+                                                Lista de <?php echo $row['nombre_curso']; ?>  Colegio: <?php echo $row['nombre_de_colegio']; ?>
+                                            </h5>
                                         </div>
-                                    </div>
-                                    <!-- card body -->
-                                    <div class="card-footer">
-                                        <div class="row align-items-center gy-3">
-                                            <div class="col-sm">
-                                                <div class="d-flex flex-wrap my-n1">
-                                                    <div>
-                                                        <?php
-                                                        // Calcular el subtotal de los productos (cantidad * precio)
-                                                        $subtotal = $row['cantidad'] * $row['precio'];
-                                                        // Agregar el subtotal al total
-                                                        $total += $subtotal; 
-                                                        ?>
-                                                        <div>Subtotal : $<span class="product-line-price"><?= $subtotal ?></span></div>
+                                        <?php
+                                            // Actualiza las variables $prevCurso y $prevColegio con los nombres actuales del while
+                                            $NomCurso = $row['nombre_curso'];
+                                            $NomColegio = $row['nombre_de_colegio'];
+                                        ?>
+                                    <?php endif; ?>
 
+                                    <div class="card product">
+                                        <div class="card-body">
+                                            <div class="row gy-3">
+                                                <div class="col-sm-auto">
+                                                    <div class="avatar-lg bg-light rounded p-1">
+                                                        <img src="<?php echo $row['dir']; ?>" alt="" style="height: 95%; width:100%" class="img-fluid d-block">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm">
+                                                    <h5 class="fs-14 text-truncate"><a href="ecommerce-product-detail.php" class="text-body"><?php echo $row['nombre_producto']; ?></a></h5>
+                                                    <ul class="list-inline text-muted">
+                                                        <li class="list-inline-item">Categoría : <span class="fw-medium"><?php echo $row['nombre_categoria']; ?></span></li>                                        </ul>
+
+                                                    <div class="input-step">
+                                                        <button type="button" class="minus">–</button>
+                                                        <input type="number" class="product-quantity" name="cantidades[<?php echo $row['id_producto']; ?>]" value="<?php echo $row['cantidad']; ?>" min="1" max="50">
+                                                        <button type="button" class="plus">+</button>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-auto">
+                                                    <div class="text-lg-end">
+                                                        <p class="text-muted mb-1">Precio:</p>
+                                                        <h5 class="fs-14">$<span id="ticket_price" class="product-price"><?php echo $row['precio']; ?></span></h5>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-auto">
-                                                <div class="d-flex align-items-center gap-2 text-muted">
-                                                    <a href="#" class="d-block text-body p-1 px-2" data-bs-toggle="modal" data-bs-target="#removeItemModal" >
-                                                        <i class="ri-delete-bin-fill text-muted align-bottom me-1"></i> Eliminar
-                                                    </a>
-                                                </div>
-                                            </div>
                                         </div>
-                                    </div>
-                                    <!-- end card footer -->
-                                </div>
-                                <!-- end card -->
+                                        <!-- card body -->
+                                        <div class="card-footer">
+                                            <div class="row align-items-center gy-3">
+                                                <div class="col-sm">
+                                                    <div class="d-flex flex-wrap my-n1">
+                                                        <div>
+                                                            <?php
+                                                            // Calcular el subtotal de los productos (cantidad * precio)
+                                                            $subtotal = $row['cantidad'] * $row['precio'];
+                                                            // Agregar el subtotal al total
+                                                            $total += $subtotal; 
+                                                            ?>
+                                                            <div>Subtotal : $<span class="product-line-price"><?= $subtotal ?></span></div>
 
-                            <?php endwhile; ?>
-                            <hr>
-
-                        <?php else : ?>
-                            <div class="text-center empty-cart" id="empty-cart">
-                                <div class="avatar-md mx-auto my-3">
-                                    <div class="avatar-title bg-info-subtle text-info fs-36 rounded-circle">
-                                        <i class='bx bx-cart'></i>
-                                    </div>
-                                </div>
-                                <h5 class="mb-3">Su carrito está vacío!</h5>
-                                <a href="ProductosPagCliente.php" class="btn btn-success w-md mb-3">Ver productos</a>
-                            </div>
-                        <?php endif; ?>
-
-                        <?php if ($resultExtras->num_rows > 0) : ?>
-                            <div class="px-2" style="margin-top: 20px; margin-bottom: 15px">
-                                <h5 class="m-0 fw-normal" style="font-size: 25px; color:blue">Extras :</h5>
-                            </div>
-
-                            <?php while ($rowCurso = $resultCurso->fetch_assoc()): ?>
-                                    
-                                <div class="card product">
-                                    <div class="card-body">
-                                        <div class="row gy-3">
-                                            <div class="col-sm-auto">
-                                                <div class="avatar-lg bg-light rounded p-1">
-                                                    <img src="<?php echo $rowCurso['dir']; ?>" alt="" style="height: 95%; width:100%" class="img-fluid d-block">
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-sm">
-                                                <h5 class="fs-14 text-truncate"><a href="ecommerce-product-detail.php" class="text-body"><?php echo $rowCurso['nombre_producto']; ?></a></h5>
-                                                <ul class="list-inline text-muted">
-                                                    <li class="list-inline-item">Categoría : <span class="fw-medium"><?php echo $rowCurso['nombre_categoria']; ?></span></li>                                        </ul>
-
-                                                <div class="input-step">
-                                                    <button type="button" class="minus">–</button>
-                                                    <input type="number" class="product-quantity" value="<?php echo $rowCurso['cantidad']; ?>" min="1" max="50">
-                                                    <button type="button" class="plus">+</button>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-auto">
-                                                <div class="text-lg-end">
-                                                    <p class="text-muted mb-1">Precio:</p>
-                                                    <h5 class="fs-14">$<span id="ticket_price" class="product-price"><?php echo $rowCurso['precio']; ?></span></h5>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- card body -->
-                                    <div class="card-footer">
-                                        <div class="row align-items-center gy-3">
-                                            <div class="col-sm">
-                                                <div class="d-flex flex-wrap my-n1">
-                                                    <div>
-                                                        <?php
-                                                        // Calcular el subtotal de los productos (cantidad * precio)
-                                                        $subtotal = $rowCurso['cantidad'] * $rowCurso['precio'];
-                                                        // Agregar el subtotal al total
-                                                        $total += $subtotal; 
-                                                        ?>
-                                                        <div>Subtotal : $<span class="product-line-price"><?= $subtotal ?></span></div>
-
+                                                <div class="col-sm-auto">
+                                                    <div class="d-flex align-items-center gap-2 text-muted">
+                                                        <a href="#" class="d-block text-body p-1 px-2" data-bs-toggle="modal" data-bs-target="#removeItemModal" >
+                                                            <i class="ri-delete-bin-fill text-muted align-bottom me-1"></i> Eliminar
+                                                        </a>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-auto">
-                                                <div class="d-flex align-items-center gap-2 text-muted">
-                                                    <a href="#" class="d-block text-body p-1 px-2" data-bs-toggle="modal" data-bs-target="#removeItemModal"><i class="ri-delete-bin-fill text-muted align-bottom me-1"></i> Eliminar</a>
+                                        </div>
+                                        <!-- end card footer -->
+                                    </div>
+                                    <!-- end card -->
+
+                                <?php endwhile; ?>
+                                <hr>
+
+                            <?php else : ?>
+                                <div class="text-center empty-cart" id="empty-cart">
+                                    <div class="avatar-md mx-auto my-3">
+                                        <div class="avatar-title bg-info-subtle text-info fs-36 rounded-circle">
+                                            <i class='bx bx-cart'></i>
+                                        </div>
+                                    </div>
+                                    <h5 class="mb-3">Su carrito está vacío!</h5>
+                                    <a href="ProductosPagCliente.php" class="btn btn-success w-md mb-3">Ver productos</a>
+                                </div>
+                            <?php endif; ?>
+
+                            <?php if ($resultExtras->num_rows > 0) : ?>
+                                <div class="px-2" style="margin-top: 20px; margin-bottom: 15px">
+                                    <h5 class="m-0 fw-normal" style="font-size: 25px; color:blue">Extras :</h5>
+                                </div>
+
+                                <?php while ($rowCurso = $resultCurso->fetch_assoc()): ?>
+                                        
+                                    <div class="card product">
+                                        <div class="card-body">
+                                            <div class="row gy-3">
+                                                <div class="col-sm-auto">
+                                                    <div class="avatar-lg bg-light rounded p-1">
+                                                        <img src="<?php echo $rowCurso['dir']; ?>" alt="" style="height: 95%; width:100%" class="img-fluid d-block">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm">
+                                                    <h5 class="fs-14 text-truncate"><a href="ecommerce-product-detail.php" class="text-body"><?php echo $rowCurso['nombre_producto']; ?></a></h5>
+                                                    <ul class="list-inline text-muted">
+                                                        <li class="list-inline-item">Categoría : <span class="fw-medium"><?php echo $rowCurso['nombre_categoria']; ?></span></li>                                        </ul>
+
+                                                    <div class="input-step">
+                                                        <button type="button" class="minus">–</button>
+                                                        <input type="number" class="product-quantity" name="cantidades_extras[<?php echo $rowCurso['id_producto']; ?>]" value="<?php echo $rowCurso['cantidad']; ?>" min="1" max="50">
+                                                        <button type="button" class="plus">+</button>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-auto">
+                                                    <div class="text-lg-end">
+                                                        <p class="text-muted mb-1">Precio:</p>
+                                                        <h5 class="fs-14">$<span id="ticket_price" class="product-price"><?php echo $rowCurso['precio']; ?></span></h5>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
+                                        <!-- card body -->
+                                        <div class="card-footer">
+                                            <div class="row align-items-center gy-3">
+                                                <div class="col-sm">
+                                                    <div class="d-flex flex-wrap my-n1">
+                                                        <div>
+                                                            <?php
+                                                            // Calcular el subtotal de los productos (cantidad * precio)
+                                                            $subtotal = $rowCurso['cantidad'] * $rowCurso['precio'];
+                                                            // Agregar el subtotal al total
+                                                            $total += $subtotal; 
+                                                            ?>
+                                                            <div>Subtotal : $<span class="product-line-price"><?= $subtotal ?></span></div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-auto">
+                                                    <div class="d-flex align-items-center gap-2 text-muted">
+                                                        <a href="#" class="d-block text-body p-1 px-2" data-bs-toggle="modal" data-bs-target="#removeItemModal"><i class="ri-delete-bin-fill text-muted align-bottom me-1"></i> Eliminar</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- end card footer -->
                                     </div>
-                                    <!-- end card footer -->
-                                </div>
-                                <!-- end card -->
+                                    <!-- end card -->
 
-                            <?php endwhile; ?>
-                        <?php endif; ?>
+                                <?php endwhile; ?>
+                            <?php endif; ?>
 
-                        <div class="text-end mb-4">
-                            <a href="CheckoutCompra.php" class="btn btn-success btn-label right ms-auto"><i class="ri-arrow-right-line label-icon align-bottom fs-16 ms-2"></i> Continuar compra</a>
-                        </div>
-                    </div>
-                    <!-- end col -->
-
-                    <div class="col-xl-4">
-                        <div class="sticky-side-div">
-                            <div class="card">
-                                <div class="card-header border-bottom-dashed">
-                                    <h5 class="card-title mb-0">Total de la compra</h5>
-                                </div>
-                                <div class="card-body pt-2">
-                                    <div class="table-responsive">
-                                        <table class="table table-borderless mb-0">
-                                            <tbody>
-                                                <tr>
-                                                    <td style="font-size: 20px;">Total :</td>
-                                                    <td class="text-end" id="cart-subtotal" style="font-size: 20px; color:blueviolet">$ <?= $total ?></td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <!-- end table-responsive -->
-                                </div>
+                            <div class="text-end mb-4">
+                                <button type="submit" class="btn btn-success btn-label right ms-auto"><i class="ri-arrow-right-line label-icon align-bottom fs-16 ms-2"></i> Continuar compra</button>
                             </div>
                         </div>
-                        <!-- end stickey -->
+                        <!-- end col -->
+
+                        <div class="col-xl-4">
+                            <div class="sticky-side-div">
+                                <div class="card">
+                                    <div class="card-header border-bottom-dashed">
+                                        <h5 class="card-title mb-0">Total de la compra</h5>
+                                    </div>
+                                    <div class="card-body pt-2">
+                                        <div class="table-responsive">
+                                            <table class="table table-borderless mb-0">
+                                                <tbody>
+                                                    <tr>
+                                                        <td style="font-size: 20px;">Total :</td>
+                                                        <td class="text-end" id="cart-subtotal" style="font-size: 20px; color:blueviolet">$ <?= $total ?></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <!-- end table-responsive -->
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end stickey -->
+                        </div>
                     </div>
-                </div>
-                <!-- end row -->
+                    <!-- end row -->
+                </form>
             </div>
             <!-- container-fluid -->
         </div>

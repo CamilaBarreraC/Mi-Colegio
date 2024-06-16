@@ -4,6 +4,42 @@
 <?php include 'layouts/session.php'; ?>
 <?php include 'layouts/main.php'; ?>
 
+<?php
+
+    include("modelo/conexion_bd.php");
+
+    $conn = $conexion;
+
+    $rut_cliente = $_SESSION['rut_cliente'];
+
+    $sql = "SELECT *
+    FROM lista_2 
+    JOIN curso ON lista_2.id_curso = curso.id_curso
+    JOIN colegio ON curso.id_colegio = colegio.id_colegio
+    JOIN l2_productos ON lista_2.id_curso = l2_productos.id_curso 
+    JOIN cliente ON lista_2.rut_cliente = cliente.rut_cliente
+    JOIN productos ON l2_productos.id_producto = productos.id_producto
+    JOIN categoria ON categoria.id_categoria = productos.id_categoria
+    WHERE lista_2.rut_cliente = ". $rut_cliente;
+
+    $result = $conn->query($sql);
+
+    $sqlCurso = "SELECT *
+    FROM productos_extra 
+    JOIN cliente ON productos_extra.rut_cliente = cliente.rut_cliente
+    JOIN productos ON productos_extra.id_producto = productos.id_producto
+    JOIN categoria ON productos.id_categoria = categoria.id_categoria
+    WHERE productos_extra.rut_cliente = ". $rut_cliente;
+    $resultCurso = $conn->query($sqlCurso);
+
+    // Variable para el total
+    $total = 0; 
+
+    // Variable para mostrar cuántos productos hay en el carro de compras
+    $totalProductos = $result->num_rows + $resultCurso->num_rows;
+
+?>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -48,22 +84,22 @@
                                             <ul class="nav nav-pills nav-justified custom-nav" role="tablist">
                                                 <li class="nav-item" role="presentation">
                                                     <button class="nav-link fs-15 p-3 active" id="pills-bill-info-tab" data-bs-toggle="pill" data-bs-target="#pills-bill-info" type="button" role="tab" aria-controls="pills-bill-info" aria-selected="true">
-                                                        <i class="ri-user-2-line fs-16 p-2 bg-primary-subtle text-primary rounded-circle align-middle me-2"></i> Personal Info
+                                                        <i class="ri-user-2-line fs-16 p-2 bg-primary-subtle text-primary rounded-circle align-middle me-2"></i> Información
                                                     </button>
                                                 </li>
                                                 <li class="nav-item" role="presentation">
                                                     <button class="nav-link fs-15 p-3" id="pills-bill-address-tab" data-bs-toggle="pill" data-bs-target="#pills-bill-address" type="button" role="tab" aria-controls="pills-bill-address" aria-selected="false">
-                                                        <i class="ri-truck-line fs-16 p-2 bg-primary-subtle text-primary rounded-circle align-middle me-2"></i> Shipping Info
+                                                        <i class="ri-truck-line fs-16 p-2 bg-primary-subtle text-primary rounded-circle align-middle me-2"></i> Dirección 
                                                     </button>
                                                 </li>
                                                 <li class="nav-item" role="presentation">
                                                     <button class="nav-link fs-15 p-3" id="pills-payment-tab" data-bs-toggle="pill" data-bs-target="#pills-payment" type="button" role="tab" aria-controls="pills-payment" aria-selected="false">
-                                                        <i class="ri-bank-card-line fs-16 p-2 bg-primary-subtle text-primary rounded-circle align-middle me-2"></i> Payment Info
+                                                        <i class="ri-bank-card-line fs-16 p-2 bg-primary-subtle text-primary rounded-circle align-middle me-2"></i> Medio de pago
                                                     </button>
                                                 </li>
                                                 <li class="nav-item" role="presentation">
                                                     <button class="nav-link fs-15 p-3" id="pills-finish-tab" data-bs-toggle="pill" data-bs-target="#pills-finish" type="button" role="tab" aria-controls="pills-finish" aria-selected="false">
-                                                        <i class="ri-checkbox-circle-line fs-16 p-2 bg-primary-subtle text-primary rounded-circle align-middle me-2"></i> Finish
+                                                        <i class="ri-checkbox-circle-line fs-16 p-2 bg-primary-subtle text-primary rounded-circle align-middle me-2"></i> Pedido
                                                     </button>
                                                 </li>
                                             </ul>
@@ -71,24 +107,23 @@
 
                                         <div class="tab-content">
                                             <div class="tab-pane fade show active" id="pills-bill-info" role="tabpanel" aria-labelledby="pills-bill-info-tab">
-                                                <div>
-                                                    <h5 class="mb-1">Billing Information</h5>
-                                                    <p class="text-muted mb-4">Please fill all information below</p>
+                                                <div style="margin-bottom: 30px;">
+                                                    <h5 class="mb-1">Información personal</h5>
                                                 </div>
 
                                                 <div>
                                                     <div class="row">
                                                         <div class="col-sm-6">
                                                             <div class="mb-3">
-                                                                <label for="billinginfo-firstName" class="form-label">First Name</label>
-                                                                <input type="text" class="form-control" id="billinginfo-firstName" placeholder="Enter first name" value="">
+                                                                <label for="billinginfo-firstName" class="form-label">Nombres</label>
+                                                                <input type="text" class="form-control" id="billinginfo-firstName" name="nombre_cliente" placeholder="Ingrese nombre" readonly>
                                                             </div>
                                                         </div>
 
                                                         <div class="col-sm-6">
                                                             <div class="mb-3">
-                                                                <label for="billinginfo-lastName" class="form-label">Last Name</label>
-                                                                <input type="text" class="form-control" id="billinginfo-lastName" placeholder="Enter last name" value="">
+                                                                <label for="billinginfo-lastName" class="form-label">Apellidos</label>
+                                                                <input type="text" class="form-control" id="billinginfo-lastName" name="apellido_cliente" placeholder="Ingrese apellido" readonly>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -96,73 +131,50 @@
                                                     <div class="row">
                                                         <div class="col-sm-6">
                                                             <div class="mb-3">
-                                                                <label for="billinginfo-email" class="form-label">Email <span class="text-muted">(Optional)</span></label>
-                                                                <input type="email" class="form-control" id="billinginfo-email" placeholder="Enter email">
+                                                                <label for="billinginfo-email" class="form-label">RUT </label>
+                                                                <input type="text" class="form-control" id="billinginfo-email" placeholder="Ingrese RUT" readonly>
                                                             </div>
                                                         </div>
 
                                                         <div class="col-sm-6">
                                                             <div class="mb-3">
-                                                                <label for="billinginfo-phone" class="form-label">Phone</label>
-                                                                <input type="text" class="form-control" id="billinginfo-phone" placeholder="Enter phone no.">
+                                                                <label for="billinginfo-email" class="form-label">Email </label>
+                                                                <input type="email" class="form-control" id="billinginfo-email" placeholder="Ingrese email" readonly>
                                                             </div>
                                                         </div>
-                                                    </div>
-
-                                                    <div class="mb-3">
-                                                        <label for="billinginfo-address" class="form-label">Address</label>
-                                                        <textarea class="form-control" id="billinginfo-address" placeholder="Enter address" rows="3"></textarea>
                                                     </div>
 
                                                     <div class="row">
                                                         <div class="col-md-4">
                                                             <div class="mb-3">
-                                                                <label for="country" class="form-label">Country</label>
-                                                                <select class="form-select" id="country" data-plugin="choices">
-                                                                    <option value="">Select Country...</option>
-                                                                    <option selected>United States</option>
-                                                                </select>
+                                                                <label for="country" class="form-label">Región</label>
+                                                                <input type="text" class="form-control" id="country" placeholder="Ingrese región" readonly>
                                                             </div>
                                                         </div>
 
                                                         <div class="col-md-4">
                                                             <div class="mb-3">
-                                                                <label for="state" class="form-label">State</label>
-                                                                <select class="form-select" id="state" data-plugin="choices">
-                                                                    <option value="">Select State...</option>
-                                                                    <option value="Alabama">Alabama</option>
-                                                                    <option value="Alaska">Alaska</option>
-                                                                    <option value="American Samoa">American Samoa</option>
-                                                                    <option value="California" selected>California</option>
-                                                                    <option value="Colorado">Colorado</option>
-                                                                    <option value="District Of Columbia">District Of Columbia</option>
-                                                                    <option value="Florida">Florida</option>
-                                                                    <option value="Georgia">Georgia</option>
-                                                                    <option value="Guam">Guam</option>
-                                                                    <option value="Hawaii">Hawaii</option>
-                                                                    <option value="Idaho">Idaho</option>
-                                                                    <option value="Kansas">Kansas</option>
-                                                                    <option value="Louisiana">Louisiana</option>
-                                                                    <option value="Montana">Montana</option>
-                                                                    <option value="Nevada">Nevada</option>
-                                                                    <option value="New Jersey">New Jersey</option>
-                                                                    <option value="New Mexico">New Mexico</option>
-                                                                    <option value="New York">New York</option>
-                                                                </select>
+                                                                <label for="state" class="form-label">Comuna</label>
+                                                                <input type="text" class="form-control" id="state" placeholder="Ingrese comuna" readonly>
                                                             </div>
                                                         </div>
 
                                                         <div class="col-md-4">
                                                             <div class="mb-3">
-                                                                <label for="zip" class="form-label">Zip Code</label>
-                                                                <input type="text" class="form-control" id="zip" placeholder="Enter zip code">
+                                                                <label for="billinginfo-phone" class="form-label">Teléfono</label>
+                                                                <input type="text" class="form-control" id="billinginfo-phone" placeholder="Ingrese teléfono" readonly>
                                                             </div>
+                                                        </div>
+
+                                                        <div class="mb-3">
+                                                            <label for="billinginfo-address" class="form-label">Dirección</label>
+                                                            <textarea class="form-control" id="billinginfo-address" placeholder="Ingrese dirección" rows="2"></textarea>
                                                         </div>
                                                     </div>
 
                                                     <div class="d-flex align-items-start gap-3 mt-3">
                                                         <button type="button" class="btn btn-primary btn-label right ms-auto nexttab" data-nexttab="pills-bill-address-tab">
-                                                            <i class="ri-truck-line label-icon align-middle fs-16 ms-2"></i>Proceed to Shipping
+                                                            <i class="ri-truck-line label-icon align-middle fs-16 ms-2"></i>Continuar
                                                         </button>
                                                     </div>
                                                 </div>
@@ -259,7 +271,7 @@
                                                 </div>
 
                                                 <div class="d-flex align-items-start gap-3 mt-4">
-                                                    <button type="button" class="btn btn-light btn-label previestab" data-previous="pills-bill-info-tab"><i class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i>Back to Personal Info</button>
+                                                    <button type="button" class="btn btn-light btn-label previestab" data-previous="pills-bill-info-tab"><i class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i>Volver</button>
                                                     <button type="button" class="btn btn-primary btn-label right ms-auto nexttab" data-nexttab="pills-payment-tab"><i class="ri-bank-card-line label-icon align-middle fs-16 ms-2"></i>Continue to Payment</button>
                                                 </div>
                                             </div>
@@ -339,7 +351,7 @@
                                                 </div>
 
                                                 <div class="d-flex align-items-start gap-3 mt-4">
-                                                    <button type="button" class="btn btn-light btn-label previestab" data-previous="pills-bill-address-tab"><i class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i>Back to Shipping</button>
+                                                    <button type="button" class="btn btn-light btn-label previestab" data-previous="pills-bill-address-tab"><i class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i>Volver</button>
                                                     <button type="button" class="btn btn-primary btn-label right ms-auto nexttab" data-nexttab="pills-finish-tab"><i class="ri-shopping-basket-line label-icon align-middle fs-16 ms-2"></i>Complete Order</button>
                                                 </div>
                                             </div>
@@ -401,44 +413,8 @@
                                                     <td class="text-end">$ 239.98</td>
                                                 </tr>
                                                 <tr>
-                                                    <td>
-                                                        <div class="avatar-md bg-light rounded p-1">
-                                                            <img src="assets/images/products/img-7.png" alt="" class="img-fluid d-block">
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <h5 class="fs-14"><a href="apps-ecommerce-product-details.php" class="text-body">Noise Evolve Smartwatch</a></h5>
-                                                        <p class="text-muted mb-0">$ 94.99 x 1</p>
-                                                    </td>
-                                                    <td class="text-end">$ 94.99</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div class="avatar-md bg-light rounded p-1">
-                                                            <img src="assets/images/products/img-3.png" alt="" class="img-fluid d-block">
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <h5 class="fs-14"><a href="apps-ecommerce-product-details.php" class="text-body">350 ml Glass Grocery Container</a></h5>
-                                                        <p class="text-muted mb-0">$ 24.99 x 1</p>
-                                                    </td>
-                                                    <td class="text-end">$ 24.99</td>
-                                                </tr>
-                                                <tr>
                                                     <td class="fw-semibold" colspan="2">Sub Total :</td>
                                                     <td class="fw-semibold text-end">$ 359.96</td>
-                                                </tr>
-                                                <tr>
-                                                    <td colspan="2">Discount <span class="text-muted">(VELZON15)</span> : </td>
-                                                    <td class="text-end">- $ 50.00</td>
-                                                </tr>
-                                                <tr>
-                                                    <td colspan="2">Shipping Charge :</td>
-                                                    <td class="text-end">$ 24.99</td>
-                                                </tr>
-                                                <tr>
-                                                    <td colspan="2">Estimated Tax (12%): </td>
-                                                    <td class="text-end">$ 18.20</td>
                                                 </tr>
                                                 <tr class="table-active">
                                                     <th colspan="2">Total (USD) :</th>
@@ -465,6 +441,9 @@
     </div>
 
     <?php include 'layouts/vendor-scripts.php'; ?>
+
+    <!-- init js -->
+    <script src="assets/js/pages/ecommerce-product-checkout.init.js"></script>
 
     <!-- profile-setting init js -->
     <script src="assets/js/pages/profile-setting.init.js"></script>

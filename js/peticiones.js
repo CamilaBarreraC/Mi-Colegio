@@ -1,3 +1,5 @@
+// JS PARA CARGAR COLEGIOS SELECCIONANDO LA REGIÓN Y COMUNA
+
 const cbxRegion = document.getElementById('region')
 cbxRegion.addEventListener("change", getComunas)
 
