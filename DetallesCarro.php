@@ -183,7 +183,7 @@
                                         </div>
                                     </div>
                                     <h5 class="mb-3">Su carrito está vacío!</h5>
-                                    <a href="ProductosPagCliente.php" class="btn btn-success w-md mb-3">Ver productos</a>
+                                    <a href="ListasColegioPagCliente.php" class="btn btn-success w-md mb-3">Ver listas</a>
                                 </div>
                             <?php endif; ?>
 

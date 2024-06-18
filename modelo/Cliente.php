@@ -31,7 +31,11 @@ class ModeloCliente {
         $PDO = $con->conexion();
 
         // Consulta SQL para obtener los datos del usuario por su RUT
-        $stmt = $PDO->prepare("SELECT * FROM cliente JOIN comuna ON cliente.id_comuna = comuna.id_comuna WHERE rut_cliente = :rut_cliente");
+        $stmt = $PDO->prepare("SELECT * 
+        FROM cliente 
+        JOIN comuna ON cliente.id_comuna = comuna.id_comuna 
+        JOIN region ON comuna.id_region = region.id_region
+        WHERE rut_cliente = :rut_cliente");
         $stmt->bindParam(':rut_cliente', $rut_cliente);
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);

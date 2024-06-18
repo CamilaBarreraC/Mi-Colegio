@@ -12,6 +12,11 @@
 
     $rut_cliente = $_SESSION['rut_cliente'];
 
+    // Llamar al controlador para obtener los datos del usuario
+    require_once ('controlador/crud_cliente/controlador_cliente.php');
+    $controlador = new ControladorCliente();
+    $usuario = $controlador->show($rut_cliente);
+
     $sql = "SELECT *
     FROM lista_2 
     JOIN curso ON lista_2.id_curso = curso.id_curso
@@ -108,22 +113,24 @@
                                         <div class="tab-content">
                                             <div class="tab-pane fade show active" id="pills-bill-info" role="tabpanel" aria-labelledby="pills-bill-info-tab">
                                                 <div style="margin-bottom: 30px;">
-                                                    <h5 class="mb-1">Información personal</h5>
+                                                    <h4 class="mb-1">Información personal</h4>
+                                                    <h8 class="mb-1">Verifique que la información esté correcta </h8>
                                                 </div>
 
                                                 <div>
+                                                    <?php if ($usuario): ?>
                                                     <div class="row">
                                                         <div class="col-sm-6">
                                                             <div class="mb-3">
                                                                 <label for="billinginfo-firstName" class="form-label">Nombres</label>
-                                                                <input type="text" class="form-control" id="billinginfo-firstName" name="nombre_cliente" placeholder="Ingrese nombre" readonly>
+                                                                <input type="text" class="form-control" id="billinginfo-firstName" name="nombre_cliente" placeholder="Ingrese nombre" value="<?= $usuario['nombre_cliente'] ?>" readonly>
                                                             </div>
                                                         </div>
 
                                                         <div class="col-sm-6">
                                                             <div class="mb-3">
                                                                 <label for="billinginfo-lastName" class="form-label">Apellidos</label>
-                                                                <input type="text" class="form-control" id="billinginfo-lastName" name="apellido_cliente" placeholder="Ingrese apellido" readonly>
+                                                                <input type="text" class="form-control" id="billinginfo-lastName" name="apellido_cliente" placeholder="Ingrese apellido" value="<?= $usuario['apellido_cliente'] ?>" readonly>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -132,14 +139,14 @@
                                                         <div class="col-sm-6">
                                                             <div class="mb-3">
                                                                 <label for="billinginfo-email" class="form-label">RUT </label>
-                                                                <input type="text" class="form-control" id="billinginfo-email" placeholder="Ingrese RUT" readonly>
+                                                                <input type="text" class="form-control" id="billinginfo-email" placeholder="Ingrese RUT" value="<?= $usuario['rut_cliente'] ?>" readonly>
                                                             </div>
                                                         </div>
 
                                                         <div class="col-sm-6">
                                                             <div class="mb-3">
                                                                 <label for="billinginfo-email" class="form-label">Email </label>
-                                                                <input type="email" class="form-control" id="billinginfo-email" placeholder="Ingrese email" readonly>
+                                                                <input type="email" class="form-control" id="billinginfo-email" placeholder="Ingrese email" value="<?= $usuario['email'] ?>" readonly>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -148,27 +155,27 @@
                                                         <div class="col-md-4">
                                                             <div class="mb-3">
                                                                 <label for="country" class="form-label">Región</label>
-                                                                <input type="text" class="form-control" id="country" placeholder="Ingrese región" readonly>
+                                                                <input type="text" class="form-control" id="country" placeholder="Ingrese región" value="<?= $usuario['nombre_region'] ?>" readonly>
                                                             </div>
                                                         </div>
 
                                                         <div class="col-md-4">
                                                             <div class="mb-3">
                                                                 <label for="state" class="form-label">Comuna</label>
-                                                                <input type="text" class="form-control" id="state" placeholder="Ingrese comuna" readonly>
+                                                                <input type="text" class="form-control" id="state" placeholder="Ingrese comuna" value="<?= $usuario['nombre_comuna'] ?>" readonly>
                                                             </div>
                                                         </div>
 
                                                         <div class="col-md-4">
                                                             <div class="mb-3">
                                                                 <label for="billinginfo-phone" class="form-label">Teléfono</label>
-                                                                <input type="text" class="form-control" id="billinginfo-phone" placeholder="Ingrese teléfono" readonly>
+                                                                <input type="text" class="form-control" id="billinginfo-phone" placeholder="Ingrese teléfono" value="<?= $usuario['telefono'] ?>" readonly>
                                                             </div>
                                                         </div>
 
                                                         <div class="mb-3">
                                                             <label for="billinginfo-address" class="form-label">Dirección</label>
-                                                            <textarea class="form-control" id="billinginfo-address" placeholder="Ingrese dirección" rows="2"></textarea>
+                                                            <input class="form-control" id="billinginfo-address" placeholder="Ingrese dirección" value="<?= $usuario['direccion'] ?>"></input>
                                                         </div>
                                                     </div>
 
@@ -177,26 +184,24 @@
                                                             <i class="ri-truck-line label-icon align-middle fs-16 ms-2"></i>Continuar
                                                         </button>
                                                     </div>
+                                                    <?php endif; ?>
                                                 </div>
                                             </div>
                                             <!-- end tab pane -->
 
                                             <div class="tab-pane fade" id="pills-bill-address" role="tabpanel" aria-labelledby="pills-bill-address-tab">
                                                 <div>
-                                                    <h5 class="mb-1">Shipping Information</h5>
-                                                    <p class="text-muted mb-4">Please fill all information below</p>
+                                                    <h5 class="mb-1">Dirección</h5>
+                                                    <p class="text-muted mb-4"></p>
                                                 </div>
 
                                                 <div class="mt-4">
                                                     <div class="d-flex align-items-center mb-2">
                                                         <div class="flex-grow-1">
-                                                            <h5 class="fs-14 mb-0">Saved Address</h5>
+                                                            <h5 class="fs-14 mb-0">Se enviará el pedido a esta dirección</h5>
                                                         </div>
                                                         <div class="flex-shrink-0">
-                                                            <!-- Button trigger modal -->
-                                                            <button type="button" class="btn btn-sm btn-success mb-3" data-bs-toggle="modal" data-bs-target="#addAddressModal">
-                                                                Add Address
-                                                            </button>
+
                                                         </div>
                                                     </div>
                                                     <div class="row gy-3">
@@ -204,67 +209,15 @@
                                                             <div class="form-check card-radio">
                                                                 <input id="shippingAddress01" name="shippingAddress" type="radio" class="form-check-input" checked>
                                                                 <label class="form-check-label" for="shippingAddress01">
-                                                                    <span class="mb-4 fw-semibold d-block text-muted text-uppercase">Home Address</span>
+                                                                    <span class="mb-4 fw-semibold d-block text-muted text-uppercase">Dirección de su hogar</span>
 
-                                                                    <span class="fs-14 mb-2 d-block">Marcus Alfaro</span>
-                                                                    <span class="text-muted fw-normal text-wrap mb-1 d-block">4739 Bubby Drive Austin, TX 78729</span>
-                                                                    <span class="text-muted fw-normal d-block">Mo. 012-345-6789</span>
+                                                                    <?php if ($usuario): ?>
+                                                                        <span class="fs-14 mb-2 d-block"><?= $usuario['nombre_cliente'] ?> <?= $usuario['apellido_cliente'] ?></span>
+                                                                        <span class="text-muted fw-normal text-wrap mb-1 d-block"><?= $usuario['direccion'] ?></span>
+                                                                        <span class="text-muted fw-normal d-block">Región: <?= $usuario['nombre_region'] ?> 
+                                                                        <br>Comuna:  <?= $usuario['nombre_comuna'] ?></span>
+                                                                    <?php endif; ?>
                                                                 </label>
-                                                            </div>
-                                                            <div class="d-flex flex-wrap p-2 py-1 bg-light rounded-bottom border mt-n1">
-                                                                <div>
-                                                                    <a href="#" class="d-block text-body p-1 px-2" data-bs-toggle="modal" data-bs-target="#addAddressModal"><i class="ri-pencil-fill text-muted align-bottom me-1"></i> Edit</a>
-                                                                </div>
-                                                                <div>
-                                                                    <a href="#" class="d-block text-body p-1 px-2" data-bs-toggle="modal" data-bs-target="#removeItemModal"><i class="ri-delete-bin-fill text-muted align-bottom me-1"></i> Remove</a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-4 col-sm-6">
-                                                            <div class="form-check card-radio">
-                                                                <input id="shippingAddress02" name="shippingAddress" type="radio" class="form-check-input">
-                                                                <label class="form-check-label" for="shippingAddress02">
-                                                                    <span class="mb-4 fw-semibold d-block text-muted text-uppercase">Office Address</span>
-
-                                                                    <span class="fs-14 mb-2 d-block">James Honda</span>
-                                                                    <span class="text-muted fw-normal text-wrap mb-1 d-block">1246 Virgil Street Pensacola, FL 32501</span>
-                                                                    <span class="text-muted fw-normal d-block">Mo. 012-345-6789</span>
-                                                                </label>
-                                                            </div>
-                                                            <div class="d-flex flex-wrap p-2 py-1 bg-light rounded-bottom border mt-n1">
-                                                                <div>
-                                                                    <a href="#" class="d-block text-body p-1 px-2" data-bs-toggle="modal" data-bs-target="#addAddressModal"><i class="ri-pencil-fill text-muted align-bottom me-1"></i> Edit</a>
-                                                                </div>
-                                                                <div>
-                                                                    <a href="#" class="d-block text-body p-1 px-2" data-bs-toggle="modal" data-bs-target="#removeItemModal"><i class="ri-delete-bin-fill text-muted align-bottom me-1"></i> Remove</a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="mt-4">
-                                                        <h5 class="fs-14 mb-3">Shipping Method</h5>
-
-                                                        <div class="row g-4">
-                                                            <div class="col-lg-6">
-                                                                <div class="form-check card-radio">
-                                                                    <input id="shippingMethod01" name="shippingMethod" type="radio" class="form-check-input" checked>
-                                                                    <label class="form-check-label" for="shippingMethod01">
-                                                                        <span class="fs-20 float-end mt-2 text-wrap d-block fw-semibold">Free</span>
-                                                                        <span class="fs-14 mb-1 text-wrap d-block">Free Delivery</span>
-                                                                        <span class="text-muted fw-normal text-wrap d-block">Expected Delivery 3 to 5 Days</span>
-                                                                    </label>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-lg-6">
-                                                                <div class="form-check card-radio">
-                                                                    <input id="shippingMethod02" name="shippingMethod" type="radio" class="form-check-input" checked>
-                                                                    <label class="form-check-label" for="shippingMethod02">
-                                                                        <span class="fs-20 float-end mt-2 text-wrap d-block fw-semibold">$24.99</span>
-                                                                        <span class="fs-14 mb-1 text-wrap d-block">Express Delivery</span>
-                                                                        <span class="text-muted fw-normal text-wrap d-block">Delivery within 24hrs.</span>
-                                                                    </label>
-                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -272,15 +225,14 @@
 
                                                 <div class="d-flex align-items-start gap-3 mt-4">
                                                     <button type="button" class="btn btn-light btn-label previestab" data-previous="pills-bill-info-tab"><i class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i>Volver</button>
-                                                    <button type="button" class="btn btn-primary btn-label right ms-auto nexttab" data-nexttab="pills-payment-tab"><i class="ri-bank-card-line label-icon align-middle fs-16 ms-2"></i>Continue to Payment</button>
+                                                    <button type="button" class="btn btn-primary btn-label right ms-auto nexttab" data-nexttab="pills-payment-tab"><i class="ri-bank-card-line label-icon align-middle fs-16 ms-2"></i>Continuar</button>
                                                 </div>
                                             </div>
                                             <!-- end tab pane -->
 
                                             <div class="tab-pane fade" id="pills-payment" role="tabpanel" aria-labelledby="pills-payment-tab">
                                                 <div>
-                                                    <h5 class="mb-1">Payment Selection</h5>
-                                                    <p class="text-muted mb-4">Please select and enter your billing information</p>
+                                                    <h5 class="mb-1">Medio de pago</h5>
                                                 </div>
 
                                                 <div class="row g-4">
@@ -385,7 +337,7 @@
                                 <div class="card-header">
                                     <div class="d-flex">
                                         <div class="flex-grow-1">
-                                            <h5 class="card-title mb-0">Order Summary</h5>
+                                            <h5 class="card-title mb-0">Pedido</h5>
                                         </div>
                                     </div>
                                 </div>
@@ -394,37 +346,105 @@
                                         <table class="table table-borderless align-middle mb-0">
                                             <thead class="table-light text-muted">
                                                 <tr>
-                                                    <th style="width: 90px;" scope="col">Product</th>
-                                                    <th scope="col">Product Info</th>
-                                                    <th scope="col" class="text-end">Price</th>
+                                                    <th style="width: 90px;" scope="col">Producto</th>
+                                                    <th scope="col">Nombre</th>
                                                 </tr>
                                             </thead>
+                                            <?php if ($result->num_rows > 0) : ?>
+
+                                            <?php
+                                                //Definir variables vacías fuera del while para mostrar el curso y colegio por los productos de una lista
+                                                $NomCurso = null;
+                                                $NomColegio = null;
+                                            ?>
+
                                             <tbody>
-                                                <tr>
-                                                    <td>
-                                                        <div class="avatar-md bg-light rounded p-1">
-                                                            <img src="assets/images/products/img-8.png" alt="" class="img-fluid d-block">
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <h5 class="fs-14"><a href="apps-ecommerce-product-details.php" class="text-body">Sweatshirt for Men (Pink)</a></h5>
-                                                        <p class="text-muted mb-0">$ 119.99 x 2</p>
-                                                    </td>
-                                                    <td class="text-end">$ 239.98</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="fw-semibold" colspan="2">Sub Total :</td>
-                                                    <td class="fw-semibold text-end">$ 359.96</td>
-                                                </tr>
+                                                <?php while ($row = $result->fetch_assoc()): ?>      
+                                                    <tr>
+                                                        <td></td>
+
+                                                        <td>
+                                                            <?php //Validador para que no se repitan los nombres de curso y colegio
+                                                            // que se muestran en el carro
+
+                                                            if ($row['nombre_curso'] !== $NomCurso || $row['nombre_de_colegio'] !== $NomColegio) : ?>
+                                                                <div class="px-2" style="margin-top: 15px; margin-bottom:20px">
+                                                                    <h5 class="m-0 fw-normal" style="color:#5c46ea; font-size: 13px">
+                                                                        <?php echo $row['nombre_curso']; ?> <?php echo $row['nombre_de_colegio']; ?>
+                                                                    </h5>
+                                                                </div>
+                                                                <?php
+                                                                    // Actualiza las variables $prevCurso y $prevColegio con los nombres actuales del while
+                                                                    $NomCurso = $row['nombre_curso'];
+                                                                    $NomColegio = $row['nombre_de_colegio'];
+                                                                ?>
+                                                            <?php endif; ?>
+                                                        </td>
+                                                    </tr>     
+                                                    <tr>
+                                                        <td>
+                                                            <div class="avatar-md bg-light rounded p-1">
+                                                                <img src="<?php echo $row['dir']; ?>" alt="" class="img-fluid d-block" style="width: 95%; height: 100%">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <h5 class="fs-14"><a href="apps-ecommerce-product-details.php" class="text-body"><?php echo $row['nombre_producto']; ?></a></h5>
+                                                            <p class="text-muted mb-0">$<?php echo $row['precio']; ?> x <?php echo $row['cantidad']; ?></p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <?php
+                                                            // Calcular el subtotal de los productos (cantidad * precio)
+                                                            $subtotal = $row['cantidad'] * $row['precio'];
+                                                            // Agregar el subtotal al total
+                                                            $total += $subtotal; 
+                                                        ?>
+                                                        <td class="fw-semibold" colspan="2">Sub Total : $ <?= $subtotal ?></td>
+                                                    </tr>
+                                                <?php endwhile; ?>
+                                            <?php endif; ?>
+
+                                                <!-- VALIDADOR PARA VER SI HAY RESULTADOS DE LA CONSULTA -->
+                                                <?php if ($resultExtras->num_rows > 0) : ?>   
+                                                    <tr>
+                                                        <td></td>
+                                                        <td>
+                                                            <h5 class="m-0 fw-normal" style="font-size: 25px; color:blue">Extras :</h5>
+                                                        </td>
+                                                    </tr>     
+
+                                                    <!-- WHILE PARA MOSTRAR PRODUCTOS EXTRAS -->
+                                                    <?php while ($rowCurso = $resultCurso->fetch_assoc()): ?>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="avatar-md bg-light rounded p-1">
+                                                                <img src="<?php echo $rowCurso['dir']; ?>" alt="" class="img-fluid d-block" style="width: 95%; height: 100%">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <h5 class="fs-14"><a href="apps-ecommerce-product-details.php" class="text-body"><?php echo $rowCurso['nombre_producto']; ?></a></h5>
+                                                            <p class="text-muted mb-0">$<?php echo $rowCurso['precio']; ?> x <?php echo $rowCurso['cantidad']; ?></p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <?php
+                                                            // Calcular el subtotal de los productos (cantidad * precio)
+                                                            $subtotal = $rowCurso['cantidad'] * $rowCurso['precio'];
+                                                            // Agregar el subtotal al total
+                                                            $total += $subtotal; 
+                                                        ?>
+                                                        <td class="fw-semibold" colspan="2">Sub Total : $ <?= $subtotal ?></td>
+                                                    </tr>
+                                                
+                                                    <?php endwhile; ?>
+                                                <?php endif; ?>
+
+                                                <!-- TOTAL COMPRA -->
                                                 <tr class="table-active">
-                                                    <th colspan="2">Total (USD) :</th>
-                                                    <td class="text-end">
-                                                        <span class="fw-semibold">
-                                                            $353.15
-                                                        </span>
-                                                    </td>
-                                                </tr>
+                                                    <th colspan="2" style="font-size: 20px; color:blue">Total : $ <?= $total ?></th>
+                                                </tr>            
                                             </tbody>
+                                           
                                         </table>
 
                                     </div>
