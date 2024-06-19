@@ -251,9 +251,11 @@
                                 <?php endwhile; ?>
                             <?php endif; ?>
 
-                            <div class="text-end mb-4">
-                                <button type="submit" class="btn btn-success btn-label right ms-auto"><i class="ri-arrow-right-line label-icon align-bottom fs-16 ms-2"></i> Continuar compra</button>
-                            </div>
+                            <?php if($totalProductos > 0) : ?>
+                                <div class="text-end mb-4">
+                                    <button type="submit" class="btn btn-success btn-label right ms-auto"><i class="ri-arrow-right-line label-icon align-bottom fs-16 ms-2"></i> Continuar compra</button>
+                                </div>
+                            <?php endif; ?>
                         </div>
                         <!-- end col -->
 

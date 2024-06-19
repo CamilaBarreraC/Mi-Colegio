@@ -201,7 +201,7 @@
                                         <div class="element-item col-xxl-3 col-xl-4 col-sm-6 project designing development" data-category="designing development" style="margin-left:80px;" id="resultado_busqueda">
                                             <div class="gallery-box card">
                                                 <div class="gallery-container">
-                                                    <a class="image-popup" href="image/<?php echo $fila['dir']; ?>" title="">
+                                                    <a class="image-popup" href="<?php echo $fila['dir']; ?>" title="">
                                                         <img class="gallery-img img-fluid mx-auto" style="width: 100%; height:200px" src="<?php echo $fila['dir']; ?>" alt="" />
                                                         <div class="gallery-overlay">
                                                         </div>

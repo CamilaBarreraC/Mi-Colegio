@@ -34,6 +34,9 @@
     // Variable para el total
     $subtotal = 0;
 
+    // Variable para mostrar cuántos productos hay en el carro de compras
+    $totalProductos = $resultProd->num_rows + $resultExtras->num_rows;
+
 ?>
 
 <header id="page-topbar" style="background-color: #5c46ea">
@@ -75,11 +78,13 @@
                                     <h6 class="m-0 fs-16 fw-semibold"> Carrito de compras</h6>
                                 </div>
                                 <div class="col-auto">
-                                    <span class="badge bg-warning-subtle text-warning fs-13"><span class="cartitem-badge"><?php echo "$resultProd->num_rows"; ?></span>
+                                    <span class="badge bg-warning-subtle text-warning fs-13"><span class="cartitem-badge"><?php echo "$totalProductos"; ?></span>
                                         productos</span>
                                 </div>
                             </div>
                         </div>
+
+                        <?php if($totalProductos > 0) : ?>
                         <div data-simplebar style="max-height: 300px;">
                             <div class="p-2">
                                     
@@ -133,16 +138,6 @@
                                     <?php endwhile; ?>
                                     <hr>
 
-                                <?php else : ?>
-                                    <div class="text-center empty-cart" id="empty-cart">
-                                        <div class="avatar-md mx-auto my-3">
-                                            <div class="avatar-title bg-info-subtle text-info fs-36 rounded-circle">
-                                                <i class='bx bx-cart'></i>
-                                            </div>
-                                        </div>
-                                        <h5 class="mb-3">Su carrito está vacío!</h5>
-                                        <a href="ProductosPagCliente.php" class="btn btn-success w-md mb-3">Ver productos</a>
-                                    </div>
                                 <?php endif; ?>
 
                                 <?php if ($resultExtras->num_rows > 0) : ?>
@@ -177,20 +172,23 @@
                                         </div>
 
                                     <?php endwhile; ?>
-                                <?php else : ?>
-                                    <div class="text-center empty-cart" id="empty-cart">
-                                        <div class="avatar-md mx-auto my-3">
-                                            <div class="avatar-title bg-info-subtle text-info fs-36 rounded-circle">
-                                                <i class='bx bx-cart'></i>
-                                            </div>
-                                        </div>
-                                        <h5 class="mb-3">Su carrito está vacío!</h5>
-                                        <a href="ProductosPagCliente.php" class="btn btn-success w-md mb-3">Ver productos</a>
-                                    </div>
+                                
                                 <?php endif; ?>
                                                                
                             </div>
                         </div>
+
+                        <?php else : ?>
+                            <div class="text-center empty-cart" id="empty-cart">
+                                <div class="avatar-md mx-auto my-3">
+                                    <div class="avatar-title bg-info-subtle text-info fs-36 rounded-circle">
+                                        <i class='bx bx-cart'></i>
+                                    </div>
+                                </div>
+                                <h5 class="mb-3">Su carrito está vacío!</h5>
+                                <a href="ListasColegioPagCliente.php" class="btn btn-success w-md mb-3">Ver listas</a>
+                            </div>
+                        <?php endif; ?>
                         
                         <div class="p-3 border-bottom-0 border-start-0 border-end-0 border-dashed border" id="checkout-elem">
                             <div class="d-flex justify-content-between align-items-center pb-3">
