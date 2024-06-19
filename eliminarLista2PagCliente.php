@@ -4,6 +4,6 @@
     require_once ('controladorPagCliente/controlador_lista2productos/controlador_lista2productos.php');
 
     $obj = new ControladorLista2Productos();
-    $obj->eliminarLista2Productos($_GET['id_lista_2_productos']);
+    $obj->eliminarLista2Productos($_GET['id_producto']);
 
 ?>

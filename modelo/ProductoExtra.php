@@ -46,11 +46,12 @@ class ModeloProductoExtra {
         return ($stmt->execute()) ? $id_extras : false;
     }
 
-    public function eliminarProductoExtra($id_extras){
+    public function eliminarProductoExtra($id_producto){
         // LLAVES FORÁNEAS
 
-        $stmt = $this->PDO->prepare("DELETE FROM productos_extra WHERE id_extras = :id_extras");
-        $stmt->bindParam(':id_extras', $id_extras);
+        $stmt = $this->PDO->prepare("DELETE FROM productos_extra 
+        WHERE id_producto = :id_producto");
+        $stmt->bindParam(':id_producto', $id_producto);
         return ($stmt->execute()) ? true : false;
     }
 }

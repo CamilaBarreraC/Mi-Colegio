@@ -239,7 +239,7 @@
                                                 </div>
                                                 <div class="col-sm-auto">
                                                     <div class="d-flex align-items-center gap-2 text-muted">
-                                                        <a href="#" class="d-block text-body p-1 px-2" data-bs-toggle="modal" data-bs-target="#removeItemModal"><i class="ri-delete-bin-fill text-muted align-bottom me-1"></i> Eliminar</a>
+                                                        <a class='boton btn-sm btn-primary remove-item-btn' data-bs-toggle='modal' data-bs-target='#modalEliminar' data-id_producto2="<?= $rowCurso['id_producto'] ?>">Eliminar</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -331,7 +331,56 @@
                                     
                     document.getElementById('removeItemModal').style.display = 'none';
                     // Redirige al procesador eliminar de la l2, junto con el parámetro de ID para eliminar
-                    window.location.href = 'eliminarLista2PagCliente.php?producto_eliminar=' + producto_eliminar;
+                    window.location.href = 'eliminarLista2PagCliente.php?id_producto=' + producto_eliminar;
+                });
+            });
+        });
+    </script>
+
+    <!-- removeItemModal -->
+    <div id="modalEliminar" class="modal fade zoomIn" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mt-2 text-center">
+                        <lord-icon src="https://cdn.lordicon.com/gsqxdxog.json" trigger="loop" colors="primary:#f7b84b,secondary:#f06548" style="width:100px;height:100px"></lord-icon>
+                        <div class="mt-4 pt-2 fs-15 mx-4 mx-sm-5">
+                            <h4>¿Eliminar?</h4>
+                            <p class="text-muted mx-4 mb-0">¿Desea eliminar este producto del carro?</p>
+                        </div>
+                    </div>
+                    <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
+                        <button type="button" class="btn w-sm btn-light" data-bs-dismiss="modal">Volver</button>
+                        <button type="button" class="btn w-sm btn-danger" id="remove-product2">Eliminar</button>
+                    </div>
+                </div>
+
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <!-- SCRIPT PARA EXTRAER EL ID Y PASARLO EN URL A ELIMINAR.PHP -->
+    <script>
+        // Agregar evento de clic a los botones "Eliminar", mediante la clase del botón
+        document.querySelectorAll('.boton').forEach(button => {
+            button.addEventListener('click', function() {
+                // Obtener el valor de id del atributo data-id_colegio
+                var id_producto = this.getAttribute('data-id_producto2');
+                // Guardar el valor de id en una variable
+                var producto_eliminar = id_producto;
+
+                // Mostrar el modal de eliminación
+                document.getElementById('modalEliminar').style.display = 'none';
+
+                // Después de confirmar la eliminación, oculta el modal y envía los datos a eliminarLista2PagCliente.php
+                document.getElementById('remove-product2').addEventListener('click', function() {
+                                    
+                    document.getElementById('modalEliminar').style.display = 'none';
+                    // Redirige al procesador eliminar de la l2, junto con el parámetro de ID para eliminar
+                    window.location.href = 'eliminarProductoExtra.php?id_producto=' + producto_eliminar;
                 });
             });
         });

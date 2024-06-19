@@ -36,7 +36,7 @@
                     text: "Hubo un error al eliminar el producto del carro.",
                     showConfirmButton: false
                 }).then(() => {
-                    window.location.href = "../../CheckoutCompra.php";
+                    window.location.href = "../../DetallesCarro.php";
                 });
             </script>';
     } else {
@@ -48,7 +48,7 @@
                     text: "Producto eliminado correctamente del carro.",
                     showConfirmButton: false
                 }).then(() => {
-                    window.location.href = "../../CheckoutCompra.php";
+                    window.location.href = "../../DetallesCarro.php";
                 });
             </script>';
         exit();

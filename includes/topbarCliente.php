@@ -126,7 +126,6 @@
                                                     <div>Subtotal : $<span class="product-line-price"><?= $subtotal ?></span></div>
                                                 </div>
                                                 <div class="ps-2">
-                                                    <button type="button" class="btn btn-icon btn-sm btn-ghost-secondary remove-item-btn"><i class="ri-close-fill fs-16"></i></button>
                                                 </div>
                                             </div>
                                         </div>
@@ -173,7 +172,6 @@
                                                     <div>Subtotal : $<span class="product-line-price"><?= $subtotal ?></span></div>
                                                 </div>
                                                 <div class="ps-2">
-                                                    <button type="button" class="btn btn-icon btn-sm btn-ghost-secondary remove-item-btn"><i class="ri-close-fill fs-16"></i></button>
                                                 </div>
                                             </div>
                                         </div>

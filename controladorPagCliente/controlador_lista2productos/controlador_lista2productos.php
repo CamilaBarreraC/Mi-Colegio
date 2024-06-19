@@ -73,8 +73,8 @@ class ControladorLista2Productos {
         return $modelo->showLista2Productos($id_lista_2_productos);
     }
 
-    public function eliminarLista2Productos($id_lista_2_productos){
-        return ($this->modelo->eliminarLista2Productos($id_lista_2_productos)) ? header("Location: alertasPagCliente/AlertasLista2Productos/alertasEliminar.php") : header("Location: alertasPagCliente/AlertasLista2Productos/alertasEliminar.php?id_lista_2_productos=".$id_lista_2_productos);
+    public function eliminarLista2Productos($id_producto){
+        return ($this->modelo->eliminarLista2Productos($id_producto)) ? header("Location: alertasPagCliente/AlertasLista2Productos/alertasEliminar.php") : header("Location: alertasPagCliente/AlertasLista2Productos/alertasEliminar.php?id_producto=".$id_producto);
     }
 }
 ?>

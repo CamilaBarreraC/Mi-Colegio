@@ -52,12 +52,12 @@ class ModeloLista2Productos {
         return ($stmt->execute()) ? $id_lista_2_productos : false;
     }
 
-    public function eliminarLista2Productos($id_lista_2_productos){
+    public function eliminarLista2Productos($id_producto){
         // LLAVES FORÁNEAS
 
         $stmt = $this->PDO->prepare("DELETE FROM l2_productos 
-        WHERE id_lista_2_productos = :id_lista_2_productos");
-        $stmt->bindParam(':id_lista_2_productos', $id_lista_2_productos);
+        WHERE id_producto = :id_producto");
+        $stmt->bindParam(':id_producto', $id_producto);
 
         //$stmt2 = $this->PDO->prepare("DELETE FROM lista_1 WHERE id_lista_1 = :id_lista_1");
         //$stmt2->bindParam(':id_lista_1', $id_lista_1);
