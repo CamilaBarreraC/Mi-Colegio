@@ -1,0 +1,29 @@
+.download-options {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.option {
+    text-align: center;
+    cursor: pointer;
+    border: 2px solid transparent;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.option.selected {
+    border-color: #007bff;
+    background-color: #e7f1ff;
+}
+
+.option .icon {
+    width: 100px; 
+    height: auto;
+}
+
+.option .label {
+    margin-top: 5px;
+    font-size: 14px;
+    color: #000;
+}
