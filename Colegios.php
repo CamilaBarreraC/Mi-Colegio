@@ -84,11 +84,17 @@ $resultCurso = $conn->query($sqlCurso);
                                             class="ri-add-line align-bottom me-1"></i>
                                         Añadir colegio
                                     </button>
-
-                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                        data-bs-target="#reporteModal"
-                                        style="background-color:blueviolet;margin-bottom: 20px">
-                                        Reporte
+                                    <!--Excel-->
+                                    <button type="button" class="btn btn-primary"
+                                        style="background-color:green;margin-bottom: 20px">
+                                        <img style="width:20px; height:auto;" src="image/icono-excel.png"
+                                            alt="Excel Icon" class="icon">
+                                    </button>
+                                    <!--PDF-->
+                                    <button type="button" class="btn btn-primary"
+                                        style="background-color:red;margin-bottom: 20px">
+                                        <img style="width:20px; height:auto;" src="image/icono-pdf.png" alt="PDF Icon"
+                                            class="icon">
                                     </button>
 
                                     <table id="alternative-pagination"
@@ -481,36 +487,6 @@ $resultCurso = $conn->query($sqlCurso);
         </div>
     </div>
     <!--end modal -->
-
-    <!-- Modal para hacer reporte -->
-    <div id="reporteModal" class="modal fade" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true"
-        style="display: none;">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="myModalLabel">Generar Reporte</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
-                </div>
-                <div class="modal-body">
-                    <div class="download-options">
-                        <div class="option" data-type="excel">
-                            <img src="image/icono-excel.png" alt="Excel Icon" class="icon">
-                            <div class="label">Excel</div>
-                        </div>
-                        <div class="option" data-type="pdf">
-                            <img src="image/icono-pdf.png" alt="PDF Icon" class="icon">
-                            <div class="label">PDF</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary" id="downloadButton">Descargar</button>
-                </div>
-
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
 
     <!-- SCRIPT PARA EXTRAER EL ID Y PASARLO EN URL A ELIMINAR.PHP -->
     <script>
