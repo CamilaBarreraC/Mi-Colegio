@@ -6,6 +6,49 @@
 
 <?php
 
+    // EXTRAE LA VARIABLE DE LA URL PARA MOSTRAR ALERTA DE RECHAZADO O FONDOS INSUFICIENTES   
+    if(isset($_GET['pedido'])){
+
+        if ($_GET['pedido'] === 'rechazado') {
+            echo 'a';
+            echo '<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>';
+            echo '<script>
+                    Swal.fire({
+                        icon: "error",
+                        title: "Datos incorrectos",
+                        text: "La tarjeta es inválida.",
+                        showConfirmButton: false
+                    });
+                </script>';
+        } elseif ($_GET['pedido'] === 'insuficiente'){
+            echo 'a';
+            echo '<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>';
+            echo '<script>
+                    Swal.fire({
+                        icon: "warning",
+                        title: "Saldo insuficiente",
+                        text: "El saldo de su tarjeta es insuficiente.",
+                        showConfirmButton: false
+                    });
+                </script>';
+        } elseif ($_GET['pedido'] === 'confirmado'){
+            echo 'a';
+            echo '<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>';
+            echo '<script>
+                    Swal.fire({
+                        title: "¡Gracias por su compra!",
+                        text: "En este enlace puede ver sus pedidos.",
+                        html: `
+                            <lord-icon src="https://cdn.lordicon.com/lupuorrc.json" trigger="loop" colors="primary:#695eef,secondary:#73dce9" style="width:120px;height:120px"></lord-icon>
+                            <p class="text-muted">En este enlace puede ver sus pedidos.</p>
+                            <h3 class="fw-semibold"><a href="DatosUsuario.php" class="text-decoration-underline">Mis pedidos</a></h3>
+                        `,
+                        showConfirmButton: false
+                    });
+                </script>';
+        }
+    }
+
     include("modelo/conexion_bd.php");
 
     $conn = $conexion;
@@ -18,23 +61,23 @@
     $usuario = $controlador->show($rut_cliente);
 
     $sql = "SELECT *
-    FROM lista_2 
-    JOIN curso ON lista_2.id_curso = curso.id_curso
+    FROM carro_compras 
+    JOIN curso ON carro_compras.id_curso = curso.id_curso
     JOIN colegio ON curso.id_colegio = colegio.id_colegio
-    JOIN l2_productos ON lista_2.id_curso = l2_productos.id_curso 
-    JOIN cliente ON lista_2.rut_cliente = cliente.rut_cliente
-    JOIN productos ON l2_productos.id_producto = productos.id_producto
+    JOIN carro_productos ON carro_compras.id_carro = carro_productos.id_carro 
+    JOIN cliente ON carro_compras.rut_cliente = cliente.rut_cliente
+    JOIN productos ON carro_productos.id_producto = productos.id_producto
     JOIN categoria ON categoria.id_categoria = productos.id_categoria
-    WHERE lista_2.rut_cliente = ". $rut_cliente;
+    WHERE carro_compras.rut_cliente = ". $rut_cliente;
 
     $result = $conn->query($sql);
 
     $sqlCurso = "SELECT *
-    FROM productos_extra 
-    JOIN cliente ON productos_extra.rut_cliente = cliente.rut_cliente
-    JOIN productos ON productos_extra.id_producto = productos.id_producto
+    FROM carro_productos_extra 
+    JOIN cliente ON carro_productos_extra.rut_cliente = cliente.rut_cliente
+    JOIN productos ON carro_productos_extra.id_producto = productos.id_producto
     JOIN categoria ON productos.id_categoria = categoria.id_categoria
-    WHERE productos_extra.rut_cliente = ". $rut_cliente;
+    WHERE carro_productos_extra.rut_cliente = ". $rut_cliente;
     $resultCurso = $conn->query($sqlCurso);
 
     // Variable para el total
@@ -42,6 +85,14 @@
 
     // Variable para mostrar cuántos productos hay en el carro de compras
     $totalProductos = $result->num_rows + $resultCurso->num_rows;
+
+    // TARJETA CON SALDO DE 100.000 PESOS, PARA HACER COMPRA, VALIDANDO LOS DATOS
+    // Y MOSTRANDO TODAS LAS ALERTAS 
+    $nombre_tarjeta = "Camila Barrera";
+    $num_tarjeta = "1234 5678 8083 8083";
+    $fechaexp_tarjeta = "11/31";
+    $CVV = "123";
+    $saldo = 100000;
 
 ?>
 
@@ -83,7 +134,6 @@
                             <div class="card">
                                 <div class="card-body checkout-tab">
 
-                                    <form action="#">
                                         <div class="step-arrow-nav mt-n3 mx-n3 mb-3">
 
                                             <ul class="nav nav-pills nav-justified custom-nav" role="tablist">
@@ -100,11 +150,6 @@
                                                 <li class="nav-item" role="presentation">
                                                     <button class="nav-link fs-15 p-3" id="pills-payment-tab" data-bs-toggle="pill" data-bs-target="#pills-payment" type="button" role="tab" aria-controls="pills-payment" aria-selected="false">
                                                         <i class="ri-bank-card-line fs-16 p-2 bg-primary-subtle text-primary rounded-circle align-middle me-2"></i> Medio de pago
-                                                    </button>
-                                                </li>
-                                                <li class="nav-item" role="presentation">
-                                                    <button class="nav-link fs-15 p-3" id="pills-finish-tab" data-bs-toggle="pill" data-bs-target="#pills-finish" type="button" role="tab" aria-controls="pills-finish" aria-selected="false">
-                                                        <i class="ri-checkbox-circle-line fs-16 p-2 bg-primary-subtle text-primary rounded-circle align-middle me-2"></i> Pedido
                                                     </button>
                                                 </li>
                                             </ul>
@@ -139,7 +184,7 @@
                                                         <div class="col-sm-6">
                                                             <div class="mb-3">
                                                                 <label for="billinginfo-email" class="form-label">RUT </label>
-                                                                <input type="text" class="form-control" id="billinginfo-email" placeholder="Ingrese RUT" value="<?= $usuario['rut_cliente'] ?>" readonly>
+                                                                <input type="text" class="form-control" id="billinginfo-email" name="rut_cliente" placeholder="Ingrese RUT" value="<?= $usuario['rut_cliente'] ?>" readonly>
                                                             </div>
                                                         </div>
 
@@ -235,46 +280,103 @@
                                                     <h5 class="mb-1">Medio de pago</h5>
                                                 </div>
 
-                                                <div class="row g-4">
+                                                <div class="row g-4" style="margin-top: 10px;">
                                                     <div class="col-lg-4 col-sm-6">
-
-                                                    </div>
-                                                </div>
-
-                                                <div class="collapse show" id="paymentmethodCollapse">
-                                                    <div class="card p-4 border shadow-none mb-0 mt-4">
-                                                        <div class="row gy-3" style="align-items: center;">
-                                                            <img src="micolegioImg/logowebpay.png" style="width: 40%; height:40%">
+                                                        <div data-bs-toggle="collapse" data-bs-target="#paymentmethodCollapse" aria-expanded="true" aria-controls="paymentmethodCollapse">
+                                                            <div class="form-check card-radio">
+                                                                <input id="paymentMethod02" name="paymentMethod" type="radio" class="form-check-input" checked>
+                                                                <label class="form-check-label" for="paymentMethod02">
+                                                                    <span><img src="micolegioimg/logowebpay.png" style="width: 100px;"></span>
+                                                                    <span class="fs-14 text-wrap">Webpay</span>
+                                                                </label>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                    <div class="text-muted mt-2 fst-italic">
-                                                        <i data-feather="lock" class="text-muted icon-xs"></i> Su transacción está encriptada
-                                                    </div>
                                                 </div>
 
-                                                <div class="d-flex align-items-start gap-3 mt-4">
-                                                    <button type="button" class="btn btn-light btn-label previestab" data-previous="pills-bill-address-tab"><i class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i>Volver</button>
-                                                    <button type="button" class="btn btn-primary btn-label right ms-auto nexttab" data-nexttab="pills-finish-tab"><i class="ri-shopping-basket-line label-icon align-middle fs-16 ms-2"></i>Completar compra</button>
-                                                </div>
+                                                <form action="procesarCompra.php" method="post">
+                                                    <div class="collapse show" id="paymentmethodCollapse">
+                                                        <div class="card p-4 border shadow-none mb-0 mt-4">
+                                                            <div class="row gy-3">
+                                                                <div class="col-md-12">
+                                                                    <label for="cc-name" class="form-label">Titular de la tarjeta</label>
+                                                                    <input type="text" class="form-control" id="cc-name" name="nombre" placeholder="Ingrese el nombre">
+                                                                    <small class="text-muted">Nombre completo impreso en la tarjeta</small>
+                                                                </div>
+
+                                                                <div class="col-md-6">
+                                                                    <label for="cc-number" class="form-label">Número de la tarjeta</label>
+                                                                    <input type="text" class="form-control" id="cc-number" name="numero" placeholder="xxxx xxxx xxxx xxxx" maxlength="19">
+                                                                </div>
+
+                                                                <!-- SCRIPT PARA QUE SOLO INGRESE NÚMEROS Y PONGA EL ESPACIO -->
+                                                                <script>
+                                                                    document.getElementById('cc-number').addEventListener('input', function (e) {
+                                                                        let value = e.target.value.replace(/\D/g, ''); // Eliminar todos los caracteres que no sean dígitos
+                                                                        let formattedValue = '';
+
+                                                                        for (let i = 0; i < value.length; i++) {
+                                                                            if (i > 0 && i % 4 === 0) {
+                                                                                formattedValue += ' ';
+                                                                            }
+                                                                            formattedValue += value[i];
+                                                                        }
+
+                                                                        e.target.value = formattedValue;
+                                                                    });
+                                                                </script>
+
+                                                                <div class="col-md-3">
+                                                                    <label for="cc-expiration" class="form-label">Fecha de expiración</label>
+                                                                    <input type="text" class="form-control" id="cc-expiration" name="fecha_exp" placeholder="Mes/Año" maxlength="5" oninput="FechaExp(this)">
+                                                                    
+                                                                    <script>
+                                                                        // SCRIPT PARA COLOCAR "/" ENTRE EL MES Y EL AÑO
+
+                                                                        function FechaExp(input) {
+                                                                            // Eliminar cualquier carácter que no sea un dígito
+                                                                            input.value = input.value.replace(/\D/g, '');
+
+                                                                            // Después del segundo digito agrega el "/" 
+                                                                            if (input.value.length > 2) {
+                                                                                input.value = input.value.slice(0, 2) + '/' + input.value.slice(2);
+                                                                            }
+
+                                                                            // Limita a 5 carácteres el input
+                                                                            if (input.value.length > 5) {
+                                                                                input.value = input.value.slice(0, 5);
+                                                                            }
+                                                                        } 
+                                                                    </script>
+                                                                </div>
+
+                                                                <div class="col-md-3">
+                                                                    <label for="cc-cvv" class="form-label">CVV</label>
+                                                                    <input type="text" class="form-control" id="cc-cvv" name="cvv" placeholder="xxx" maxlength="3">
+                                                                </div>
+
+                                                                    <!-- INPUTS ESCONDIDOS PARA PROCESAR LOS DATOS -->
+                                                                <input type="hidden" name="precio_total" value="<?= $total_compra ?>">
+                                                                <input type="hidden" name="rut_cliente" value="<?= $rut_cliente ?>">
+                                                            </div>
+                                                        
+                                                        </div>
+
+                                                        <div class="text-muted mt-2 fst-italic">
+                                                            <i data-feather="lock" class="text-muted icon-xs"></i> Su transacción está encriptada
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="d-flex align-items-start gap-3 mt-4">
+                                                        <button type="button" class="btn btn-light btn-label previestab" data-previous="pills-bill-address-tab"><i class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i>Volver</button>
+                                                        <button type="submit" class="btn btn-primary btn-label right ms-auto nexttab"><i class="ri-shopping-basket-line label-icon align-middle fs-16 ms-2"></i>Completar compra</button>
+                                                    </div>
+                                                </form>
                                             </div>
                                             <!-- end tab pane -->
 
-                                            <div class="tab-pane fade" id="pills-finish" role="tabpanel" aria-labelledby="pills-finish-tab">
-                                                <div class="text-center py-5">
-
-                                                    <div class="mb-4">
-                                                        <lord-icon src="https://cdn.lordicon.com/lupuorrc.json" trigger="loop" colors="primary:#695eef,secondary:#73dce9" style="width:120px;height:120px"></lord-icon>
-                                                    </div>
-                                                    <h5>Thank you ! Your Order is Completed !</h5>
-                                                    <p class="text-muted">You will receive an order confirmation email with details of your order.</p>
-
-                                                    <h3 class="fw-semibold">Order ID: <a href="apps-ecommerce-order-details.php" class="text-decoration-underline">VZ2451</a></h3>
-                                                </div>
-                                            </div>
-                                            <!-- end tab pane -->
                                         </div>
                                         <!-- end tab content -->
-                                    </form>
                                 </div>
                                 <!-- end card body -->
                             </div>

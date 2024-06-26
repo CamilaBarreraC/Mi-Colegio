@@ -15,24 +15,26 @@
     $rut_cliente = $_SESSION['rut_cliente'];
 
     $sql = "SELECT *
-    FROM lista_2 
-    JOIN curso ON lista_2.id_curso = curso.id_curso
+    FROM carro_compras 
+    JOIN curso ON carro_compras.id_curso = curso.id_curso
     JOIN colegio ON curso.id_colegio = colegio.id_colegio
-    JOIN l2_productos ON lista_2.id_curso = l2_productos.id_curso 
-    JOIN cliente ON lista_2.rut_cliente = cliente.rut_cliente
-    JOIN productos ON l2_productos.id_producto = productos.id_producto
-    WHERE lista_2.rut_cliente = ". $rut_cliente;
+    JOIN carro_productos ON carro_compras.id_carro = carro_productos.id_carro 
+    JOIN cliente ON carro_compras.rut_cliente = cliente.rut_cliente
+    JOIN productos ON carro_productos.id_producto = productos.id_producto
+    WHERE carro_compras.rut_cliente = ". $rut_cliente;
     $resultProd = $conn->query($sql);
 
     $sqlExtras = "SELECT *
-    FROM productos_extra 
-    JOIN cliente ON productos_extra.rut_cliente = cliente.rut_cliente
-    JOIN productos ON productos_extra.id_producto = productos.id_producto
-    WHERE productos_extra.rut_cliente = ". $rut_cliente;
+    FROM carro_productos_extra 
+    JOIN cliente ON carro_productos_extra.rut_cliente = cliente.rut_cliente
+    JOIN productos ON carro_productos_extra.id_producto = productos.id_producto
+    WHERE carro_productos_extra.rut_cliente = ". $rut_cliente;
     $resultExtras = $conn->query($sqlExtras);
 
     // Variable para el total
     $subtotal = 0;
+
+    $total_compra = 0;
 
     // Variable para mostrar cuántos productos hay en el carro de compras
     $totalProductos = $resultProd->num_rows + $resultExtras->num_rows;
@@ -69,7 +71,7 @@
                 <div class="dropdown topbar-head-dropdown ms-1 header-item">
                     <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle" id="page-header-cart-dropdown" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false">
                         <i class='bx bx-shopping-bag fs-22'></i>
-                        <span class="position-absolute topbar-badge cartitem-badge fs-10 translate-middle badge rounded-pill bg-info"><?php echo "$resultProd->num_rows"; ?></span>
+                        <span class="position-absolute topbar-badge cartitem-badge fs-10 translate-middle badge rounded-pill bg-info"><?php echo $totalProductos; ?></span>
                     </button>
                     <div class="dropdown-menu dropdown-menu-xl dropdown-menu-end p-0 dropdown-menu-cart" aria-labelledby="page-header-cart-dropdown">
                         <div class="p-3 border-top-0 border-start-0 border-end-0 border-dashed border">
@@ -114,6 +116,7 @@
                                         <?php
                                             // Calcular el subtotal de los productos (cantidad * precio)
                                             $subtotal = $row['cantidad'] * $row['precio'];
+                                            $total_compra += $subtotal;
                                         ?>
 
                                         <div class="d-block dropdown-item dropdown-item-cart text-wrap px-3 py-2">
@@ -150,6 +153,8 @@
                                         <?php
                                             // Calcular el subtotal de los productos (cantidad * precio)
                                             $subtotal = $rowExtras['cantidad'] * $rowExtras['precio'];
+
+                                            $total_compra += $subtotal;
                                         ?>
                                     
                                         <div class="d-block dropdown-item dropdown-item-cart text-wrap px-3 py-2">

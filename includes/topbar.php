@@ -45,7 +45,6 @@
                     </button>
                     <div class="dropdown-menu dropdown-menu-end" >
                         <h6 class="dropdown-header">¡Bienvenid@ <?php echo $_SESSION['nombre_cliente']; ?>!</h6>
-                        <a class="dropdown-item" href="pages-profile.php"><i class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Mis datos</span></a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href=#><i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i> <span class="align-middle" data-key="t-logout" onclick="confirmCerrar()">Cerrar sesión</span></a>
                         <!-- botón cerrar sesión -->

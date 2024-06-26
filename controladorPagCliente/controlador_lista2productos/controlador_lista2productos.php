@@ -14,7 +14,7 @@ class ControladorLista2Productos {
         $this->PDO = $con -> conexion();
     }
 
-    public function insertarLista2Productos($productos, $rut_cliente, $id_curso, $id_colegio) {
+    public function insertarLista2Productos($productos, $rut_cliente, $id_curso, $id_colegio, $id_lista_2, $id_carro) {
         if ($this->existeLista($rut_cliente, $id_curso, $id_colegio)) {
             // Si es duplicado, redirecciona a la página de alertas con error
             header("Location: alertasPagCliente/AlertasLista2Productos/alertaIngresar.php?duplicado=true");
@@ -24,9 +24,9 @@ class ControladorLista2Productos {
                 $id_producto = $producto['id_producto'];
                 $cantidad = $producto['cantidad'];
                 $estado = $producto['estado'];
-                $id_curso = $producto['id_curso'];
+                $rut_cliente = $producto['rut_cliente'];
 
-                $this->modelo->insertarLista2Productos($id_producto, $cantidad, $estado, $id_curso);
+                $this->modelo->insertarLista2Productos($id_producto, $cantidad, $estado, $rut_cliente, $id_lista_2, $id_carro);
             }
 
             header("Location: alertasPagCliente/AlertasLista2Productos/alertaIngresar.php?id_producto=".$id_producto);

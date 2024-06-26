@@ -13,23 +13,23 @@
     $rut_cliente = $_SESSION['rut_cliente'];
 
     $sql = "SELECT *
-    FROM lista_2 
-    JOIN curso ON lista_2.id_curso = curso.id_curso
+    FROM carro_compras 
+    JOIN curso ON carro_compras.id_curso = curso.id_curso
     JOIN colegio ON curso.id_colegio = colegio.id_colegio
-    JOIN l2_productos ON lista_2.id_curso = l2_productos.id_curso 
-    JOIN cliente ON lista_2.rut_cliente = cliente.rut_cliente
-    JOIN productos ON l2_productos.id_producto = productos.id_producto
+    JOIN carro_productos ON carro_compras.id_carro = carro_productos.id_carro 
+    JOIN cliente ON carro_compras.rut_cliente = cliente.rut_cliente
+    JOIN productos ON carro_productos.id_producto = productos.id_producto
     JOIN categoria ON categoria.id_categoria = productos.id_categoria
-    WHERE lista_2.rut_cliente = ". $rut_cliente;
+    WHERE carro_compras.rut_cliente = ". $rut_cliente;
 
     $result = $conn->query($sql);
 
     $sqlCurso = "SELECT *
-    FROM productos_extra 
-    JOIN cliente ON productos_extra.rut_cliente = cliente.rut_cliente
-    JOIN productos ON productos_extra.id_producto = productos.id_producto
+    FROM carro_productos_extra 
+    JOIN cliente ON carro_productos_extra.rut_cliente = cliente.rut_cliente
+    JOIN productos ON carro_productos_extra.id_producto = productos.id_producto
     JOIN categoria ON productos.id_categoria = categoria.id_categoria
-    WHERE productos_extra.rut_cliente = ". $rut_cliente;
+    WHERE carro_productos_extra.rut_cliente = ". $rut_cliente;
     $resultCurso = $conn->query($sqlCurso);
 
     // Variable para el total
@@ -126,11 +126,12 @@
                                                 <div class="col-sm">
                                                     <h5 class="fs-14 text-truncate"><a href="ecommerce-product-detail.php" class="text-body"><?php echo $row['nombre_producto']; ?></a></h5>
                                                     <ul class="list-inline text-muted">
-                                                        <li class="list-inline-item">Categoría : <span class="fw-medium"><?php echo $row['nombre_categoria']; ?></span></li>                                        </ul>
+                                                        <li class="list-inline-item">Categoría : <span class="fw-medium"><?php echo $row['nombre_categoria']; ?></span></li>                                        
+                                                    </ul>
 
                                                     <div class="input-step">
                                                         <button type="button" class="minus">–</button>
-                                                        <input type="number" class="product-quantity" name="cantidades[<?php echo $row['id_producto']; ?>]" value="<?php echo $row['cantidad']; ?>" min="1" max="50">
+                                                        <input type="number" class="product-quantity" name="cantidades[<?php echo $row['id_producto']; ?>]" value="<?php echo $row['cantidad']; ?>" min="1" max="<?php echo $row['stock']; ?>" readonly>
                                                         <button type="button" class="plus">+</button>
                                                     </div>
                                                 </div>
@@ -204,11 +205,12 @@
                                                 <div class="col-sm">
                                                     <h5 class="fs-14 text-truncate"><a href="ecommerce-product-detail.php" class="text-body"><?php echo $rowCurso['nombre_producto']; ?></a></h5>
                                                     <ul class="list-inline text-muted">
-                                                        <li class="list-inline-item">Categoría : <span class="fw-medium"><?php echo $rowCurso['nombre_categoria']; ?></span></li>                                        </ul>
+                                                        <li class="list-inline-item">Categoría : <span class="fw-medium"><?php echo $rowCurso['nombre_categoria']; ?></span></li>                                        
+                                                    </ul>
 
                                                     <div class="input-step">
                                                         <button type="button" class="minus">–</button>
-                                                        <input type="number" class="product-quantity" name="cantidades_extras[<?php echo $rowCurso['id_producto']; ?>]" value="<?php echo $rowCurso['cantidad']; ?>" min="1" max="50">
+                                                        <input type="number" class="product-quantity" name="cantidades_extras[<?php echo $rowCurso['id_producto']; ?>]" value="<?php echo $rowCurso['cantidad']; ?>" min="1" max="<?php echo $rowCurso['stock']; ?>" readonly>
                                                         <button type="button" class="plus">+</button>
                                                     </div>
                                                 </div>
@@ -251,7 +253,7 @@
                                 <?php endwhile; ?>
                             <?php endif; ?>
 
-                            <?php if($totalProductos > 0) : ?>
+                            <?php if($result->num_rows > 0) : ?>
                                 <div class="text-end mb-4">
                                     <button type="submit" class="btn btn-success btn-label right ms-auto"><i class="ri-arrow-right-line label-icon align-bottom fs-16 ms-2"></i> Continuar compra</button>
                                 </div>

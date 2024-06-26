@@ -12,6 +12,12 @@
                 $stmt = $conn->prepare("UPDATE l2_productos SET cantidad = ? WHERE id_producto = ?");
                 $stmt->bind_param("ii", $cantidad, $id_producto);
                 $stmt->execute();
+                // Actualizar la cantidad del producto del carro de compras
+                $stmt2 = $conn->prepare("UPDATE carro_productos SET cantidad = ? WHERE id_producto = ?");
+                $stmt2->bind_param("ii", $cantidad, $id_producto);
+                $stmt2->execute();
+
+                $stmt2->close();
                 $stmt->close();
             }
         }
@@ -22,6 +28,12 @@
                 $stmt = $conn->prepare("UPDATE productos_extra SET cantidad = ? WHERE id_producto = ?");
                 $stmt->bind_param("ii", $cantidad, $id_producto);
                 $stmt->execute();
+                // Actualizar la cantidad del producto extra en la base de datos
+                $stmt2 = $conn->prepare("UPDATE carro_productos_extra SET cantidad = ? WHERE id_producto = ?");
+                $stmt2->bind_param("ii", $cantidad, $id_producto);
+                $stmt2->execute();
+
+                $stmt2->close();
                 $stmt->close();
             }
         }
