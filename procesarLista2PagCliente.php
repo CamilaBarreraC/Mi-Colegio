@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['productos'])) {
         $stmtCarro->close();
         $conexion->close();
 
-        // Controlador para insertar los productosss
+        // Controlador para insertar los productosss la pulenta
         $controlador->insertarLista2Productos($productos, $rut_cliente, $id_curso, $id_colegio, $id_lista_2, $id_carro);
     }
 } else {
