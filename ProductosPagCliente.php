@@ -301,6 +301,7 @@
     <!-- End Page-content -->
 
     <?php include 'layouts/vendor-scripts.php'; ?>
+    <?php include 'includes/footerCliente.php'; ?>
 
         <!-- apexcharts -->
         <script src="assets/libs/apexcharts/apexcharts.min.js"></script>

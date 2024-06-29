@@ -1,4 +1,8 @@
 <?php 
+    session_start();
+
+    $id_lista_2 = $_SESSION['id_lista_2'];
+    $id_extras = $_SESSION['id_extras'];
 
     // TARJETA CON SALDO DE 100.000 PESOS, PARA HACER COMPRA, VALIDANDO LOS DATOS
     // Y MOSTRANDO TODAS LAS ALERTAS 
@@ -29,7 +33,7 @@
             $conn = $conexion;
 
             // Insertar el pedido en la base de datos
-            $sql = "INSERT INTO pedido (precio_total, estado, fecha, id_medio_pago, rut_cliente, rut_cliente_l2, rut_cliente_extras) VALUES ('$precio_total', 'Pendiente', '$fecha_pedido', 1, '$rut_cliente', '$rut_cliente', '$rut_cliente')";
+            $sql = "INSERT INTO pedido (precio_total, estado, fecha, id_medio_pago, rut_cliente, id_lista_2, id_extras) VALUES ('$precio_total', 'Pendiente', '$fecha_pedido', 1, '$rut_cliente', '$id_lista_2', '$id_extras')";
             
             if ($conn->query($sql) === TRUE) {
 

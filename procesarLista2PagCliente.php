@@ -18,6 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['productos'])) {
         header("Location: alertasPagCliente/AlertasLista2Productos/alertaIngresar.php?duplicado=true");
         exit();
     } else {
+        session_start();
         // Sentencia para insertar en lista_2, heredando el curso y colegio
         $stmtLista2 = $conexion->prepare("INSERT INTO lista_2 (id_curso, id_colegio, rut_cliente) VALUES (?, ?, ?)");
 
@@ -30,6 +31,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['productos'])) {
         if ($stmtLista2->execute() && $stmtCarro->execute()) {
             // ID de la lista_2 recién ingresada
             $id_lista_2 = $conexion->insert_id;
+            $_SESSION['id_lista_2'] = $id_lista_2;
+
             // ID del carro_compras recién ingresado
             $id_carro = $conexion->insert_id;
             echo "Datos insertados correctamente en lista_2.";

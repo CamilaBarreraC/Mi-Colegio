@@ -174,6 +174,7 @@
     <script src="js/app.js"></script>
 
     <?php include 'includes/topbarCliente.php'; ?>
+    <?php include 'includes/footerCliente.php'; ?>
 
     <?php include 'layouts/vendor-scripts.php'; ?>
 
