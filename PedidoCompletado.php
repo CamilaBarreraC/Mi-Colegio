@@ -24,10 +24,13 @@
 
     // CONSULTA PARA RELLENAR LA BOLETA CON LA LISTA ESCOLAR
     $sql = "SELECT *
-    FROM pedido
-    JOIN cliente ON pedido.rut_cliente = cliente.rut_cliente
-    JOIN lista_2 ON lista_2.id_lista_2 = pedido.id_lista_2
-    JOIN l2_productos ON lista_2.id_lista_2 = l2_productos.id_lista_2 
+    FROM detalle_pedido 
+    JOIN pedido ON detalle_pedido.id_pedido = pedido.id_pedido
+    JOIN lista_2 ON lista_2.rut_cliente = detalle_pedido.rut_cliente_l2
+	JOIN l2_productos ON lista_2.id_lista_2 = l2_productos.id_lista_2 
+    JOIN curso ON lista_2.id_curso = curso.id_curso
+    JOIN colegio ON curso.id_colegio = colegio.id_colegio
+    JOIN cliente ON lista_2.rut_cliente = cliente.rut_cliente
     JOIN productos ON l2_productos.id_producto = productos.id_producto
     JOIN categoria ON categoria.id_categoria = productos.id_categoria
     WHERE pedido.id_pedido = ". $id_pedido;
@@ -35,8 +38,9 @@
 
     // CONSULTA PARA LA BOLETA CON LOS PRODUCTOS EXTRA
     $sqlCurso = "SELECT *
-    FROM pedido
-    JOIN productos_extra ON productos_extra.id_extras = pedido.id_extras
+    FROM detalle_pedido
+    JOIN pedido ON pedido.id_pedido = detalle_pedido.id_pedido
+    JOIN productos_extra ON productos_extra.rut_cliente = detalle_pedido.rut_cliente_extras
     JOIN medios_de_pago ON pedido.id_medio_pago = medios_de_pago.id_medio_pago 
     JOIN productos ON productos_extra.id_producto = productos.id_producto
     JOIN categoria ON productos.id_categoria = categoria.id_categoria
@@ -45,10 +49,13 @@
 
     // CONSULTA PARA RELLENAR TABLA CON LOS PRODUCTOS
     $sqlLista = "SELECT *
-    FROM pedido
-    JOIN cliente ON pedido.rut_cliente = cliente.rut_cliente
-    JOIN lista_2 ON lista_2.id_lista_2 = pedido.id_lista_2
-    JOIN l2_productos ON lista_2.id_lista_2 = l2_productos.id_lista_2 
+    FROM detalle_pedido 
+    JOIN pedido ON detalle_pedido.id_pedido = pedido.id_pedido
+    JOIN lista_2 ON lista_2.rut_cliente = detalle_pedido.rut_cliente_l2
+	JOIN l2_productos ON lista_2.id_lista_2 = l2_productos.id_lista_2 
+    JOIN curso ON lista_2.id_curso = curso.id_curso
+    JOIN colegio ON curso.id_colegio = colegio.id_colegio
+    JOIN cliente ON lista_2.rut_cliente = cliente.rut_cliente
     JOIN productos ON l2_productos.id_producto = productos.id_producto
     JOIN categoria ON categoria.id_categoria = productos.id_categoria
     WHERE pedido.id_pedido = ". $id_pedido;
@@ -56,8 +63,9 @@
 
     // CONSULTA PARA RELLENAR TABLA CON PRODUCTOS EXTRA
     $sqlExt = "SELECT *
-    FROM pedido
-    JOIN productos_extra ON productos_extra.id_extras = pedido.id_extras
+    FROM detalle_pedido
+    JOIN pedido ON pedido.id_pedido = detalle_pedido.id_pedido
+    JOIN productos_extra ON productos_extra.rut_cliente = detalle_pedido.rut_cliente_extras
     JOIN medios_de_pago ON pedido.id_medio_pago = medios_de_pago.id_medio_pago 
     JOIN productos ON productos_extra.id_producto = productos.id_producto
     JOIN categoria ON productos.id_categoria = categoria.id_categoria
@@ -329,6 +337,7 @@
 
     </div>
 
+    <?php include 'includes/footerCliente.php'; ?>
     <?php include 'layouts/vendor-scripts.php'; ?>
 
     <!-- init js -->

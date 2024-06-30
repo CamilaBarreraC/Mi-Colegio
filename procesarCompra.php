@@ -1,8 +1,4 @@
 <?php 
-    session_start();
-
-    $id_lista_2 = $_SESSION['id_lista_2'];
-    $id_extras = $_SESSION['id_extras'];
 
     // TARJETA CON SALDO DE 100.000 PESOS, PARA HACER COMPRA, VALIDANDO LOS DATOS
     // Y MOSTRANDO TODAS LAS ALERTAS 
@@ -33,12 +29,15 @@
             $conn = $conexion;
 
             // Insertar el pedido en la base de datos
-            $sql = "INSERT INTO pedido (precio_total, estado, fecha, id_medio_pago, rut_cliente, id_lista_2, id_extras) VALUES ('$precio_total', 'Pendiente', '$fecha_pedido', 1, '$rut_cliente', '$id_lista_2', '$id_extras')";
+            $sql = "INSERT INTO pedido (precio_total, estado, fecha, id_medio_pago, rut_cliente) VALUES ('$precio_total', 'Pendiente', '$fecha_pedido', 1, '$rut_cliente')";
             
             if ($conn->query($sql) === TRUE) {
 
                 // ID del pedido recién ingresado
                 $id_pedido = $conn->insert_id;
+
+                $sqlDetalle = "INSERT INTO detalle_pedido (rut_cliente_l2, rut_cliente_extras, id_pedido) VALUES ('$rut_cliente', '$rut_cliente', '$id_pedido')";
+                $conn->query($sqlDetalle);
 
                 // Eliminar los productos del carro primero
                 $sqlBorrarProductos = "DELETE FROM carro_productos WHERE id_carro IN (SELECT id_carro FROM carro_compras WHERE rut_cliente = ?)";

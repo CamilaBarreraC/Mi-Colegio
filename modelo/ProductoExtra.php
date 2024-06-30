@@ -9,7 +9,6 @@ class ModeloProductoExtra {
     }
 
     public function insertarProductoExtra($id_producto , $cantidad , $estado, $rut_cliente ) {
-        session_start();
         // Ejecutar la consulta en la base de datos
         $stmt = $this->PDO->prepare("INSERT INTO productos_extra (id_producto, cantidad, estado, rut_cliente) VALUES (:id_producto, :cantidad, :estado, :rut_cliente) ");
         $stmt->bindParam(':id_producto', $id_producto);
@@ -23,13 +22,7 @@ class ModeloProductoExtra {
         $stmt2->bindParam(':estado', $estado);
         $stmt2->bindParam(':rut_cliente', $rut_cliente);
         
-        if ($stmt->execute() && $stmt2->execute()) {
-            $id_extras = $this->PDO->lastInsertId(); // Obtener el ID del último registro insertado
-            $_SESSION['id_extras'] = $id_extras; // Guardar el ID en la sesión
-            return $id_extras;
-        } else {
-            return false;
-        }
+        return ($stmt->execute() && $stmt2->execute()) ? $this->PDO->lastInsertId() : false;
     }
 
     public function showProductoExtra($id_extras){
