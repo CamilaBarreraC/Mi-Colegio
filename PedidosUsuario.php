@@ -5,20 +5,18 @@
 <?php include 'layouts/main.php'; ?>
 
 <?php
-include("modelo/conexion_bd.php");
+    include("modelo/conexion_bd.php");
 
-$conn = $conexion;
+    $conn = $conexion;
+    $rut_cliente = $_SESSION['rut_cliente'];
 
-$sql = "SELECT id_colegio, nombre_de_colegio, colegio.id_comuna, direccion, nombre_comuna, nombre_region 
-    FROM colegio 
-    JOIN comuna ON colegio.id_comuna = comuna.id_comuna 
-    JOIN region ON comuna.id_region = region.id_region;";
-$result = $conn->query($sql);
+    $sqlPedido = "SELECT *
+    FROM pedido 
+    JOIN cliente ON cliente.rut_cliente = pedido.rut_cliente
+    JOIN medios_de_pago ON pedido.id_medio_pago = medios_de_pago.id_medio_pago
+    WHERE cliente.rut_cliente = ". $rut_cliente;
+    $resultPedido = $conn->query($sqlPedido);
 
-$sqlCurso = "SELECT id_curso, nombre_curso, cantidad_alumnos, curso.id_colegio, colegio.nombre_de_colegio 
-    FROM curso 
-    JOIN colegio ON colegio.id_colegio = curso.id_colegio;";
-$resultCurso = $conn->query($sqlCurso);
 ?>
 
 <head>
@@ -84,36 +82,32 @@ $resultCurso = $conn->query($sqlCurso);
                                                     <div class="form-check">
                                                         <input class="form-check-input fs-15" type="checkbox"
                                                             id="checkAll" value="option" style="display: none;"> ID
-                                                        curso
+                                                        pedido
                                                     </div>
                                                 </th>
-                                                <th>Nombre curso</th>
-                                                <th>Cantidad de alumnos</th>
-                                                <th>Colegio</th>
+                                                <th>Medio de pago</th>
+                                                <th>Fecha</th>
+                                                <th>Total</th>
+                                                <th>Estado</th>
                                                 <th>Opciones</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php while ($rowCurso = $resultCurso->fetch_assoc()) : ?>
+                                            <?php while ($rowCurso = $resultPedido->fetch_assoc()) : ?>
                                             <tr>
-                                                <td style="color:blueviolet"> <?= $rowCurso['id_curso'] ?></td>
-                                                <td> <?= $rowCurso['nombre_curso'] ?></td>
-                                                <td> <?= $rowCurso['cantidad_alumnos'] ?></td>
-                                                <td> <?= $rowCurso['nombre_de_colegio'] ?></td>
+                                                <td style="color:blueviolet"> <?= $rowCurso['id_pedido'] ?></td>
+                                                <td> <?= $rowCurso['nombre_medio_pago'] ?></td>
+                                                <td> <?= $rowCurso['fecha'] ?></td>
+                                                <td> $<?= $rowCurso['precio_total'] ?></td>
+                                                <td> <?= $rowCurso['estado'] ?></td>
                                                 <td>
                                                     <div class='d-flex gap-2'>
                                                         <div class='edit'>
                                                             <a
-                                                                href="editCurso.php?id_curso=<?= $rowCurso['id_curso'] ?>">
+                                                                href="DetallePedido.php?id_pedido=<?= $rowCurso['id_pedido'] ?>">
                                                                 <button type='button'
-                                                                    class='btn btn-sm btn-info edit-item-btn'>Editar</button>
+                                                                    class='btn btn-sm btn-info edit-item-btn' style="font-size: 15px;">Ver detalles</button>
                                                             </a>
-                                                        </div>
-                                                        <div class='remove'>
-                                                            <button class='btnCurso btn-sm btn-primary remove-item-btn'
-                                                                data-bs-toggle='modal' data-bs-target='#deleteCurso'
-                                                                style="background-color:blueviolet;color:white; border-radius:4px; border-color:blueviolet"
-                                                                data-id_curso="<?= $rowCurso['id_curso'] ?>">Eliminar</button>
                                                         </div>
                                                     </div>
                                                 </td>

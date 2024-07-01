@@ -122,15 +122,6 @@
         <div class="page-content">
             <div class="container-fluid">
                 <div class="text-center py-5 flex-container" >
-                    <div class="flex-item">
-                        <div class="mb-4">
-                            <lord-icon src="https://cdn.lordicon.com/lupuorrc.json" trigger="loop" colors="primary:#695eef,secondary:#73dce9" style="width:120px;height:120px"></lord-icon>
-                        </div>
-                        <h5>Gracias por su compra</h5>
-                        <p class="text-muted">Aquí están los detalles de su compra.</p>
-
-                        <h3 class="fw-semibold"><a href="DatosUsuario.php" class="text-decoration-underline">Mis pedidos</a></h3>
-                    </div>
 
                     <div class="card flex-item">
                         <div class="card-header">
