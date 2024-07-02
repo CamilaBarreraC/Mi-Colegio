@@ -63,8 +63,11 @@
                     <div class="collapse menu-dropdown" id="sidebarApps">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="Colegios.php" class="nav-link"> Gestionar colegios y cursos </a>
-                            </li>                                                                                     
+                                <a href="Colegios.php" class="nav-link"> Gestionar colegios </a>
+                            </li>    
+                            <li class="nav-item">
+                                <a href="Cursos.php" class="nav-link"> Gestionar cursos </a>
+                            </li>                                                                                       
                         </ul>
                     </div>
                 </li>
