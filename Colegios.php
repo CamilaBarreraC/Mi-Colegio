@@ -81,17 +81,25 @@ $result = $conn->query($sql);
                                         Añadir colegio
                                     </button>
                                     <!--Excel-->
-                                    <button type="button" class="btn btn-primary"
-                                        style="background-color:green;margin-bottom: 20px">
-                                        <img style="width:20px; height:auto;" src="image/icono-excel.png"
-                                            alt="Excel Icon" class="icon">
-                                    </button>
+                                    <form action="reporteExcel.php" method="post">
+                                        <button type="submit" class="btn btn-primary" name="reporte_colegio"
+                                            style="background-color:green; margin-bottom: 20px;">
+                                            <img style="width:20px; height:auto;" src="image/icono-excel.png"
+                                                alt="Excel Icon" class="icon">
+                                        </button>
+                                    </form>
+
                                     <!--PDF-->
-                                    <button type="button" class="btn btn-primary"
-                                        style="background-color:red;margin-bottom: 20px">
-                                        <img style="width:20px; height:auto;" src="image/icono-pdf.png" alt="PDF Icon"
-                                            class="icon">
-                                    </button>
+                                    <form action="reportePDF.php" method="post">
+                                        <button type="submit" class="btn btn-primary" name="reporte_colegio"
+                                            style="background-color:red;margin-bottom: 20px">
+                                            <img style="width:20px; height:auto;" src="image/icono-pdf.png"
+                                                alt="PDF Icon" class="icon">
+                                        </button>
+                                    </form>
+
+
+
 
                                     <table id="alternative-pagination"
                                         class="table nowrap dt-responsive align-middle table-hover table-bordered"
