@@ -6,6 +6,7 @@
         "php": "^8.0",
         "ext-gd": "*",
         "ext-zip": "*",
+        "dompdf/dompdf": "*",
         "phpoffice/phpspreadsheet": "^2.1"
     },
     "require-dev": {
