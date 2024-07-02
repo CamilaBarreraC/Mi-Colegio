@@ -86,9 +86,11 @@ $resultCurso = $conn->query($sqlCurso);
                                     </button>
                                     <!--Excel-->
                                     <button type="button" class="btn btn-primary"
-                                        style="background-color:green;margin-bottom: 20px">
-                                        <img style="width:20px; height:auto;" src="image/icono-excel.png"
-                                            alt="Excel Icon" class="icon">
+                                        style="background-color:green; margin-bottom: 20px;">
+                                        <a href="reportexlsxColegios.php" target="_blank">
+                                            <img style="width:20px; height:auto;" src="image/icono-excel.png"
+                                                alt="Excel Icon" class="icon">
+                                        </a>
                                     </button>
                                     <!--PDF-->
                                     <button type="button" class="btn btn-primary"
