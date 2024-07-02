@@ -12,13 +12,31 @@
     $rut_cliente = $_SESSION['rut_cliente'];
 
     // Obtener el ID del colegio desde la URL
-    $id_alumno = $_GET['id_alumno'];
-    // Llamar al controlador para obtener los datos del colegio
-    require_once ('controladorPagCliente/crud_alumno/controlador_alumno.php');
-    $controlador = new ControladorAlumno();
-    $alumno = $controlador->showAlumno2($id_alumno);
+    $id_curso = $_GET['id_curso'];
+    $id_colegio = $_GET['id_colegio'];
 
-    $alumno2 = $controlador->showAlumno($id_alumno);
+    $sql = "SELECT *
+    FROM lista_1 
+    JOIN l1_productos ON lista_1.id_lista_1 = l1_productos.id_lista_1
+    JOIN productos ON productos.id_producto = l1_productos.id_producto
+    JOIN curso ON lista_1.id_curso = curso.id_curso 
+    JOIN colegio ON curso.id_colegio = colegio.id_colegio
+    WHERE lista_1.id_curso = ". $id_curso . " AND lista_1.id_colegio = ". $id_colegio;
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        $product = $result->fetch_all(MYSQLI_ASSOC);
+    } else {
+        $product = false;
+    }
+
+    // CONSULTA PARA MOSTRAR LOS DATOS DEL COLEGIO Y CURSO
+    $sqlCurso = "SELECT *
+    FROM lista_1 
+    JOIN curso ON lista_1.id_curso = curso.id_curso 
+    JOIN colegio ON curso.id_colegio = colegio.id_colegio
+    WHERE lista_1.id_curso = ". $id_curso . " AND lista_1.id_colegio = ". $id_colegio;
+    $resultCurso = $conn->query($sqlCurso);
 ?>
 
 <head>
@@ -117,30 +135,31 @@
                                                 <?php // VARIABLE PARA PONER EL TOTAL DE LA LISTA
                                                 $total = 0; ?>                                                           
 
-                                                <?php if ($alumno !== false && is_array($alumno)) : ?>
+                                                <?php if ($product !== false && is_array($product)) : ?>
 
                                                     <!-- INPUTS PARA AÑADIR UNA NUEVA LISTA 2 CON EL ID_CURSO E ID_COLEGIO -->
                                                     <!-- INPUTS INVISIBLES RELLENADOS CON LOS ID de colegio y curso -->
-                                                    <!-- Obtener id_curso e id_colegio de $alumno -->
                                                     <?php 
-                                                    $id_curso = $alumno[0]['id_curso'];
-                                                    $id_colegio = $alumno[0]['id_colegio'];
-                                                    $rut_cliente = $alumno[0]['rut_cliente'];
+                                                    $id_curso = $product[0]['id_curso'];
+                                                    $id_colegio = $product[0]['id_colegio'];
                                                     ?>
                                                     <input type="hidden" name="id_colegio" value="<?= $id_colegio ?>">
                                                     <input type="hidden" name="id_curso" value="<?= $id_curso ?>">
                                                     <input type="hidden" name="rut_cliente" value="<?= $rut_cliente ?>">
 
-                                                    <?php foreach ($alumno as $index => $alumnos) : 
-                                                        // FOREACH PARA INGRESAR TODOS LOS PRODUCTO DEL RESULTADO DE WHILE
-                                                        $dir = $alumnos['dir'];
-                                                        $id_producto = $alumnos['id_producto'];
-                                                        $nombre_producto = $alumnos['nombre_producto'];
-                                                        $precio = $alumnos['precio'];
-                                                        $cantidad = $alumnos['cantidad'];
+                                                    <?php 
+                                                    $total = 0;
+
+                                                    foreach ($product as $index => $products) : 
+                                                        // FOREACH PARA INGRESAR TODOS LOS PRODUCTOS DEL RESULTADO
+                                                        $dir = $products['dir'];
+                                                        $id_producto = $products['id_producto'];
+                                                        $nombre_producto = $products['nombre_producto'];
+                                                        $precio = $products['precio'];
+                                                        $cantidad = $products['cantidad'];
                                                         $subtotal = $precio * $cantidad;
                                                         $total += $subtotal;
-                                                        $id_curso = $alumnos['id_curso'];
+                                                        $id_curso = $products['id_curso'];
                                                     ?>
 
                                                     <div class="tab-content">
@@ -222,18 +241,16 @@
                 <div class="card mt-n5">
                     <div class="card-body p-4">
                         <div class="text-center">
-                            <?php if ($alumno2): ?>
-                            <p class="fs-16 mb-1" style="font-size: 25px;"><?= $alumno2['nombre_l1'] ?></p>
-                            <h5 class="fs-16 mb-1"><?= $alumno2['nombre_curso'] ?></h5>
-                            <h5 class="fs-16 mb-1"><?= $alumno2['nombre_de_colegio'] ?></h5>
+                            <?php while ($row = $resultCurso->fetch_assoc()): ?>
+                                <p class="fs-16 mb-1" style="font-size: 25px;"><?= $row['nombre_l1'] ?></p>
+                                <h5 class="fs-16 mb-1"><?= $row['nombre_curso'] ?></h5>
+                                <h5 class="fs-16 mb-1"><?= $row['nombre_de_colegio'] ?></h5>
 
-                            <div class="mx-auto avatar-md mb-3" style="margin-top: 30px;">
-                                <img src="micolegioImg/logo.png" alt="" class="img-fluid rounded-circle">
-                            </div>
-                            
-                            <h5 class="fs-16 mb-1"><?= $alumno2['nombre_alumno']. " " .$alumno2['apellido_paterno']  ?></h5>
-                            <p class="text-muted mb-0">RUT apoderado : <?php echo $alumno2['rut_apoderado']; ?></p>
-                            <?php endif; ?>
+                                <div class="mx-auto avatar-md mb-3" style="margin-top: 30px;">
+                                    <img src="micolegioImg/logo.png" alt="" class="img-fluid rounded-circle">
+                                </div>
+                                
+                            <?php endwhile; ?>
                             <p class="mb-0" style="color: blue; font-size:20px">Total de la lista $<?= $total ?></p>
 
                             <div style="margin-top: 30px;">
@@ -253,8 +270,9 @@
         </div>
         <!-- end main content-->
     </div>
-    
+
     <?php include 'layouts/vendor-scripts.php'; ?>
+    <?php include 'includes/footerCliente.php'; ?>
 
     <!-- profile-setting init js -->
     <script src="assets/js/pages/profile-setting.init.js"></script>

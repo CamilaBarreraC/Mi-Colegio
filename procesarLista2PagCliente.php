@@ -1,4 +1,5 @@
 <?php
+session_start(); // Inicia la sesión si no está iniciada aún
 require_once('controladorPagCliente/controlador_lista2productos/controlador_lista2productos.php');
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['productos'])) {
@@ -14,17 +15,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['productos'])) {
     // Verificar si la lista ya existe antes de insertar en lista_2
     if ($controlador->existeLista2($rut_cliente, $id_curso, $id_colegio)) {
         // Si la lista ya existe, redireccionar a la página de alerta
-        // Para evitar que se ingresen 2 listas iguales
         header("Location: alertasPagCliente/AlertasLista2Productos/alertaIngresar.php?duplicado=true");
         exit();
     } else {
         // Sentencia para insertar en lista_2, heredando el curso y colegio
         $stmtLista2 = $conexion->prepare("INSERT INTO lista_2 (id_curso, id_colegio, rut_cliente) VALUES (?, ?, ?)");
-
         $stmtCarro = $conexion->prepare("INSERT INTO carro_compras (id_curso, id_colegio, rut_cliente) VALUES (?, ?, ?)");
 
         $stmtLista2->bind_param("iis", $id_curso, $id_colegio, $rut_cliente);
-
         $stmtCarro->bind_param("iis", $id_curso, $id_colegio, $rut_cliente);
 
         if ($stmtLista2->execute() && $stmtCarro->execute()) {
@@ -32,6 +30,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['productos'])) {
             $id_lista_2 = $conexion->insert_id;
             // ID del carro_compras recién ingresado
             $id_carro = $conexion->insert_id;
+
+            // Guardar el id_lista_2 en la sesión
+            $_SESSION['lista2_ids'][] = $id_lista_2;
+
             echo "Datos insertados correctamente en lista_2.";
         } else {
             echo "Error al insertar datos en lista_2: " . $stmtLista2->error;

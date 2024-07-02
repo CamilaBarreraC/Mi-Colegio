@@ -4,6 +4,10 @@
     @import url(https://fonts.googleapis.com/css2?family=Barlow:ital,wght@1,500&display=swap);
     @import url(https://fonts.googleapis.com/css2?family=Aleo&display=swap);
     @import url(https://fonts.googleapis.com/css2?family=Barlow:ital,wght@1,600&display=swap);
+
+    .logo1:hover{
+        color: fuchsia;
+    }
 </style>
 
 <?php
@@ -53,7 +57,7 @@
                         </span>
                     </a>
                 </div>
-                <h1 style="align-items: center;text-align:center; color:rgba(230, 237, 252, 1);font-family: Barlow; font-style: italic;font-weight: 1000; font-size: 40px; margin-top: 10px">Mi Colegio</h1>
+                <h1 class="logo1" style="align-items: center;text-align:center; color:rgba(230, 237, 252, 1);font-family: Barlow; font-style: italic;font-weight: 1000; font-size: 40px; margin-top: 10px">Mi Colegio</h1>
 
                 <!-- NO BORRAR -->
                 <button type="button" class="btn btn-sm px-3 fs-16 header-item vertical-menu-btn topnav-hamburger" id="topnav-hamburger-icon">
@@ -190,7 +194,7 @@
                                         <i class='bx bx-cart'></i>
                                     </div>
                                 </div>
-                                <h5 class="mb-3">Su carrito está vacío!</h5>
+                                <h5 class="mb-3">¡Su carrito está vacío!</h5>
                                 <a href="ListasColegioPagCliente.php" class="btn btn-success w-md mb-3">Ver listas</a>
                             </div>
                         <?php endif; ?>
@@ -221,6 +225,7 @@
                     <div class="dropdown-menu dropdown-menu-end" >
                         <h6 class="dropdown-header">¡Bienvenid@ <?php echo $_SESSION['nombre_cliente']; ?>!</h6>
                         <a class="dropdown-item" href="DatosUsuario.php"><i class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Mis datos</span></a>
+                        <a class="dropdown-item" href="PedidosUsuario.php"><i class="bx bx-shopping-bag text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Mis pedidos</span></a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href=#><i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i> <span class="align-middle" data-key="t-logout" onclick="confirmCerrar()">Cerrar sesión</span></a>
                         <!-- botón cerrar sesión -->

@@ -1,6 +1,8 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <?php
 
+session_start();
+
 class ControladorLista2Productos {
     private $modelo;
     private $PDO;
@@ -25,12 +27,13 @@ class ControladorLista2Productos {
                 $cantidad = $producto['cantidad'];
                 $estado = $producto['estado'];
                 $rut_cliente = $producto['rut_cliente'];
+    
+                $id_lista2_producto = $this->modelo->insertarLista2Productos($id_producto, $cantidad, $estado, $rut_cliente, $id_lista_2, $id_carro);
 
-                $this->modelo->insertarLista2Productos($id_producto, $cantidad, $estado, $rut_cliente, $id_lista_2, $id_carro);
             }
-
+    
             header("Location: alertasPagCliente/AlertasLista2Productos/alertaIngresar.php?id_producto=".$id_producto);
-            exit;
+            exit();
         }
     }
 

@@ -1,6 +1,8 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <?php
 
+session_start();
+
 class ControladorProductoExtra {
     private $modelo;
     private $PDO;
@@ -14,10 +16,21 @@ class ControladorProductoExtra {
         $this->PDO = $con -> conexion();
     }
 
-    public function insertarProductoExtra($id_producto , $cantidad , $estado, $rut_cliente) {
-        $this->modelo->insertarProductoExtra($id_producto , $cantidad , $estado, $rut_cliente);
-        return ($id_producto != false) ? header("Location: alertasPagCliente/AlertasProductosExtra/alertaIngresar.php?id_producto=".$id_producto) : header("Location: alertasPagCliente/AlertasProductosExtra/alertaIngresar.php");        
+    public function insertarProductoExtra($id_producto, $cantidad, $estado, $rut_cliente) {
+        $id_producto_extra = $this->modelo->insertarProductoExtra($id_producto, $cantidad, $estado, $rut_cliente);
+        
+        if ($id_producto_extra) {
+            // Agregar el ID al array en $_SESSION
+            $_SESSION['producto_extra_ids'][] = $id_producto_extra;
 
+            // Redireccionar con el ID del producto extra insertado
+            header("Location: alertasPagCliente/AlertasProductosExtra/alertaIngresar.php?id_producto=$id_producto_extra");
+            exit();
+        } else {
+            // Manejo de error si la inserción falla
+            header("Location: alertasPagCliente/AlertasProductosExtra/alertaIngresar.php");
+            exit();
+        }
     }
 
     public function actualizarProductoExtra($id_producto , $cantidad , $estado, $rut_cliente, $id_extras){

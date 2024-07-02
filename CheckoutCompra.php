@@ -512,6 +512,7 @@
             </div>
     </div>
 
+    <?php include 'includes/footerCliente.php'; ?>
     <?php include 'layouts/vendor-scripts.php'; ?>
 
     <!-- init js -->

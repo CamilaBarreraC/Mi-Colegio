@@ -390,6 +390,7 @@
         });
     </script>
 
+    <?php include 'includes/footerCliente.php'; ?>
     <?php include 'layouts/vendor-scripts.php'; ?>
 
     <!-- profile-setting init js -->

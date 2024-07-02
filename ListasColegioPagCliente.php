@@ -109,8 +109,7 @@
                                         <div class="col-xxl-3">
                                             <div class="card">
                                                 <div class="card-body">
-                                                    <a href="editarDatosCliente.php" class="btn btn-info" style="background-color: #7000FF;font-size:20px; border-radius:20px"><i class="ri-edit-box-line align-bottom"></i> Buscar lista por colegio y curso</a>
-
+                                                    <button type='button' class='btn btn-info add-btn ms-auto' data-bs-toggle='modal' id="create-btn" data-bs-target='#exampleModalgrid' style="background-color: #7000FF;font-size:20px; border-radius:20px"><i class="ri-edit-box-line align-bottom"></i>Buscar lista por colegio y curso</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -186,35 +185,52 @@
         </div><!-- End Page-content -->
     </div>
 
-        <!-- MODAL PARA INGRESAR ALUMNO -->
+        <!-- MODAL PARA BUSCAR COLEGIO POR REGÍON Y COMUNA -->
         <div class="modal fade" id="exampleModalgrid" tabindex="-1" aria-labelledby="exampleModalgridLabel" aria-modal="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalgridLabel" style="font-size: 30px;">Añadir alumno</h5>
+                        <h5 class="modal-title" id="exampleModalgridLabel" style="font-size: 30px;">Buscar colegio</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <form action="procesarAlumnoPagCliente.php" method="post" class="tablelist-form">
                             <div class="row g-3">
-                                <div class="col-xxl-6" style="display: none;">
-                                    <div style="display: none;">
-                                        <label for="id_alumno" class="form-label" style="margin-top: 0px; display:none">ID alumno</label>
-                                        <input type="text" class="form-control" id="id_alumno" name="id_alumno" value="" placeholder="ID alumno" style="display: none;" >
+
+                                <div class="col-xxl-6">
+                                    <div>
+                                        <label for="id_region" class="form-label">Región</label>
+                                        <select class="form-control" name="id_region" id="id_region" required>
+                                            <option value="">Seleccione región</option>
+                                            <?php
+                                                // Establecer conexión a la base de datos
+                                                include("modelo\conexion_bd.php");
+
+                                                // Consulta SQL para obtener las opciones
+                                                $sql = "SELECT id_region, nombre_region FROM region";
+                                                $resultColegios = $conexion->query($sql);
+
+                                                // Confirma si hay resultados, ordenandolos por id 
+                                                // Si no hay datos, muestra la opción de no hay registros
+                                                if ($resultColegios->num_rows > 0){
+                                                    while($row = $resultColegios->fetch_assoc()) {
+                                                        echo "<option value='" . $row["id_region"] . "'>" . $row["nombre_region"] . "</option>";
+                                                    }
+                                                }else{
+                                                    echo "<option value=''>No hay registros de regiones</option>";
+                                                }
+                                            $conexion->close();
+                                            ?>
+                                        </select>
                                     </div>
                                 </div><!--end col-->
 
                                 <div class="col-xxl-6">
                                     <div>
-                                        <label for="nombre_alumno" class="form-label" style="margin-top: 0px;">Nombre alumno</label>
-                                        <input type="text" class="form-control" id="nombre_alumno" name="nombre_alumno" value="" placeholder="Nombre alumno" required>
-                                    </div>
-                                </div><!--end col-->
-
-                                <div class="col-xxl-6">
-                                    <div>
-                                        <label for="apellido_paterno" class="form-label" style="margin-top: 0px;">Apellido alumno</label>
-                                        <input type="text" class="form-control" id="apellido_paterno" name="apellido_paterno" value="" placeholder="Apellido alumno" required>
+                                        <label for="id_comuna" class="form-label">Comuna</label>
+                                        <select class="form-control" name="id_comuna" id="id_comuna" required>
+                                            <option value="">Seleccione comuna</option>
+                                        </select>
                                     </div>
                                 </div><!--end col-->
                                 
@@ -223,25 +239,6 @@
                                         <label for="id_colegio" class="form-label">Colegio</label>
                                         <select class="form-control" name="id_colegio" id="id_colegio" required>
                                             <option value="">Seleccione colegio</option>
-                                            <?php
-                                                // Establecer conexión a la base de datos
-                                                include("modelo\conexion_bd.php");
-
-                                                // Consulta SQL para obtener las opciones
-                                                $sql = "SELECT id_colegio, nombre_de_colegio FROM colegio";
-                                                $resultColegios = $conexion->query($sql);
-
-                                                // Confirma si hay resultados, ordenandolos por id 
-                                                // Si no hay datos, muestra la opción de no hay registros
-                                                if ($resultColegios->num_rows > 0){
-                                                    while($row = $resultColegios->fetch_assoc()) {
-                                                        echo "<option value='" . $row["id_colegio"] . "'>" . $row["nombre_de_colegio"] . "</option>";
-                                                    }
-                                                }else{
-                                                    echo "<option value=''>No hay registros de colegios</option>";
-                                                }
-                                            $conexion->close();
-                                            ?>
                                         </select>
                                         
                                     </div>
@@ -258,25 +255,30 @@
 
                                     </div>
                                 </div><!--end col-->
-
-                                <div class="col-xxl-6">
-                                    <div>
-                                        <label for="rut_apoderado" class="form-label">RUT apoderado</label>
-                                        <input type="text" class="form-control" id="rut_apoderado" name="rut_apoderado" value="<?php echo $_SESSION['rut_cliente']; ?>" placeholder="Nombre alumno" required readonly>
-                                        
-                                    </div>
-                                </div><!--end col-->
                                 
                                 <div class="col-lg-12">
                                     <div class="hstack gap-2 justify-content-end">
                                         <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cerrar</button>
-                                        <button type="submit" class="btn btn-primary">Ingresar</button>
+                                        <button type="button" class="btn btn-primary" id="verProductosBtn">Ver productos</button>
                                     </div>
                                 </div><!--end col-->
+
+                                <script>
+                                    document.getElementById('verProductosBtn').addEventListener('click', function() {
+                                        var colegio = document.getElementById('id_colegio').value;
+                                        var curso = document.getElementById('id_curso').value;
+
+                                        if (colegio && curso) {
+                                            window.location.href = 'ListasPorRegion.php?id_colegio=' + colegio + '&id_curso=' + curso;
+                                        } else {
+                                            alert('Por favor seleccione un colegio y un curso.');
+                                        }
+                                    });
+                                </script>
                             </div><!--end row-->
                         </form>
 
-                        <script src="js/peticionesCurso.js"></script>
+                        <script src="js/peticiones.js"></script>
 
                     </div>
                 </div>
@@ -285,6 +287,7 @@
 
 
     <?php include 'layouts/vendor-scripts.php'; ?>
+    <?php include 'includes/footerCliente.php'; ?>
 
         <!-- apexcharts -->
         <script src="assets/libs/apexcharts/apexcharts.min.js"></script>
