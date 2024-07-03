@@ -6,6 +6,32 @@
 
 <?php
 
+    if (isset($_GET['pedido'])) {
+        $pedido = $_GET['pedido'];
+
+        if (isset($_GET['producto'])) {
+            $producto = urldecode($_GET['producto']);
+        }
+
+        // Mostrar un mensaje basado en el valor del parámetro 'pedido'
+        if ($pedido == 'FaltaStock' && $producto) {
+            echo '<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>';
+            echo 'a';
+            echo '<script>
+                    Swal.fire({
+                        icon: "warning",
+                        title: "Falta de stock",
+                        text: "No hay suficiente stock para el producto: ' . $producto . '",
+                        showConfirmButton: false
+                    });
+                </script>';
+        }
+    }
+
+?>
+
+<?php
+
     include("modelo/conexion_bd.php");
 
     $conn = $conexion;
