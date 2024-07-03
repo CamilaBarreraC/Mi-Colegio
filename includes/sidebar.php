@@ -92,7 +92,8 @@
                     <div class="collapse menu-dropdown" id="sidebarProjects">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="Productos.php" class="nav-link"> Gestionar productos y categorías</a>
+                                <a href="Productos.php" class="nav-link"> Gestionar productos</a>
+                                <a href="Categorias.php" class="nav-link"> Gestionar categorías</a>
                             </li>
                         </ul>
                     </div>
