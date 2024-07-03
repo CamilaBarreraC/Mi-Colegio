@@ -9,13 +9,18 @@ class ModeloCategoria {
     }
 
     public function insertarCategoria($nombre_categoria) {
-        // Ejecutar la consulta en la base de datos
-        $stmt = $this->PDO->prepare("INSERT INTO categoria (nombre_categoria) VALUES (:nombre_categoria) ");
+        $stmt = $this->PDO->prepare("INSERT INTO categoria (nombre_categoria) VALUES (:nombre_categoria)");
         $stmt->bindParam(':nombre_categoria', $nombre_categoria);
-        
         return ($stmt->execute()) ? $this->PDO->lastInsertId() : false;
     }
 
+    public function categoriaExiste($nombre_categoria) {
+        $stmt = $this->PDO->prepare("SELECT COUNT(*) FROM categoria WHERE nombre_categoria = :nombre_categoria");
+        $stmt->bindParam(':nombre_categoria', $nombre_categoria);
+        $stmt->execute();
+        return $stmt->fetchColumn() > 0;
+    }
+    
     public function showCategoria($id_categoria){
         require_once('modelo/db.php');
         $con = new db();

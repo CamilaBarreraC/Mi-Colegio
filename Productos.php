@@ -87,11 +87,11 @@
                                         <tbody>
                                             <?php while ($row = $result->fetch_assoc()): ?>
                                             <tr>
-                                                <td> <img src="<?= $row['dir'] ?> " width="100px"> </td>  
+                                                <td> <img src="<?= $row['dir'] ?> " style= " width: 90px; height: 100px"> </td>  
                                                 <td style="color:blue; display: none"> <?=  $row['id_producto'] ?></td>
                                                 <td> <?= $row['nombre_producto'] ?></td>                              
                                                 <td> <?= $row['nombre_categoria'] ?></td>
-                                                <td> <?= $row['precio'] ?></td>
+                                                <td> $<?= $row['precio'] ?></td>
                                                 
                                                 <td>
                                                     <div class='d-flex gap-2'>

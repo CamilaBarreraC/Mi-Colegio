@@ -4,6 +4,20 @@
 <?php include 'layouts/session.php'; ?>
 <?php include 'layouts/main.php'; ?>
 
+<?php if (isset($_GET['duplicado']) && $_GET['duplicado'] == 'true'){
+    echo '<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>';
+    echo 'a';
+    echo '<script>
+            Swal.fire({
+                icon: "warning",
+                title: "Duplicado",
+                text: "El nombre de la categoría ya está ingresado",
+                showConfirmButton: false
+            });
+    </script>';
+    }
+?>
+
 <?php
     include("modelo/conexion_bd.php");
 
