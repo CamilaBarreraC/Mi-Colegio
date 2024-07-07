@@ -81,5 +81,18 @@ class ModeloLista2Productos {
 
         return ($stmt->execute() && $stmt2->execute()) ? true : false;
     }
+
+    public function eliminarLista2Productos2($id_producto){
+        // LLAVES FORÁNEAS
+    
+        $stmt = $this->PDO->prepare("DELETE FROM l2_productos WHERE id_producto = :id_producto");
+        $stmt->bindParam(':id_producto', $id_producto);
+    
+        $stmt2 = $this->PDO->prepare("DELETE FROM carro_productos WHERE id_producto = :id_producto");
+        $stmt2->bindParam(':id_producto', $id_producto);
+    
+        return ($stmt->execute() && $stmt2->execute()) ? true : false;
+    }
+    
 }
 ?>

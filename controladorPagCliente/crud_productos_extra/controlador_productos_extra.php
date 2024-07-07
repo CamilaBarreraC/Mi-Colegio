@@ -47,5 +47,9 @@ class ControladorProductoExtra {
     public function eliminarProductoExtra($id_producto){
         return ($this->modelo->eliminarProductoExtra($id_producto)) ? header("Location: alertasPagCliente/AlertasProductosExtra/alertasEliminar.php") : header("Location: alertasPagCliente/AlertasProductosExtra/alertasEliminar.php?id_producto=".$id_producto);
     }
+
+    public function eliminarProductoExtra2($id_producto){
+        return ($this->modelo->eliminarProductoExtra2($id_producto)) ? header("Location: alertasPagCliente/AlertasProductosExtra/alertasEliminar.php") : header("Location: alertasPagCliente/AlertasProductosExtra/alertasEliminar.php?id_producto=".$id_producto);
+    }
 }
 ?>

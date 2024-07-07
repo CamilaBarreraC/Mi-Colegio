@@ -5,29 +5,9 @@
 <?php include 'layouts/main.php'; ?>
 
 <?php
-
-    if (isset($_GET['pedido'])) {
-        $pedido = $_GET['pedido'];
-
-        if (isset($_GET['producto'])) {
-            $producto = urldecode($_GET['producto']);
-        }
-
-        // Mostrar un mensaje basado en el valor del parámetro 'pedido'
-        if ($pedido == 'FaltaStock' && $producto) {
-            echo '<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>';
-            echo 'a';
-            echo '<script>
-                    Swal.fire({
-                        icon: "warning",
-                        title: "Falta de stock",
-                        text: "No hay suficiente stock para el producto: ' . $producto . '",
-                        showConfirmButton: false
-                    });
-                </script>';
-        }
-    }
-
+    $productosSinStockLista2 = isset($_SESSION['productosSinStockLista2']) ? $_SESSION['productosSinStockLista2'] : array();
+    $productosSinStockExtras = isset($_SESSION['productosSinStockExtras']) ? $_SESSION['productosSinStockExtras'] : array();
+    $sinstock = isset($_GET['stock']) ? $_GET['stock'] : null;
 ?>
 
 <?php
@@ -89,6 +69,81 @@
 </head>
 
 <body>
+
+    <!-- MODAL PARA MOSTRAR LOS PRODUCTOS SIN STOCK -->
+    <?php if ((!empty($productosSinStockLista2) || !empty($productosSinStockExtras)) && isset($sinstock)): ?>
+        <div class="modal fade" id="productosSinStockModal" tabindex="-1" aria-labelledby="productosSinStockModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="productosSinStockModalLabel">Productos sin stock</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container">
+                            <!-- Productos de lista 2 sin stock -->
+                            <?php if (!empty($productosSinStockLista2)): ?>
+                                <h6>Productos de Lista 2:</h6>
+                                <div class="row">
+                                    <?php foreach ($productosSinStockLista2 as $producto): ?>
+                                        <div class="col-md-4">
+                                            <div class="card mb-4">
+                                                <div class="card-body">
+                                                    <img src="<?php echo htmlspecialchars($producto['dir']); ?>" class="card-img-top" alt="<?php echo htmlspecialchars($producto['nombre']); ?>" style="width: 70px; height:80px;margin-bottom:20px; align-items:center">
+                                                    <h5 class="card-title"><?php echo htmlspecialchars($producto['nombre']); ?></h5>
+                                                    <p class="card-text">Cantidad solicitada: <?php echo htmlspecialchars($producto['cantidad']); ?></p>
+                                                    <p class="card-text">Stock disponible: <?php echo htmlspecialchars($producto['stock']); ?></p>
+                                                    <form action="procesarEliminarLista2.php" method="GET">
+                                                        <input type="hidden" name="id_producto" value="<?php echo htmlspecialchars($producto['id_producto']); ?>">
+                                                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <?php endforeach; ?>
+                                </div>
+                            <?php endif; ?>
+
+                                <!-- PARTE DEL MODAL PARA PRODUCTOS EXTRAS -->
+                            <?php if (!empty($productosSinStockExtras)): ?>
+                                <h6>Productos Extras:</h6>
+                                <div class="row">
+                                    <?php foreach ($productosSinStockExtras as $producto): ?>
+                                        <div class="col-md-4">
+                                            <div class="card mb-4">
+                                                <div class="card-body">
+                                                    <img src="<?php echo htmlspecialchars($producto['dir']); ?>" class="card-img-top" alt="<?php echo htmlspecialchars($producto['nombre']); ?>" style="width: 70px; height:80px;margin-bottom:20px; align-items:center">
+                                                    <h5 class="card-title"><?php echo htmlspecialchars($producto['nombre']); ?></h5>
+                                                    <p class="card-text">Cantidad solicitada: <?php echo htmlspecialchars($producto['cantidad']); ?></p>
+                                                    <p class="card-text">Stock disponible: <?php echo htmlspecialchars($producto['stock']); ?></p>
+                                                    <form action="procesarEliminarExtras.php" method="GET">
+                                                        <input type="hidden" name="id_producto" value="<?php echo htmlspecialchars($producto['id_producto']); ?>">
+                                                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <?php endforeach; ?>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                $('#productosSinStockModal').modal('show');
+            });
+        </script>
+    <?php endif; ?>
+
     <!-- Begin page -->
     <div id="layout-wrapper">
 
@@ -279,7 +334,7 @@
                                 <?php endwhile; ?>
                             <?php endif; ?>
 
-                            <?php if($result->num_rows > 0) : ?>
+                            <?php if($totalProductos > 0) : ?>
                                 <div class="text-end mb-4">
                                     <button type="submit" class="btn btn-success btn-label right ms-auto"><i class="ri-arrow-right-line label-icon align-bottom fs-16 ms-2"></i> Continuar compra</button>
                                 </div>

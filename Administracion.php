@@ -237,7 +237,7 @@ use LDAP\Result;
                                                                  <?php while ($row = $result->fetch_assoc()): ?>
                                                     <tr>
                                                         <td style="visibility:collapse; display:none;"><a href='#' class='fw-medium'><?=  $row['id_pedido'] ?></a></td>
-                                                        <td> <?= $row['precio_total'] ?></td>
+                                                        <td> $<?= $row['precio_total'] ?></td>
                                                         <td> <?= $row['nombre_medio_pago'] ?></td>
                                                         <td> <?= $row['rut_cliente'] ?></td>
                                                         <td> <?= $row['nombre_cliente'] ?></td>
