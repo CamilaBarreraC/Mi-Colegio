@@ -12,10 +12,25 @@ $conn = $conexion;
 $sql = "SELECT id_colegio, nombre_de_colegio, colegio.id_comuna, direccion, nombre_comuna, nombre_region 
     FROM colegio 
     JOIN comuna ON colegio.id_comuna = comuna.id_comuna 
-    JOIN region ON comuna.id_region = region.id_region;";
+    JOIN region ON comuna.id_region = region.id_region";
 $result = $conn->query($sql);
 
+$colegio = "";
+
+// Agrega WHERE según los valores de los selects con filtros
+if (empty($_POST['xcolegio'])) {
+    $sql = "SELECT id_colegio, nombre_de_colegio, colegio.id_comuna, direccion, nombre_comuna, nombre_region 
+    FROM colegio 
+    JOIN comuna ON colegio.id_comuna = comuna.id_comuna 
+    JOIN region ON comuna.id_region = region.id_region";
+}else{
+    $colegio = $_POST['xcolegio'];
+    $sql .= " WHERE comuna.id_region = $colegio";
+}
+
+$result = $conn->query($sql);
 ?>
+
 
 <head>
     <meta charset="UTF-8">
@@ -80,6 +95,38 @@ $result = $conn->query($sql);
                                             class="ri-add-line align-bottom me-1"></i>
                                         Añadir colegio
                                     </button>
+                                    <div class="accordion accordion-flush filter-accordion">
+    <div class="accordion-item">
+        <div id="flush-collapseBrands" class="accordion-collapse collapse show" aria-labelledby="flush-headingBrands">
+            <div class="accordion-body text-body pt-0">
+                <h5 class="fs-16" style="margin-top: 15px">Regiónes</h5>
+                <div class="d-flex flex-row align-items-center gap-2 mt-3 filter-check">
+                    <form class="d-flex flex-row align-items-center" method="post">
+                        <select name="xcolegio" class="form-select me-2">
+                            <option value="">Seleccione región</option>
+                            <?php
+                            // Consulta SQL para obtener las opciones
+                            $sql = "SELECT id_region, nombre_region FROM region";
+                            $resultCat = $conn->query($sql);
+
+                            // Confirma si hay resultados
+                            if ($resultCat->num_rows > 0) {
+                                while ($row = $resultCat->fetch_assoc()) {
+                                    echo "<option value='" . $row["id_region"] . "'>" . $row["nombre_region"] . "</option>";
+                                }
+                            } else {
+                                echo "<option value=''>No hay registros de categorías</option>";
+                            }
+                            ?>
+                        </select>
+                        <button type="submit" class="btn btn-primary rounded-pill" style="font-size: 15px;" name="buscar"><i class="ri-equalizer-fill me-2 align-bottom"></i>Filtrar</button>
+                    </form>
+                    <a href="Colegios.php" class="link-secondary ms-3">Limpiar filtros</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
                                     <!--Excel-->
                                     <form action="reporteExcel.php" method="post">
                                         <button type="submit" class="btn btn-primary" name="reporte_colegio"
