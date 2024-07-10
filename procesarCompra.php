@@ -53,6 +53,26 @@ if ($nombre === $nombre_tarjeta && $numero === $num_tarjeta && $fecha_exp === $f
                 }
             }
 
+            // Restar la cantidad de productos extra del stock
+            $sqlRestarStockExtras = "UPDATE productos p
+                                     JOIN productos_extra pe ON p.id_producto = pe.id_producto
+                                     JOIN detalle_pedido dp ON pe.id_extras = dp.id_extras
+                                     SET p.stock = p.stock - pe.cantidad
+                                     WHERE dp.id_pedido = '$id_pedido'";
+            if (!$conn->query($sqlRestarStockExtras)) {
+                echo "Error al actualizar el stock de productos extra: " . $conn->error;
+            }
+
+            // Restar la cantidad de productos de lista_2 del stock
+            $sqlRestarStockL2 = "UPDATE productos p
+                                 JOIN l2_productos l2p ON p.id_producto = l2p.id_producto
+                                 JOIN detalle_pedido dp ON l2p.id_lista_2 = dp.id_lista_2
+                                 SET p.stock = p.stock - l2p.cantidad
+                                 WHERE dp.id_pedido = '$id_pedido'";
+            if (!$conn->query($sqlRestarStockL2)) {
+                echo "Error al actualizar el stock de productos de lista_2: " . $conn->error;
+            }
+
             // Eliminar los productos del carro primero
             $sqlBorrarProductos = "DELETE FROM carro_productos WHERE id_carro IN (SELECT id_carro FROM carro_compras WHERE rut_cliente = ?)";
             $stmtBorrarProductos = $conn->prepare($sqlBorrarProductos);

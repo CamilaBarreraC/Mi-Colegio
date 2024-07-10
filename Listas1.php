@@ -12,9 +12,23 @@
     $sql = "SELECT id_lista_1, nombre_l1, lista_1.id_colegio, lista_1.id_curso, nombre_de_colegio, nombre_curso
     FROM lista_1 
     JOIN colegio ON colegio.id_colegio = lista_1.id_colegio
-    JOIN curso ON curso.id_curso = lista_1.id_curso;";
+    JOIN curso ON curso.id_curso = lista_1.id_curso";
     $result = $conn->query($sql);
+    
+    $colegio = "";
 
+    // Agrega WHERE según los valores de los selects con filtros
+    if (empty($_POST['xcolegio'])) {
+        $sql = "SELECT id_lista_1, nombre_l1, lista_1.id_colegio, lista_1.id_curso, nombre_de_colegio, nombre_curso
+        FROM lista_1 
+        JOIN colegio ON colegio.id_colegio = lista_1.id_colegio
+        JOIN curso ON curso.id_curso = lista_1.id_curso";
+    }else{
+        $colegio = $_POST['xcolegio'];
+        $sql .= " WHERE colegio.id_colegio = $colegio";
+    }
+
+    $result = $conn->query($sql);
 ?>
 
 <head>
@@ -74,6 +88,38 @@
                                 </div>
                                 <div class="card-body">
                                     <button type='button' class='btn btn-info add-btn' data-bs-toggle='modal' id="create-btn" data-bs-target='#exampleModalgrid' style="background-color:blueviolet;margin-bottom: 20px" ><i class="ri-add-line align-bottom me-1"></i>Añadir lista</button>
+<div class="accordion accordion-flush filter-accordion">
+    <div class="accordion-item">
+        <div id="flush-collapseBrands" class="accordion-collapse collapse show" aria-labelledby="flush-headingBrands">
+            <div class="accordion-body text-body pt-0">
+                <h5 class="fs-16" style="margin-top: 15px">Colegios</h5>
+                <div class="d-flex flex-row align-items-center gap-2 mt-3 filter-check">
+                    <form class="d-flex flex-row align-items-center" method="post">
+                        <select name="xcolegio" class="form-select me-2">
+                            <option value="">Seleccione colegio</option>
+                            <?php
+                            // Consulta SQL para obtener las opciones
+                            $sql = "SELECT id_colegio, nombre_de_colegio FROM colegio";
+                            $resultCat = $conn->query($sql);
+
+                            // Confirma si hay resultados
+                            if ($resultCat->num_rows > 0) {
+                                while ($row = $resultCat->fetch_assoc()) {
+                                    echo "<option value='" . $row["id_colegio"] . "'>" . $row["nombre_de_colegio"] . "</option>";
+                                }
+                            } else {
+                                echo "<option value=''>No hay registros de categorías</option>";
+                            }
+                            ?>
+                        </select>
+                        <button type="submit" class="btn btn-primary rounded-pill" style="font-size: 15px;" name="buscar"><i class="ri-equalizer-fill me-2 align-bottom"></i>Filtrar</button>
+                    </form>
+                    <a href="Listas1.php" class="link-secondary ms-3">Limpiar filtros</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
                                     <table id="alternative-pagination" class="table nowrap dt-responsive align-middle table-hover table-bordered" style="width:100%">
                                         <thead>

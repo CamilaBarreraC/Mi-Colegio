@@ -35,7 +35,7 @@
                     text: "Categoría ingresada correctamente.",
                     showConfirmButton: false
                 }).then(() => {
-                    window.location.href = "../../Productos.php";
+                    window.location.href = "../../Categorias.php";
                 });
             </script>';
     } else {
@@ -48,7 +48,7 @@
                     text: "Hubo un error al ingresar la categoría.",
                     showConfirmButton: false
                 }).then(() => {
-                    window.location.href = "../../Productos.php";
+                    window.location.href = "../../Categorias.php";
                 });
             </script>';
         exit();

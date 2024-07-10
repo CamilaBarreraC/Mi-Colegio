@@ -35,7 +35,7 @@
                     text: "Curso actualizado correctamente.",
                     showConfirmButton: false
                 }).then(() => {
-                    window.location.href = "../../Colegios.php";
+                    window.location.href = "../../Cursos.php";
                 });
             </script>';
     } else {
@@ -48,7 +48,7 @@
                     text: "Hubo un error al actualizar el curso.",
                     showConfirmButton: false
                 }).then(() => {
-                    window.location.href = "../../Colegios.php";
+                    window.location.href = "../../Cursos.php";
                 });
             </script>';
         exit();

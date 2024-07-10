@@ -13,7 +13,8 @@
     FROM pedido 
     JOIN medios_de_pago ON pedido.id_medio_pago = medios_de_pago.id_medio_pago 
     JOIN cliente ON pedido.rut_cliente = cliente.rut_cliente
-    JOIN lista_2 ON lista_2.id_lista_2 = pedido.id_lista_2;";
+    JOIN detalle_pedido ON pedido.id_pedido = detalle_pedido.id_pedido
+    JOIN lista_2 ON lista_2.id_lista_2 = detalle_pedido.id_lista_2";
     $result = $conn->query($sql);
 ?>
 
@@ -77,8 +78,6 @@
                                                         <th scope="col">Medio de pago</th>
                                                         <th scope="col">RUT cliente</th>
                                                         <th scope="col">Nombre cliente</th>
-                                                        <th scope="col">ID lista 2</th>
-                                                        <th scope="col">Curso</th>
                                                         <th scope="col">Estado</th>
                                                         <th scope="col" style="width: 150px;">Detalles</th>
                                                     </tr>
@@ -97,8 +96,6 @@
                                                         <td> <?= $row['nombre_medio_pago'] ?></td>
                                                         <td> <?= $row['rut_cliente'] ?></td>
                                                         <td> <?= $row['nombre_cliente'] ?></td>
-                                                        <td> <?= $row['id_lista_2'] ?></td>
-                                                        <td> <?= $row['nombre_curso'] ?></td>
                                                         <?php $color_estado = ($row['estado'] == 'Pendiente') ? 'badge bg-danger' : 'badge bg-success'; 
                                                         // Verifica el resultado de la consulta, si el resultado es 'Pendiente', 
                                                         // se guarda 'badge bg-danger, el cual es la clase del span, con el color naranjo,

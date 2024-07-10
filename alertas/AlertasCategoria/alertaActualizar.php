@@ -35,7 +35,7 @@
                     text: "Categoría actualizada correctamente.",
                     showConfirmButton: false
                 }).then(() => {
-                    window.location.href = "../../Productos.php";
+                    window.location.href = "../../Categorias.php";
                 });
             </script>';
     } else {
@@ -48,7 +48,7 @@
                     text: "Hubo un error al actualizar la categoría.",
                     showConfirmButton: false
                 }).then(() => {
-                    window.location.href = "../../Productos.php";
+                    window.location.href = "../../Categorias.php";
                 });
             </script>';
         exit();

@@ -15,9 +15,13 @@ class ControladorCategoria {
     }
 
     public function insertarCategoria($nombre_categoria) {
-        $this->modelo->insertarCategoria($nombre_categoria);
-        return ($nombre_categoria != false) ? header("Location: alertas/AlertasCategoria/alertaIngresar.php?nombre_categoria=".$nombre_categoria) : header("Location: alertas/AlertasCategoria/alertaIngresar.php");        
-
+        if ($this->modelo->categoriaExiste($nombre_categoria)) {
+            // Redirige con "duplicado" en la URL
+            header("Location: Categorias.php?duplicado=true");
+        } else {
+            $this->modelo->insertarCategoria($nombre_categoria);
+            header("Location: alertas/AlertasCategoria/alertaIngresar.php?nombre_categoria=".$nombre_categoria);
+        }
     }
 
     public function actualizarCategoria($id_categoria , $nombre_categoria){

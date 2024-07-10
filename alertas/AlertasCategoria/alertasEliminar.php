@@ -36,7 +36,7 @@
                     text: "Hubo un error al eliminar la categoría.",
                     showConfirmButton: false
                 }).then(() => {
-                    window.location.href = "../../Productos.php";
+                    window.location.href = "../../Categorias.php";
                 });
             </script>';
     } else {
@@ -48,7 +48,7 @@
                     text: "Categoría eliminada correctamente.",
                     showConfirmButton: false
                 }).then(() => {
-                    window.location.href = "../../Productos.php";
+                    window.location.href = "../../Categorias.php";
                 });
             </script>';
         exit();

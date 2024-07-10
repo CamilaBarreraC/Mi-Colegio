@@ -1,8 +1,28 @@
 <!DOCTYPE html>
 <html lang="es">
 
-<?php include 'layouts/session.php'; ?>
+<?php
+
+use LDAP\Result;
+
+ include 'layouts/session.php'; ?>
 <?php include 'layouts/main.php'; ?>
+
+<?php
+    include("modelo/conexion_bd.php");
+
+    $conn = $conexion;
+
+    $sql = "SELECT *
+    FROM pedido 
+    JOIN medios_de_pago ON pedido.id_medio_pago = medios_de_pago.id_medio_pago 
+    JOIN cliente ON pedido.rut_cliente = cliente.rut_cliente
+    JOIN detalle_pedido ON pedido.id_pedido = detalle_pedido.id_pedido
+    JOIN lista_2 ON lista_2.id_lista_2 = detalle_pedido.id_lista_2
+    ORDER BY pedido.id_pedido";
+    $result = $conn->query($sql);
+?>
+
 
 <head>
     <meta charset="UTF-8">
@@ -70,18 +90,22 @@
                                                 <div class="card-body">
                                                     <div class="d-flex align-items-center">
                                                         <div class="flex-grow-1 overflow-hidden">
-                                                            <p class="text-uppercase fw-medium text-muted text-truncate mb-0"> Total Earnings</p>
-                                                        </div>
-                                                        <div class="flex-shrink-0">
-                                                            <h5 class="text-success fs-14 mb-0">
-                                                                <i class="ri-arrow-right-up-line fs-13 align-middle"></i> +16.24 %
-                                                            </h5>
+                                                            <p class="text-uppercase fw-medium text-muted text-truncate mb-0">Total recaudado</p>
                                                         </div>
                                                     </div>
                                                     <div class="d-flex align-items-end justify-content-between mt-4">
-                                                        <div>
-                                                            <h4 class="fs-22 fw-semibold ff-secondary mb-4">$<span class="counter-value" data-target="559.25">0</span>k </h4>
-                                                            <a href="" class="text-decoration-underline">View net earnings</a>
+                                                        <div class="fs-22 fw-semibold ff-secondary mb-4">
+                                                            <?php 
+                                                                 include("modelo/conexion_bd.php");
+
+                                                                 $conn = $conexion;
+                                                             
+                                                                 $sqlsum = "SELECT sum(precio_total) as 'precio_total' FROM pedido";
+                                                                 $resultsum = mysqli_query($conn, $sqlsum);
+                                                                 $data=mysqli_fetch_array($resultsum);
+                                                                 $total = $data['precio_total'];
+                                                                 echo '$'.$total;
+                                                            ?>
                                                         </div>
                                                         <div class="avatar-sm flex-shrink-0">
                                                             <span class="avatar-title bg-primary-subtle rounded fs-3">
@@ -99,18 +123,24 @@
                                                 <div class="card-body">
                                                     <div class="d-flex align-items-center">
                                                         <div class="flex-grow-1 overflow-hidden">
-                                                         <p class="text-uppercase fw-medium text-muted text-truncate mb-0">Orders</p>
-                                                        </div>
-                                                        <div class="flex-shrink-0">
-                                                            <h5 class="text-danger fs-14 mb-0">
-                                                                <i class="ri-arrow-right-down-line fs-13 align-middle"></i> -3.57 %
-                                                            </h5>
+                                                         <p class="text-uppercase fw-medium text-muted text-truncate mb-0">Número de pedidos</p>
                                                         </div>
                                                     </div>
                                                     <div class="d-flex align-items-end justify-content-between mt-4">
                                                         <div>
-                                                            <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value" data-target="36894">0</span></h4>
-                                                            <a href="" class="text-decoration-underline">View all orders</a>
+                                                            <div class="fs-22 fw-semibold ff-secondary mb-4">
+                                                            <?php 
+                                                                 include("modelo/conexion_bd.php");
+
+                                                                 $conn = $conexion;
+                                                             
+                                                                 $sqlcount = "SELECT count(*) as 'total' FROM pedido";
+                                                                 $resultcount = mysqli_query($conn, $sqlcount);
+                                                                 $datacount=mysqli_fetch_array($resultcount);
+                                                                 $totalcount = $datacount['total'];
+                                                                 echo $totalcount;
+                                                            ?>
+                                                            </div>
                                                         </div>
                                                         <div class="avatar-sm flex-shrink-0">
                                                             <span class="avatar-title bg-info-subtle rounded fs-3">
@@ -128,18 +158,24 @@
                                                 <div class="card-body">
                                                     <div class="d-flex align-items-center">
                                                         <div class="flex-grow-1 overflow-hidden">
-                                                            <p class="text-uppercase fw-medium text-muted text-truncate mb-0">Customers</p>
-                                                        </div>
-                                                        <div class="flex-shrink-0">
-                                                            <h5 class="text-success fs-14 mb-0">
-                                                                <i class="ri-arrow-right-up-line fs-13 align-middle"></i> +29.08 %
-                                                            </h5>
+                                                            <p class="text-uppercase fw-medium text-muted text-truncate mb-0">Número de clientes</p>
                                                         </div>
                                                     </div>
                                                     <div class="d-flex align-items-end justify-content-between mt-4">
                                                         <div>
-                                                            <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value" data-target="183.35">0</span>M </h4>
-                                                            <a href="" class="text-decoration-underline">See details</a>
+                                                            <div class="fs-22 fw-semibold ff-secondary mb-4">
+                                                                <?php 
+                                                                    include("modelo/conexion_bd.php");
+
+                                                                    $conn = $conexion;
+                                                                
+                                                                    $sqlcountclientes = "SELECT count(*) as 'total' FROM cliente";
+                                                                    $resultcountclientes = mysqli_query($conn, $sqlcountclientes);
+                                                                    $datacountclientes=mysqli_fetch_array($resultcountclientes);
+                                                                    $totalcountclientes = $datacount['total'];
+                                                                    echo $totalcountclientes;
+                                                                ?>
+                                                                </div>
                                                         </div>
                                                         <div class="avatar-sm flex-shrink-0">
                                                             <span class="avatar-title bg-primary-subtle rounded fs-3">
@@ -157,18 +193,13 @@
                                                 <div class="card-body">
                                                     <div class="d-flex align-items-center">
                                                         <div class="flex-grow-1 overflow-hidden">
-                                                            <p class="text-uppercase fw-medium text-muted text-truncate mb-0"> My Balance</p>
-                                                        </div>
-                                                        <div class="flex-shrink-0">
-                                                            <h5 class="text-muted fs-14 mb-0">
-                                                                +0.00 %
-                                                            </h5>
+                                                            <p class="text-uppercase fw-medium text-muted text-truncate mb-0"> WIP</p>
                                                         </div>
                                                     </div>
                                                     <div class="d-flex align-items-end justify-content-between mt-4">
                                                         <div>
+                                                            <!-- ESPACIO PARA RELLENAR CON TABLA/GRÁFICO O DEJAR EN BLANCO -->
                                                             <h4 class="fs-22 fw-semibold ff-secondary mb-4">$<span class="counter-value" data-target="165.89">0</span>k </h4>
-                                                            <a href="" class="text-decoration-underline">Withdraw money</a>
                                                         </div>
                                                         <div class="avatar-sm flex-shrink-0">
                                                             <span class="avatar-title bg-info-subtle rounded fs-3">
@@ -185,12 +216,7 @@
                                         <div class="col-xl-8">
                                             <div class="card">
                                                 <div class="card-header align-items-center d-flex">
-                                                    <h4 class="card-title mb-0 flex-grow-1">Recent Orders</h4>
-                                                    <div class="flex-shrink-0">
-                                                        <button type="button" class="btn btn-soft-info btn-sm">
-                                                            <i class="ri-file-list-3-line align-middle"></i> Generate Report
-                                                        </button>
-                                                    </div>
+                                                    <h4 class="card-title mb-0 flex-grow-1">Ordenes recientes</h4>
                                                 </div><!-- end card header -->
 
                                                 <div class="card-body">
@@ -198,120 +224,32 @@
                                                         <table class="table table-borderless table-centered align-middle table-nowrap mb-0">
                                                             <thead class="text-muted table-light">
                                                                 <tr>
-                                                                    <th scope="col">Order ID</th>
-                                                                    <th scope="col">Customer</th>
-                                                                    <th scope="col">Product</th>
-                                                                    <th scope="col">Amount</th>
-                                                                    <th scope="col">Vendor</th>
-                                                                    <th scope="col">Status</th>
+                                                                <th style="visibility:collapse; display:none;" scope="col">ID</th>
+                                                                <th scope="col">Total</th>
+                                                                <th scope="col">Medio de pago</th>
+                                                                <th scope="col">RUT cliente</th>
+                                                                <th scope="col">Nombre cliente</th>
+                                                                <th scope="col">Estado</th>
+
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                <tr>
-                                                                    <td>
-                                                                        <a href="apps-ecommerce-order-details.php" class="fw-medium link-primary">#VZ2112</a>
-                                                                    </td>
-                                                                    <td>
-                                                                        <div class="d-flex align-items-center">
-                                                                            <div class="flex-shrink-0 me-2">
-                                                                                <img src="assets/images/users/avatar-1.jpg" alt="" class="avatar-xs rounded-circle" />
-                                                                            </div>
-                                                                            <div class="flex-grow-1">Alex Smith</div>
-                                                                        </div>
-                                                                    </td>
-                                                                    <td>Clothes</td>
-                                                                    <td>
-                                                                        <span class="text-success">$109.00</span>
-                                                                    </td>
-                                                                    <td>Zoetic Fashion</td>
-                                                                    <td>
-                                                                        <span class="badge bg-success-subtle text-success">Paid</span>
-                                                                    </td>
-                                                                </tr><!-- end tr -->
-                                                                <tr>
-                                                                    <td>
-                                                                        <a href="apps-ecommerce-order-details.php" class="fw-medium link-primary">#VZ2111</a>
-                                                                    </td>
-                                                                    <td>
-                                                                        <div class="d-flex align-items-center">
-                                                                            <div class="flex-shrink-0 me-2">
-                                                                                <img src="assets/images/users/avatar-2.jpg" alt="" class="avatar-xs rounded-circle" />
-                                                                            </div>
-                                                                            <div class="flex-grow-1">Jansh Brown</div>
-                                                                        </div>
-                                                                    </td>
-                                                                    <td>Kitchen Storage</td>
-                                                                    <td>
-                                                                        <span class="text-success">$149.00</span>
-                                                                    </td>
-                                                                    <td>Micro Design</td>
-                                                                    <td>
-                                                                        <span class="badge bg-warning-subtle text-warning">Pending</span>
-                                                                    </td>
-                                                                </tr><!-- end tr -->
-                                                                <tr>
-                                                                    <td>
-                                                                        <a href="apps-ecommerce-order-details.php" class="fw-medium link-primary">#VZ2109</a>
-                                                                    </td>
-                                                                    <td>
-                                                                        <div class="d-flex align-items-center">
-                                                                            <div class="flex-shrink-0 me-2">
-                                                                                <img src="assets/images/users/avatar-3.jpg" alt="" class="avatar-xs rounded-circle" />
-                                                                            </div>
-                                                                            <div class="flex-grow-1">Ayaan Bowen</div>
-                                                                        </div>
-                                                                    </td>
-                                                                    <td>Bike Accessories</td>
-                                                                    <td>
-                                                                        <span class="text-success">$215.00</span>
-                                                                    </td>
-                                                                    <td>Nesta Technologies</td>
-                                                                    <td>
-                                                                        <span class="badge bg-success-subtle text-success">Paid</span>
-                                                                    </td>
-                                                                </tr><!-- end tr -->
-                                                                <tr>
-                                                                    <td>
-                                                                        <a href="apps-ecommerce-order-details.php" class="fw-medium link-primary">#VZ2108</a>
-                                                                    </td>
-                                                                    <td>
-                                                                        <div class="d-flex align-items-center">
-                                                                            <div class="flex-shrink-0 me-2">
-                                                                                <img src="assets/images/users/avatar-4.jpg" alt="" class="avatar-xs rounded-circle" />
-                                                                            </div>
-                                                                            <div class="flex-grow-1">Prezy Mark</div>
-                                                                        </div>
-                                                                    </td>
-                                                                    <td>Furniture</td>
-                                                                    <td>
-                                                                        <span class="text-success">$199.00</span>
-                                                                    </td>
-                                                                    <td>Syntyce Solutions</td>
-                                                                    <td>
-                                                                        <span class="badge bg-danger-subtle text-danger">Unpaid</span>
-                                                                    </td>
-                                                                </tr><!-- end tr -->
-                                                                <tr>
-                                                                    <td>
-                                                                        <a href="apps-ecommerce-order-details.php" class="fw-medium link-primary">#VZ2107</a>
-                                                                    </td>
-                                                                    <td>
-                                                                        <div class="d-flex align-items-center">
-                                                                            <div class="flex-shrink-0 me-2">
-                                                                                <img src="assets/images/users/avatar-6.jpg" alt="" class="avatar-xs rounded-circle" />
-                                                                            </div>
-                                                                            <div class="flex-grow-1">Vihan Hudda</div>
-                                                                        </div>
-                                                                    </td>
-                                                                    <td>Bags and Wallets</td>
-                                                                    <td>
-                                                                        <span class="text-success">$330.00</span>
-                                                                    </td>
-                                                                    <td>iTest Factory</td>
-                                                                    <td>
-                                                                        <span class="badge bg-success-subtle text-success">Paid</span>
-                                                                    </td>
-                                                                </tr><!-- end tr -->
+                                                                 <?php while ($row = $result->fetch_assoc()): ?>
+                                                    <tr>
+                                                        <td style="visibility:collapse; display:none;"><a href='#' class='fw-medium'><?=  $row['id_pedido'] ?></a></td>
+                                                        <td> $<?= $row['precio_total'] ?></td>
+                                                        <td> <?= $row['nombre_medio_pago'] ?></td>
+                                                        <td> <?= $row['rut_cliente'] ?></td>
+                                                        <td> <?= $row['nombre_cliente'] ?></td>
+                                                        <?php $color_estado = ($row['estado'] == 'Pendiente') ? 'badge bg-danger' : 'badge bg-success'; 
+                                                        // Verifica el resultado de la consulta, si el resultado es 'Pendiente', 
+                                                        // se guarda 'badge bg-danger, el cual es la clase del span, con el color naranjo,
+                                                        // En la derecha se pone si la condición es verdadera, 
+                                                        // Si es falsa, corresponderá a 'Finalizado', el cual será la la clase con span verde
+                                                        // Luego se pone la variable guardada en la clase del span, con verde o naranjo ?>
+                                                        <td><span class='<?= $color_estado ?>'> <?= $row['estado'] ?></span></td>
+                                                    </tr>
+                                                    <?php endwhile; ?>    
                                                             </tbody><!-- end tbody -->
                                                         </table><!-- end table -->
                                                     </div>
