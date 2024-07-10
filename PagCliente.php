@@ -4,6 +4,19 @@
 <?php include 'layouts/session.php'; ?>
 <?php include 'layouts/main.php'; ?>
 
+<?php 
+
+    include("modelo/conexion_bd.php");
+
+    $conn = $conexion;
+
+    $sqlProd = "SELECT *
+    FROM productos
+    limit 9";
+    $resultProd = $conn->query($sqlProd);
+
+?>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -171,6 +184,55 @@
         </div>
     </div>
 
+    <div class="main-content" style="margin-left:5%; width:90%">
+        <div class="page-content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title mb-0" style="font-size:50px; color:blueviolet">Productos 📐</h4>
+                            </div><!-- end card header -->
+                            <div class="card-body">
+                                <p class="text-muted" style="font-size: 20px;">¡Estos son nuestros productos!✨</p>
+                                <!-- Swiper -->
+                                <div class="swiper responsive-swiper rounded gallery-light pb-4">
+                                    <div class="swiper-wrapper">
+                                        <?php while($rowProd = $resultProd->fetch_assoc()) :?>
+                                        <div class="swiper-slide">
+                                            <div class="gallery-box card">
+                                                <div class="gallery-container text-center">
+                                                    <a class="image-popup" href="assets/images/small/img-1.jpg" title="">
+                                                        <img class="gallery-img img-fluid mx-auto" src="<?=  $rowProd['dir'] ?>" alt="" style="width: 50%; height:180px;" />
+                                                        <div class="gallery-overlay">
+                                                            <h5 class="overlay-caption"><?=  $rowProd['nombre_producto'] . "  $" . $rowProd['precio'] ?></h5>
+                                                            
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                                <div class="box-content">
+                                                    <div class="d-flex justify-content-center align-items-center mt-1">
+                                                        <div class="text-muted">
+                                                            <a href="" class="text-body text-truncate text-center"><?= $rowProd['nombre_producto'] ?></a>
+                                                            <a href="" class="text-body text-truncate text-center" style="color: blue">$<?= $rowProd['precio'] ?></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <?php endwhile; ?>
+                                    </div>
+                                    <div class="swiper-pagination swiper-pagination-dark"></div>
+                                </div>
+                            </div><!-- end card-body -->
+                        </div><!-- end card -->
+                    </div>
+                    <!--end col-->
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="js/app.js"></script>
 
     <?php include 'includes/topbarCliente.php'; ?>
@@ -193,6 +255,12 @@
 
         <!-- App js -->
         <script src="assets/js/app.js"></script>
+
+        <!-- swiper.init js -->
+        <script src="assets/js/pages/swiper.init.js"></script>
+
+        <!-- prismjs plugin -->
+        <script src="assets/libs/prismjs/prism.js"></script>
 
     </body>
 </html>

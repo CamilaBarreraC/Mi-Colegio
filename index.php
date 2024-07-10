@@ -55,7 +55,7 @@
                 <h1 style="margin-bottom: 20px;color:indigo; font-size:35px; ">
                 Iniciar Sesión</h1>
                 <label>
-                    <input type="text" name="rut_cliente" placeholder="Usuario" required style="background: #eee; border: none; border-radius: 50px; padding: 12px 15px;width:100%"/>
+                    <input type="text" name="rut_cliente" id="rut_cliente_login" placeholder="Usuario" required style="background: #eee; border: none; border-radius: 50px; padding: 12px 15px;width:100%"/>
                 </label>
                 <label>
                     <input type="password" name="clave" placeholder="Contraseña" required style="background: #eee; border: none; border-radius: 50px; padding: 12px 15px;width:100%; margin-top:5px"/>
@@ -72,7 +72,7 @@
                 
                 <div style="display: grid;grid-template-columns: repeat(2, 1fr);gap: 5px;">                      
                     <label>
-                        <input type="number" name="rut_cliente" placeholder="RUT" required style="background: #eee; border: none; border-radius: 50px; padding: 12px 15px;width:90%"/>
+                        <input type="text" name="rut_cliente" id="rut_cliente_registro" placeholder="RUT" required style="background: #eee; border: none; border-radius: 50px; padding: 12px 15px;width:90%"/>
                     </label>
                     <label>
                         <input type="password" placeholder="Clave" name="clave" required style="background: #eee; border: none; border-radius: 50px; padding: 12px 15px;width:90%"/>
@@ -169,6 +169,36 @@
 
         signInButton.addEventListener('click', () =>
             container.classList.remove('right-panel-active'));
+
+        function formatRUT(rut) {
+            // Elimina los puntos y el guion existentes
+            rut = rut.replace(/[.-]/g, '');
+            
+            // Divide el RUT en el número y el dígito verificador
+            let cuerpo = rut.slice(0, -1);
+            let dv = rut.slice(-1).toUpperCase();
+            
+            // Añade los puntos cada tres dígitos
+            cuerpo = cuerpo.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+            
+            // Junta el número con el dígito verificador
+            return `${cuerpo}-${dv}`;
+        }
+
+        function validateRUT(input) {
+            let rut = input.value;
+            if (rut.length > 1) {
+                input.value = formatRUT(rut);
+            }
+        }
+
+        document.getElementById('rut_cliente_login').addEventListener('input', function() {
+            validateRUT(this);
+        });
+
+        document.getElementById('rut_cliente_registro').addEventListener('input', function() {
+            validateRUT(this);
+        });
     </script>
 </body>
 </html>
