@@ -8,6 +8,22 @@
     .logo1:hover{
         color: fuchsia;
     }
+
+    .side{
+        align-items: center;
+        text-align:center; 
+        color:#C5CEFF; 
+        font-weight: 800; 
+        font-size: 30px; 
+        margin-top: 10px; 
+        margin-right:25px;
+        border-radius: 10px;
+    }
+
+    .side:hover{
+        color:white;
+        transform:rotate(6deg);
+    }
 </style>
 
 <?php
@@ -57,7 +73,9 @@
                         </span>
                     </a>
                 </div>
-                <h1 class="logo1" style="align-items: center;text-align:center; color:rgba(230, 237, 252, 1);font-family: Barlow; font-style: italic;font-weight: 1000; font-size: 40px; margin-top: 10px">Mi Colegio</h1>
+                <a href="PagCliente.php">
+                    <h1 class="logo1" style="align-items: center;text-align:center; color:rgba(230, 237, 252, 1);font-family: Barlow; font-style: italic;font-weight: 1000; font-size: 40px; margin-top: 10px">Mi Colegio</h1>
+                </a>
 
                 <!-- NO BORRAR -->
                 <button type="button" class="btn btn-sm px-3 fs-16 header-item vertical-menu-btn topnav-hamburger" id="topnav-hamburger-icon">
@@ -69,8 +87,16 @@
                 </button>      
             </div>
                 
-
             <div class="d-flex align-items-center">
+
+                <div class="d-flex align-items-center" style="margin-right: 20px;">
+                    <a href="ProductosPagCliente.php">
+                        <h1 class="side d-none d-xl-inline-block ms-1 fw-semibold">Productos</h1>
+                    </a>
+                    <a href="ListasColegioPagCliente.php">
+                        <h1 class="side d-none d-xl-inline-block ms-1 fw-semibold">Listas</h1>
+                    </a>
+                </div>
 
                 <div class="dropdown topbar-head-dropdown ms-1 header-item">
                     <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle" id="page-header-cart-dropdown" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false">

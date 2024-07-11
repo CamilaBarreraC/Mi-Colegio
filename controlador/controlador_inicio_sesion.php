@@ -5,7 +5,7 @@
 require 'modelo/conexion_bd.php';
 session_start();
 
-// Función para limpiar y transformar el RUT
+// Función para limpiar y transformar el RUT a números para insertar en bd
 function limpiarRut($rut) {
     // Quitar puntos y guion
     $rut = str_replace(['.', '-'], '', $rut);

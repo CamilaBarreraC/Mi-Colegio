@@ -78,10 +78,10 @@
                         <input type="password" placeholder="Clave" name="clave" required style="background: #eee; border: none; border-radius: 50px; padding: 12px 15px;width:90%"/>
                     </label>
                     <label>
-                        <input type="text" name="nombre_cliente" placeholder="Nombre" required style="background: #eee; border: none; border-radius: 50px; padding: 12px 15px;width:90%"/>
+                        <input type="text" name="nombre_cliente" id="nombre_cliente" placeholder="Nombre" required style="background: #eee; border: none; border-radius: 50px; padding: 12px 15px;width:90%"/>
                     </label>
                     <label>
-                        <input type="text" name="apellido_cliente" placeholder="Apellido" required style="background: #eee; border: none; border-radius: 50px; padding: 12px 15px;width:90%"/>
+                        <input type="text" name="apellido_cliente" id="apellido_cliente" placeholder="Apellido" required style="background: #eee; border: none; border-radius: 50px; padding: 12px 15px;width:90%"/>
                     </label>
                     <label>
                         <input type="email" name="email" placeholder="Email" required style="background: #eee; border: none; border-radius: 50px; padding: 12px 15px;width:90%"/>
@@ -90,7 +90,7 @@
                         <input type="number" name="telefono" placeholder="Teléfono" required style="background: #eee; border: none; border-radius: 50px; padding: 12px 15px;width:90%"/>
                     </label>
                     <label>
-                        <input type="text" name="direccion" placeholder="Dirección" required style="background: #eee; border: none; border-radius: 50px; padding: 12px 15px;width:90%"/>
+                        <input type="text" name="direccion" id="direccion" placeholder="Dirección" required style="background: #eee; border: none; border-radius: 50px; padding: 12px 15px;width:90%"/>
                     </label>
 
                     <label>
@@ -159,46 +159,63 @@
     </div>
 </section>
 
-    <script> 
-        const signUpButton = document.getElementById('signUp');
-        const signInButton = document.getElementById('signIn');
-        const container = document.getElementById('container');
+<script> 
+    const signUpButton = document.getElementById('signUp');
+    const signInButton = document.getElementById('signIn');
+    const container = document.getElementById('container');
 
-        signUpButton.addEventListener('click', () =>
-            container.classList.add('right-panel-active'));
+    signUpButton.addEventListener('click', () =>
+        container.classList.add('right-panel-active'));
 
-        signInButton.addEventListener('click', () =>
-            container.classList.remove('right-panel-active'));
+    signInButton.addEventListener('click', () =>
+        container.classList.remove('right-panel-active'));
 
-        function formatRUT(rut) {
-            // Elimina los puntos y el guion existentes
-            rut = rut.replace(/[.-]/g, '');
-            
-            // Divide el RUT en el número y el dígito verificador
-            let cuerpo = rut.slice(0, -1);
-            let dv = rut.slice(-1).toUpperCase();
-            
-            // Añade los puntos cada tres dígitos
-            cuerpo = cuerpo.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-            
-            // Junta el número con el dígito verificador
-            return `${cuerpo}-${dv}`;
+    function formatRUT(rut) {
+        // Elimina los puntos y el guion existentes
+        rut = rut.replace(/[.-]/g, '');
+        
+        // Divide el RUT en el número y el dígito verificador
+        let cuerpo = rut.slice(0, -1);
+        let dv = rut.slice(-1).toUpperCase();
+        
+        // Añade los puntos cada tres dígitos
+        cuerpo = cuerpo.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+        
+        // Junta el número con el dígito verificador
+        return `${cuerpo}-${dv}`;
+    }
+
+    function validateRUT(input) {
+        let rut = input.value;
+        if (rut.length > 1) {
+            input.value = formatRUT(rut);
         }
+    }
 
-        function validateRUT(input) {
-            let rut = input.value;
-            if (rut.length > 1) {
-                input.value = formatRUT(rut);
-            }
-        }
+    document.getElementById('rut_cliente_login').addEventListener('input', function() {
+        validateRUT(this);
+    });
 
-        document.getElementById('rut_cliente_login').addEventListener('input', function() {
-            validateRUT(this);
-        });
+    document.getElementById('rut_cliente_registro').addEventListener('input', function() {
+        validateRUT(this);
+    });
 
-        document.getElementById('rut_cliente_registro').addEventListener('input', function() {
-            validateRUT(this);
-        });
-    </script>
+    function capitalizeFirstLetter(input) {
+        input.value = input.value.charAt(0).toUpperCase() + input.value.slice(1);
+    }
+
+    document.getElementById('nombre_cliente').addEventListener('input', function() {
+        capitalizeFirstLetter(this);
+    });
+
+    document.getElementById('apellido_cliente').addEventListener('input', function() {
+        capitalizeFirstLetter(this);
+    });
+
+    document.getElementById('direccion').addEventListener('input', function() {
+        capitalizeFirstLetter(this);
+    });
+
+</script>
 </body>
 </html>
