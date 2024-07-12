@@ -5,6 +5,6 @@
     
     
     $obj = new ControladorProducto();
-    $obj->insertarProducto($_POST['nombre_producto'], $_POST['id_categoria'], $_POST['precio'], $_FILES['imagen']);
+    $obj->insertarProducto($_POST['nombre_producto'], $_POST['id_categoria'], $_POST['precio'], $_FILES['imagen'], $_POST['stock']);
 
 ?>

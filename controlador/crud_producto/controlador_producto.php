@@ -14,14 +14,14 @@ class ControladorProducto {
         $this->PDO = $con -> conexion();
     }
 
-    public function insertarProducto($nombre_producto , $id_categoria , $precio, $ruta_destino) {
-        $this->modelo->insertarProducto($nombre_producto , $id_categoria , $precio, $ruta_destino);
+    public function insertarProducto($nombre_producto , $id_categoria , $precio, $ruta_destino, $stock) {
+        $this->modelo->insertarProducto($nombre_producto , $id_categoria , $precio, $ruta_destino, $stock);
         return ($nombre_producto != false) ? header("Location: alertas/AlertasProducto/alertaIngresar.php?nombre_producto=".$nombre_producto) : header("Location: alertas/AlertasProducto/alertaIngresar.php");        
 
     }
 
-    public function actualizarProducto($nombre_producto , $id_categoria , $precio, $ruta_destino, $id_producto){
-        return ($this->modelo->actualizarProducto($nombre_producto , $id_categoria , $precio, $ruta_destino, $id_producto) != false) ? header("Location: alertas/AlertasProducto/alertaActualizar.php?id_producto=".$id_producto) : header("Location: alertas/AlertasProducto/alertaActualizar.php");
+    public function actualizarProducto($nombre_producto , $id_categoria , $precio, $ruta_destino, $stock, $id_producto){
+        return ($this->modelo->actualizarProducto($nombre_producto , $id_categoria , $precio, $ruta_destino, $stock, $id_producto) != false) ? header("Location: alertas/AlertasProducto/alertaActualizar.php?id_producto=".$id_producto) : header("Location: alertas/AlertasProducto/alertaActualizar.php");
     }
 
     public function showProducto($id_producto){

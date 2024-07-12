@@ -61,12 +61,12 @@
                         </div>
                         <div class="">
                             <?php if ($producto): ?>
-                            <form action="updateProducto.php" method="post">
+                            <form action="updateProducto.php" method="post" enctype="multipart/form-data">
                                 <div class="row g-3">
-                                    <div class='col-xxl-6'>
+                                    <div class='col-xxl-6' style="display: none;">
                                         <div>    
                                             <label for='id_producto' class='form-label' >ID producto</label>
-                                            <input type='text' class='form-control' name="id_producto" id="id_producto" value="<?= $producto['id_producto'] ?>" readonly>                           
+                                            <input type='hidden' class='form-control' name="id_producto" id="id_producto" value="<?= $producto['id_producto'] ?>" readonly>                           
                                         </div>
                                     </div>
                                     
@@ -115,8 +115,18 @@
 
                                     <div class="col-xxl-6">
                                         <div>
+                                            <label for="stock" class="form-label" style="margin-top: 0px;">Stock</label>
+                                            <input type='number' class='form-control' name="stock" id="stock" value="<?= $producto['stock'] ?>">                           
+                                        </div>
+                                    </div><!--end col-->
+
+                                    <div class="col-xxl-6">
+                                        <div>
                                             <label for="formFile" class="form-label" style="margin-top: 0px;">Imagen</label>
-                                            <input class="form-control" type="file" id="imagen" name="imagen" value="<?=$producto['dir'] ?>">
+                                            <!-- Mostrar la imagen actual del producto -->
+                                            <img src="<?= $producto['dir'] ?>" alt="Imagen del producto" style="max-width: 100px; display: block; margin-bottom: 10px;">
+                                            <!-- Input para seleccionar una nueva imagen -->
+                                            <input class="form-control" type="file" id="imagen" name="imagen">
                                          </div>
                                      </div><!--end col-->
 

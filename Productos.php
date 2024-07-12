@@ -234,6 +234,13 @@
 
                             <div class="col-xxl-6">
                                 <div>
+                                    <label for="stock" class="form-label">Stock</label>
+                                    <input type='number' class="form-control" id="stock" name="stock" value="" placeholder="Stock" required>
+                                </div>
+                            </div><!--end col-->
+
+                            <div class="col-xxl-6">
+                                <div>
                                 <label for="formFile" class="form-label">Imagen</label>
                                 <input class="form-control" type="file" id="imagen" name="imagen">
                                 </div>
