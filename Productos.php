@@ -5,6 +5,24 @@
 <?php include 'layouts/main.php'; ?>
 
 <?php
+
+    // ALERTA PARA VALIDACIÓN DE NOMBRE_PRODUCTO DUPLICADO
+    if (isset($_GET['status'])) {
+        $status = $_GET['status'];
+        if ($status == 'duplicado') {
+            echo 'a';
+            echo '<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>';
+            echo '<script>
+                    Swal.fire({
+                        icon: "error",
+                        title: "Producto duplicado",
+                        text: "El nombre del producto ya existe",
+                        showConfirmButton: false
+                    });
+                </script>';
+        }
+    }
+
     include("modelo/conexion_bd.php");
 
     $conn = $conexion;
@@ -192,7 +210,7 @@
                             <div class="col-xxl-6">
                                 <div>
                                     <label for="nombre_producto" class="form-label" style="margin-top: 0px;">Nombre producto</label>
-                                    <input type="text" class="form-control" id="nombre_producto" name="nombre_producto" value="" placeholder="Nombre producto">
+                                    <input type="text" class="form-control" id="nombre_producto" name="nombre_producto" oninput="capitalizeFirstLetter()" value="" placeholder="Nombre producto">
                                 </div>
                             </div><!--end col-->
 
@@ -307,6 +325,14 @@
                 });
             });
         });
+    </script>
+
+    <script>
+        // Script para poner la primera letra de nombre_producto
+        function capitalizeFirstLetter() {
+            var input = document.getElementById('nombre_producto');
+            input.value = input.value.charAt(0).toUpperCase() + input.value.slice(1);
+        }
     </script>
 
     <?php include 'layouts/vendor-scripts.php'; ?>

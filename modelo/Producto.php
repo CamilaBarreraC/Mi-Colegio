@@ -69,13 +69,19 @@ class ModeloProducto {
 
     public function eliminarProducto($id_producto){
         // LLAVES FORÁNEAS
+        // Para eliminar el producto, se debe eliminar del carro y de las listas1
 
         $stmt2 = $this->PDO->prepare("DELETE FROM productos WHERE id_producto = :id_producto");
         $stmt = $this->PDO->prepare("DELETE FROM l1_productos WHERE id_producto = :id_producto");
-        
+        $stmt3 = $this->PDO->prepare("DELETE FROM carro_productos_extra WHERE id_producto = :id_producto");
+        $stmt4 = $this->PDO->prepare("DELETE FROM productos_extra WHERE id_producto = :id_producto");
+
         $stmt->bindParam(':id_producto', $id_producto);
         $stmt2->bindParam(':id_producto', $id_producto);
-        return ($stmt->execute() && $stmt2->execute()) ? true : false;
+        $stmt3->bindParam(':id_producto', $id_producto);
+        $stmt4->bindParam(':id_producto', $id_producto);
+
+        return ($stmt3->execute() && $stmt->execute() && $stmt4->execute() && $stmt2->execute()) ? true : false;
     }
 }
 ?>
