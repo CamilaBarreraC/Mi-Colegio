@@ -24,23 +24,43 @@
     FROM productos 
     JOIN categoria ON productos.id_categoria = categoria.id_categoria";
 
+    $searchTerm = "";
     $categoria = "";
+    $precioOrden = "";
 
-    // Agrega WHERE según los valores de los selects con filtros
-    if (empty($_POST['precio'])) {
-        $query = "SELECT id_producto, nombre_producto, productos.id_categoria, precio,
-        dir, nombre_categoria
-        FROM productos 
-        JOIN categoria ON productos.id_categoria = categoria.id_categoria";
-    }else{
-        $categoria = $_POST['categoria'];
-        $query .= " WHERE productos.id_categoria = $categoria";
-        $precioOrden = $_POST['precio'];
+    // Construcción de las condiciones para la búsqueda
+    $conditions = array();
+
+    if (isset($_POST['buscar'])) {
+        if (!empty($_POST['search'])) {
+            $searchTerm = $_POST['search'];
+            $conditions[] = "nombre_producto LIKE '%$searchTerm%'";
+        }
+
+        if (!empty($_POST['categoria'])) {
+            $categoria = $_POST['categoria'];
+            $conditions[] = "productos.id_categoria = $categoria";
+        }
+
+        if (!empty($_POST['precio'])) {
+            $precioOrden = $_POST['precio'];
+        }
+    }
+
+    // Añadir condiciones a la consulta
+    if (!empty($conditions)) {
+        $query .= " WHERE " . implode(" AND ", $conditions);
+    }
+
+    // Añadir ordenamiento por precio si se seleccionó
+    if (!empty($precioOrden)) {
         $query .= " ORDER BY precio $precioOrden";
     }
 
+    // Añadir limitación de paginación
     $query .= " LIMIT $empieza, $por_pagina";
 
+    // Ejecución de la consulta
     $resultado = mysqli_query($conn, $query);
 
 ?>
@@ -128,25 +148,23 @@
                         </div>
 
                         <div class="accordion accordion-flush filter-accordion">
+                        
 
                             <div class="accordion-item">
 
                                 <div id="flush-collapseBrands" class="accordion-collapse collapse show" aria-labelledby="flush-headingBrands">
                                     <div class="accordion-body text-body pt-0">
-
-                                        <h5 class="fs-16" style="margin-top:15px">Categorías</h5>
-                                       
-                                        <div class="d-flex flex-column gap-2 mt-3 filter-check">
+                                    <div class="mb-3">
                                             <form method="post">
-                                                <select class="form-control" data-choices name="categoria" id="categoria" required>
+                                                <input type="text" class="form-control" name="search" placeholder="Buscar por nombre" value="<?= htmlspecialchars($searchTerm) ?>">
+                                                <h5 class="fs-16" style="margin-top:15px">Categorías</h5>
+                                                <select class="form-control" data-choices name="categoria" id="categoria">
                                                     <option value="">Seleccione categoría</option>
                                                     <?php
                                                         // Consulta SQL para obtener las opciones
                                                         $sql = "SELECT id_categoria, nombre_categoria FROM categoria";
                                                         $resultCat = $conn->query($sql);
-
-                                                        // Confirma si hay resultados, ordenandolos por id 
-                                                        // Si no hay datos, muestra la opción de no hay registros
+                                                        // Confirma si hay resultados
                                                         if ($resultCat->num_rows > 0){
                                                             while($row = $resultCat->fetch_assoc()) {
                                                                 echo "<option value='" . $row["id_categoria"] . "'>" . $row["nombre_categoria"] . "</option>";
@@ -156,26 +174,18 @@
                                                         }
                                                     ?>
                                                 </select>
-
+                                                <h5 class="fs-16" style="margin-top:10px; margin-bottom:15px">Precio</h5>
+                                                <select class="form-control" data-choices name="precio" id="precio" style="width: 100%;">
+                                                    <option value="">Seleccione</option>
+                                                    <option value="DESC">De mayor a menor</option>
+                                                    <option value="ASC">De menor a mayor</option>
+                                                </select>
                                                 <div class="card-body border-bottom">
-                                                    <div>
-                                                        <h5 class="fs-16" style="margin-top:10px; margin-bottom:15px">Precio</h5>
-                                                        <select class="form-control" data-choices name="precio" id="precio" style="width: 100%;" required>
-                                                            <option value="">Seleccione</option>
-                                                            <option value="DESC">De mayor a menor</option>
-                                                            <option value="ASC">De menor a mayor</option>
-                                                        </select>
-
-                                                        <div class="card-body border-bottom">
-                                                            <div style="display: flex;align-items: center;flex-direction: column">
-                                                                <button type="submit" class="btn rounded-pill btn-primary waves-effect waves-light" 
-                                                                style="font-size: 15px;width:70%" name="buscar">Buscar</button>
-                                                            </div>
-                                                        </div>
+                                                    <div style="display: flex;align-items: center;flex-direction: column">
+                                                        <button type="submit" class="btn rounded-pill btn-primary waves-effect waves-light" style="font-size: 15px;width:70%" name="buscar">Buscar</button>
                                                     </div>
                                                 </div>
                                             </form> 
-                                            <!-- Se redirige a la misma página sin los parámetros de categoría -->
                                             <a href="ProductosPagCliente.php" style="align-items: center;display:flex; flex-direction:column">Limpiar filtros</a>
                                         </div>
                                     </div>
