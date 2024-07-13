@@ -1,4 +1,25 @@
 <!DOCTYPE html>
+
+<?php
+
+if(isset($_GET['invalido'])){
+
+    if ($_GET['invalido'] === 'true') {
+        echo '.';
+        echo '<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>';
+        echo '<script>
+                Swal.fire({
+                    icon: "warning",
+                    title: "RUT inválido",
+                    text: "El RUT está incorrecto.",
+                    showConfirmButton: false
+                });
+            </script>';
+    }
+}
+
+?>
+
 <html lang="es">
 <head>
     <meta charset="UTF-8">
