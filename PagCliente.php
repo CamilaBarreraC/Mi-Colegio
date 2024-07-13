@@ -1,221 +1,266 @@
 <!DOCTYPE html>
 <html lang="es">
+
+<?php include 'layouts/session.php'; ?>
+<?php include 'layouts/main.php'; ?>
+
+<?php 
+
+    include("modelo/conexion_bd.php");
+
+    $conn = $conexion;
+
+    $sqlProd = "SELECT *
+    FROM productos
+    limit 9";
+    $resultProd = $conn->query($sqlProd);
+
+?>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mi Colegio</title>
-    <link rel="stylesheet" href="css/estilo_login.css">  
     <link rel="icon" type="icon" href="micolegioImg/logo icono.png"/>
+
+    <link rel="stylesheet" href="css/estiloPagCliente.css">  
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <?php includeFileWithVariables('layouts/title-meta.php', array('title' => 'Dashboard')); ?>
+
+    <!-- jsvectormap css -->
+    <link href="assets/libs/jsvectormap/css/jsvectormap.min.css" rel="stylesheet" type="text/css" />
+
+    <!--Swiper slider css-->
+    <link href="assets/libs/swiper/swiper-bundle.min.css" rel="stylesheet" type="text/css" />
+
+    <?php include 'layouts/head-css.php'; ?>
 </head>
 
 <style>
+    @import url('https://fonts.googleapis.com/css2?family=Arsenal:ital,wght@0,400;0,700;1,400;1,700&family=Barlow:ital,wght@1,500&display=swap');
     @import url(https://fonts.googleapis.com/css2?family=Barlow:wght@100&display=swap);
     @import url(https://fonts.googleapis.com/css2?family=Barlow:wght@700&display=swap);
     @import url(https://fonts.googleapis.com/css2?family=Barlow:ital,wght@1,500&display=swap);
     @import url(https://fonts.googleapis.com/css2?family=Aleo&display=swap);
     @import url(https://fonts.googleapis.com/css2?family=Barlow:ital,wght@1,600&display=swap);
 
-    * {
-        font-family: Barlow;
-        font-weight: 500;
+    .img_productos{
+        background-image: url(micolegioImg/fondoProd.png) ;
+        width:90%;
+        height: 367px;
+        flex-grow: 0;
+        margin: 102px 49px 0 50px;
+        padding: 59.5px 4.5px 51.9px 567.2px;
+        background-size: cover;
+        border-radius: 50px;
+    }
+
+    .texto_productos{
+        width: 80%;
+        height: 165.1px;
+        flex-grow: 0;
+        margin: 0 0 21.8px;
+        -webkit-backdrop-filter: blur(4px);
+        backdrop-filter: blur(4px);
+        font-family: Arsenal;
+        font-size: 70px;
+        font-weight: bold;
         font-stretch: normal;
         font-style: italic;
+        line-height: normal;
+        letter-spacing: normal;
+        text-align: center;
+        color: #fff;
     }
 
-    input {
-        font-style: normal;
-        font-weight: 600;
+    .btn_productos{
+        width: 35%;
+        height: 68.7px;
+        flex-grow: 0;
+        margin: 21.8px 226.5px 0 225.6px;
+        border-radius: 30px;
+        background-color: #fff;
+        padding-top: 10px;
+        border-color: white;
     }
 
-    .selects {
-        font-style: normal;
-        background: #eee; 
-        border: none; 
-        border-radius: 50px; 
-        padding: 12px 15px;
+    .txt_btn_productos{
+        width: 100%;
+        height: 68.7px;
+        flex-grow: 0;
+        font-family: Arsenal;
+        font-size: 30px;
+        font-weight: bold;
+        font-stretch: normal;
+        font-style: italic;
+        line-height: normal;
+        letter-spacing: normal;
+        text-align: center;
+        color: #6100ff;
     }
+
 </style>
 
-<body>
-<!-- Animated Wave Background  -->
-<div class="ocean">
-    <div class="wave"></div>
-    <div class="wave"></div>
-</div>
-<!-- Log In Form Section -->
-<section>
-    <div class="container" id="container">
-        <div class="form-container sign-in-container">
-            <form action="" method="post" class="login">
-                <?php
-                    include("modelo\conexion_bd.php");
-                    include("controlador\controlador_inicio_sesion.php");        
-                ?> 
-                <h1 style="margin-bottom: 20px;color:indigo; font-size:35px; ">
-                Iniciar Sesión</h1>
-                <label>
-                    <input type="text" name="rut_cliente" id="rut_cliente_login" maxlength="12" placeholder="Usuario" required style="background: #eee; border: none; border-radius: 50px; padding: 12px 15px;width:100%"/>
-                </label>
-                <label>
-                    <input type="password" name="clave" placeholder="Contraseña" required style="background: #eee; border: none; border-radius: 50px; padding: 12px 15px;width:100%; margin-top:5px"/>
-                </label>
-                <div class="cuadroiniciar" >
-                    <input class="boton" type="submit" value="Ingresar" name="btniniciar" style="color: white;background-color:slateblue; font-size:15px; border: none; border-radius: 50px; padding: 12px 15px;margin-top:20px">
+<body style="background-color: white;">
+
+    <?php include 'includes/topbar.php'; ?>
+
+    <div class="slider">
+
+
+        <div class="list">
+
+            <div class="item">
+                <img src="./micolegioImg/fondislider.png" alt="">
+
+                <div class="content" style="margin-top: 100px;">
+                    <div class="title" style="color: #5647ff;">¡Directo a tu hogar! <br> </div>
+                    <div class="type" style="color: #5e2cca;font-size: 40px;
+                    margin-top: 40px;">Asegura tu lista escolar 2024</div>
+                    
+                    <div class="button">
+                        <a href="ListasColegioPagCliente.php">
+                            <button style="border-radius: 30px;background-color: #7000FF;color: white;
+                            font-weight: bold; font-stretch: normal; font-style: italic;
+                            line-height: normal; letter-spacing: normal; text-align: center; font-size: 20px;
+                            width: 180%;height: 130%; margin-top: 20px;">¡Reserva tu lista!</button>
+                        </a>
+                    </div>
                 </div>
-            </form>
+            </div>
+
+            <div class="item">
+                <img src="./micolegioImg/fondo slider.PNG" alt="" >
+
+                <div class="content" style="margin-top: 100px;">
+                    <div class="title" style="color: #6229BF; text-shadow:none">¡Ahorra tiempo!  <br> </div>
+                    <div class="type" style="color: #5647ff;font-size: 25px;
+                    margin-top: 20px; text-shadow:none">Evita la caótica búsqueda de los útiles escolares.
+                    <br>Aquí encontrarás todas las listas escolares del país, 
+                    <br>junto con los mejores precios 🤑</div>
+                    
+                    <div class="button">
+                        <a href="ListasColegioPagCliente.php">
+                            <button style="border-radius: 30px;background-color: #6229BF;color: white;
+                            font-weight: bold; font-stretch: normal; font-style: italic;
+                            line-height: normal; letter-spacing: normal; text-align: center; font-size: 20px;
+                            width: 180%;height: 130%; ">Busca tu colegio</button>
+                        </a>                      
+                    </div>
+                </div>
+            </div>
+
         </div>
 
-        <div class="form-container sign-up-container">
-            <form action="procesarClientePagCliente.php" method="post" autocomplete="off" style="padding-right: 10px;">
-                <h1 style="margin-bottom: 20px;color:navy; font-size:30px;">Registro</h1>
-                
-                <div style="display: grid;grid-template-columns: repeat(2, 1fr);gap: 5px;">                      
-                    <label>
-                        <input type="text" name="rut_cliente" id="rut_cliente_registro" maxlength="12" placeholder="RUT" required style="background: #eee; border: none; border-radius: 50px; padding: 12px 15px;width:90%"/>
-                    </label>
-                    <label>
-                        <input type="password" placeholder="Clave" name="clave" required style="background: #eee; border: none; border-radius: 50px; padding: 12px 15px;width:90%"/>
-                    </label>
-                    <label>
-                        <input type="text" name="nombre_cliente" id="nombre_cliente" placeholder="Nombre" required style="background: #eee; border: none; border-radius: 50px; padding: 12px 15px;width:90%"/>
-                    </label>
-                    <label>
-                        <input type="text" name="apellido_cliente" id="apellido_cliente" placeholder="Apellido" required style="background: #eee; border: none; border-radius: 50px; padding: 12px 15px;width:90%"/>
-                    </label>
-                    <label>
-                        <input type="email" name="email" placeholder="Email" required style="background: #eee; border: none; border-radius: 50px; padding: 12px 15px;width:90%"/>
-                    </label>
-                    <label>
-                        <input type="number" name="telefono" placeholder="Teléfono" required style="background: #eee; border: none; border-radius: 50px; padding: 12px 15px;width:90%"/>
-                    </label>
-                    <label>
-                        <input type="text" name="direccion" id="direccion" placeholder="Dirección" required style="background: #eee; border: none; border-radius: 50px; padding: 12px 15px;width:90%"/>
-                    </label>
+        <div class="thumbnail">
 
-                    <label>
-                        <select class="selects" data-choices name="id_comuna" id="choices-single-default" required
-                        style="background: #eee; border: none; border-radius: 50px; padding: 12px 15px; ">
-                            <option value="">Seleccione comuna</option>
-                            <?php
-                            // Establecer conexión a la base de datos
-                            include("modelo\conexion_bd.php");
+            <div class="item">
+                <img src="./micolegioImg/fondi.PNG" alt="">
+            </div>
+            <div class="item">
+                <img src="./micolegioImg/fondo slider.PNG" alt="">
+            </div>            
 
-                            // Consulta SQL para obtener las opciones
-                            $sql = "SELECT id_comuna, nombre_comuna FROM comuna";
-                            $result = $conexion->query($sql);
-
-                            // Confirma si hay resultados, ordenandolos por id 
-                            // Si no hay datos, muestra la opción de no hay registros
-                            if ($result->num_rows > 0){
-                                while($row = $result->fetch_assoc()) {
-                                    echo "<option value='" . $row["id_comuna"] . "'>" . $row["nombre_comuna"] . "</option>";
-                                }
-                            }else{
-                                echo "<option value=''>No hay registros de comunas</option>";
-                            }
-
-                            $conexion->close();
-                            ?>
-                        </select>
-                    </label>
-
-                    <label>
-                        <select class="selects" name="parentesco" required
-                        style="background: #eee; border: none; border-radius: 50px; padding: 12px 15px; ">
-                            <option value="">Ingrese parentesco</option>
-                            <option value="Padre" required>Padre</option>
-                            <option value="Madre" required>Madre</option>
-                            <option value="Abuelo" required>Abuelo</option>
-                            <option value="Abuela" required>Abuela</option>
-                            <option value="Tía" required>Tía</option>
-                            <option value="Tío" required>Tío</option>
-                        </select>
-                    </label>
-
-                    <label>
-                        <input type="text" id="date-field" class="form-control" placeholder="Cliente" required name="rol" value="Cliente" readonly style="display: none"/>
-                    </label>
-                                 
-                </div>
-                <button type="submit" value="Enviar" style="margin-top: 9px">Registrarse</button>
-            </form>
         </div>
 
-        <div class="overlay-container">
-            <div class="overlay">
-                <div class="overlay-panel overlay-left">
-                    <h1 style="font-size: 35px;">Inicia Sesión</h1>
-                    <p style="font-size: 15px;">Inicie sesión aquí si ya tiene una cuenta</p>
-                    <button class="ghost mt-5" id="signIn">Iniciar sesión</button>
-                </div>
-                <div class="overlay-panel overlay-right">
-                    <h1 style="font-size: 35px;">¡Regístrate!</h1>
-                    <p style="font-size:15px">Regístrate aquí si aún no tienes una cuenta </p>
-                    <button class="ghost" id="signUp">Registrarse</button>    
+        <div class="nextPrevArrows">
+            <button class="prev" style="background-color: #7c49e8;"> < </button>
+            <button class="next" style="background-color: #7c49e8;"> > </button>
+        </div>
+
+    </div>
+
+    <div class="container_productos" style="display: grid;place-items: center;background-color: white; width:100%">
+        <div class="img_productos" style="width: 90%;"> 
+            <h1 class="texto_productos" style="width: 100%;">¡Conoce los productos disponibles!</h1>
+
+            <a href="ProductosPagCliente.php">
+                <button class="btn_productos">
+                    <p class="txt_btn_productos">Ver productos</p>
+                </button>
+            </a>
+        </div>
+    </div>
+
+    <div class="main-content" style="margin-left:5%; width:90%">
+        <div class="page-content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title mb-0" style="font-size:50px; color:blueviolet">Productos 📐</h4>
+                            </div><!-- end card header -->
+                            <div class="card-body">
+                                <p class="text-muted" style="font-size: 20px;">¡Estos son nuestros productos!✨</p>
+                                <!-- Swiper -->
+                                <div class="swiper responsive-swiper rounded gallery-light pb-4">
+                                    <div class="swiper-wrapper">
+                                        <?php while($rowProd = $resultProd->fetch_assoc()) :?>
+                                        <div class="swiper-slide">
+                                            <div class="gallery-box card">
+                                                <div class="gallery-container text-center">
+                                                    <a class="image-popup" href="assets/images/small/img-1.jpg" title="">
+                                                        <img class="gallery-img img-fluid mx-auto" src="<?=  $rowProd['dir'] ?>" alt="" style="width: 50%; height:180px;" />
+                                                        <div class="gallery-overlay">
+                                                            <h5 class="overlay-caption"><?=  $rowProd['nombre_producto'] . "  $" . $rowProd['precio'] ?></h5>
+                                                            
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                                <div class="box-content">
+                                                    <div class="d-flex justify-content-center align-items-center mt-1">
+                                                        <div class="text-muted">
+                                                            <a href="" class="text-body text-truncate text-center"><?= $rowProd['nombre_producto'] ?></a>
+                                                            <a href="" class="text-body text-truncate text-center" style="color: blue">$<?= $rowProd['precio'] ?></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <?php endwhile; ?>
+                                    </div>
+                                    <div class="swiper-pagination swiper-pagination-dark"></div>
+                                </div>
+                            </div><!-- end card-body -->
+                        </div><!-- end card -->
+                    </div>
+                    <!--end col-->
                 </div>
             </div>
         </div>
     </div>
-</section>
 
-<script>
-    const signUpButton = document.getElementById('signUp');
-    const signInButton = document.getElementById('signIn');
-    const container = document.getElementById('container');
+    <script src="js/app.js"></script>
 
-    signUpButton.addEventListener('click', () =>
-        container.classList.add('right-panel-active'));
+    <?php include 'includes/topbarCliente.php'; ?>
+    <?php include 'includes/footerCliente.php'; ?>
 
-    signInButton.addEventListener('click', () =>
-        container.classList.remove('right-panel-active'));
+    <?php include 'layouts/vendor-scripts.php'; ?>
 
-    function formatRUT(rut) {
-        // Elimina los puntos y el guion existentes
-        rut = rut.replace(/[.-]/g, '');
-        
-        // Divide el RUT en el número y el dígito verificador
-        let cuerpo = rut.slice(0, -1);
-        let dv = rut.slice(-1).toUpperCase();
-        
-        // Añade los puntos cada tres dígitos
-        cuerpo = cuerpo.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-        
-        // Junta el número con el dígito verificador
-        return `${cuerpo}-${dv}`;
-    }
+        <!-- apexcharts -->
+        <script src="assets/libs/apexcharts/apexcharts.min.js"></script>
 
-    function validateRUT(input) {
-        let rut = input.value;
-        if (rut.length > 1) {
-            input.value = formatRUT(rut);
-        }
-    }
+        <!-- Vector map-->
+        <script src="assets/libs/jsvectormap/js/jsvectormap.min.js"></script>
+        <script src="assets/libs/jsvectormap/maps/world-merc.js"></script>
 
-    document.getElementById('rut_cliente_login').addEventListener('input', function() {
-        validateRUT(this);
-    });
+        <!--Swiper slider js-->
+        <script src="assets/libs/swiper/swiper-bundle.min.js"></script>
 
-    document.getElementById('rut_cliente_registro').addEventListener('input', function() {
-        validateRUT(this);
-    });
+        <!-- Dashboard init -->
+        <script src="assets/js/pages/dashboard-ecommerce.init.js"></script>
 
-    function capitalizeFirstLetter(input) {
-        input.value = input.value.charAt(0).toUpperCase() + input.value.slice(1);
-    }
+        <!-- App js -->
+        <script src="assets/js/app.js"></script>
 
-    document.getElementById('nombre_cliente').addEventListener('input', function() {
-        capitalizeFirstLetter(this);
-    });
+        <!-- swiper.init js -->
+        <script src="assets/js/pages/swiper.init.js"></script>
 
-    document.getElementById('apellido_cliente').addEventListener('input', function() {
-        capitalizeFirstLetter(this);
-    });
+        <!-- prismjs plugin -->
+        <script src="assets/libs/prismjs/prism.js"></script>
 
-    document.getElementById('direccion').addEventListener('input', function() {
-        capitalizeFirstLetter(this);
-    });
-
-</script>
-</body>
+    </body>
 </html>

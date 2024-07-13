@@ -4,36 +4,16 @@ session_start();
 
 // Función para limpiar y transformar el RUT a números para insertar en bd
 function limpiarRut($rut) {
-    $rut = str_replace(['.', '-'], '', $rut);
-    $ultimo_caracter = substr($rut, -1);
-    if (strtolower($ultimo_caracter) == 'k') {
-        $rut = substr($rut, 0, -1) . '10';
-    }
-    return $rut;
+    return str_replace(['.', '-'], '', $rut);
 }
 
-// Función para validar el RUT chileno
-function validarRut($rut) {
-    // Limpiar el RUT y verificar que solo contenga dígitos y una letra K al final
-    $rut = str_replace(['.', '-'], '', $rut);
-    if (!preg_match('/^\d+(\d|k|K)$/', $rut)) {
-        return false; // RUT no válido si no cumple con el formato
+// Función para validar que el RUT tenga 12 caracteres y no contenga letras excepto la K
+function validarRutFormato($rut) {
+    // Verificar que el RUT tenga 12 caracteres y siga el formato correcto
+    if (strlen($rut) != 12 || !preg_match('/^[0-9]{1,3}\.[0-9]{3}\.[0-9]{3}-[0-9kK]{1}$/', $rut)) {
+        return false;
     }
-
-    $cuerpo = substr($rut, 0, -1);
-    $dv = strtoupper(substr($rut, -1));
-
-    $suma = 0;
-    $factor = 2;
-    for ($i = strlen($cuerpo) - 1; $i >= 0; $i--) {
-        $suma += $factor * $cuerpo[$i];
-        $factor = $factor == 7 ? 2 : $factor + 1;
-    }
-    $dv_calculado = 11 - ($suma % 11);
-    if ($dv_calculado == 11) $dv_calculado = 0;
-    if ($dv_calculado == 10) $dv_calculado = 'K';
-
-    return $dv == $dv_calculado;
+    return true;
 }
 
 if (!empty($_POST["btniniciar"])) {
@@ -48,18 +28,20 @@ if (!empty($_POST["btniniciar"])) {
         </script>
         <?php    
     } else {
-        $rut_cliente = limpiarRut($_POST["rut_cliente"]);
+        $rut_cliente = $_POST["rut_cliente"];
         $clave = $_POST["clave"];
 
-        if (!validarRut($rut_cliente)) {
+        if (!validarRutFormato($rut_cliente)) {
             header("Location: index.php?invalido=true");
             exit();
         }
 
+        $rut_cliente_limpio = limpiarRut($rut_cliente);
+
         $sql = "SELECT * FROM cliente 
                 JOIN comuna ON cliente.id_comuna = comuna.id_comuna
                 JOIN region ON comuna.id_region = region.id_region
-                WHERE rut_cliente='$rut_cliente' AND clave='$clave'";
+                WHERE rut_cliente='$rut_cliente_limpio' AND clave='$clave'";
 
         $result = $conexion->query($sql);
 
@@ -84,14 +66,15 @@ if (!empty($_POST["btniniciar"])) {
                 title: "Datos correctos",
                 text: "Ingresando...",
                 icon: "success"
+                }).then(function() {
+                    <?php if ($_SESSION['rol'] == "Administrador") { ?>
+                        window.location.href = "Administracion.php";
+                    <?php } else if ($_SESSION['rol'] == "Cliente") { ?>
+                        window.location.href = "PagCliente.php";
+                    <?php } ?>
                 });
             </script>     
             <?php 
-            if ($_SESSION['rol'] == "Administrador") {
-                header("Location: Administracion.php");  
-            } else if ($_SESSION['rol'] == "Cliente") {
-                header("Location: PagCliente.php");  
-            }               
         } else {          
             ?>
             <script>         
