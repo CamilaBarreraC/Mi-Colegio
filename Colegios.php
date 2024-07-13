@@ -21,6 +21,7 @@ if (isset($_POST['xcolegio']) && !empty($_POST['xcolegio'])) {
 
 if (isset($_POST['xcomuna']) && !empty($_POST['xcomuna'])) {
     $comuna = $_POST['xcomuna'];
+    // strpost sirve en caso de que seleccione los 2 select a la vez
     if (strpos($sql, 'WHERE') !== false) {
         $sql .= " AND comuna.id_comuna = $comuna";
     } else {
