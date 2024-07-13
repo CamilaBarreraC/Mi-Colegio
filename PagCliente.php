@@ -145,7 +145,7 @@
     .txt_btn_sobre{
         width: 100%;
         font-family: Barlow;
-        font-size: 45px;
+        font-size: 40px;
         font-weight: bold;
         font-style: italic;
         color: white;
