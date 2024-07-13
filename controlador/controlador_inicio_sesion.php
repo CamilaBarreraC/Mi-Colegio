@@ -9,21 +9,37 @@ function limpiarRut($rut) {
 
 // Función para validar que el RUT tenga 12 caracteres y no contenga letras excepto la K
 function validarRutFormato($rut) {
-    // Verificar que el RUT tenga 12 caracteres y siga el formato correcto
-    if (strlen($rut) != 12 || !preg_match('/^[0-9]{1,3}\.[0-9]{3}\.[0-9]{3}-[0-9kK]{1}$/', $rut)) {
-        return false;
+    return (strlen($rut) == 12 && preg_match('/^[0-9]{1,3}\.[0-9]{3}\.[0-9]{3}-[0-9kK]{1}$/', $rut));
+}
+
+// Función para validar el dígito verificador del RUT
+function validarRut($rut) {
+    $rut = limpiarRut($rut);
+    $cuerpo = substr($rut, 0, -1);
+    $dv = strtoupper(substr($rut, -1));
+    
+    $suma = 0;
+    $factor = 2;
+    for ($i = strlen($cuerpo) - 1; $i >= 0; $i--) {
+        $suma += $factor * $cuerpo[$i];
+        $factor = $factor == 7 ? 2 : $factor + 1;
     }
-    return true;
+    
+    $dv_calculado = 11 - ($suma % 11);
+    if ($dv_calculado == 11) $dv_calculado = 0;
+    if ($dv_calculado == 10) $dv_calculado = 'K';
+
+    return $dv == $dv_calculado;
 }
 
 if (!empty($_POST["btniniciar"])) {
     if (empty($_POST["rut_cliente"]) || empty($_POST["clave"])) {
         ?>
-        <script>         
+        <script>
             Swal.fire({
-            icon: "error",
-            title: "<h3 style='font-family: Barlow; font-style: italic'>Intente nuevamente</h3>",
-            text: "Ingrese las credenciales"
+                icon: "error",
+                title: "<h3 style='font-family: Barlow; font-style: italic'>Intente nuevamente</h3>",
+                text: "Ingrese las credenciales"
             });
         </script>
         <?php    
@@ -31,7 +47,8 @@ if (!empty($_POST["btniniciar"])) {
         $rut_cliente = $_POST["rut_cliente"];
         $clave = $_POST["clave"];
 
-        if (!validarRutFormato($rut_cliente)) {
+        // Validar formato y existencia del RUT
+        if (!validarRutFormato($rut_cliente) || !validarRut($rut_cliente)) {
             header("Location: index.php?invalido=true");
             exit();
         }
@@ -63,15 +80,11 @@ if (!empty($_POST["btniniciar"])) {
             ?>
             <script>           
                 Swal.fire({
-                title: "Datos correctos",
-                text: "Ingresando...",
-                icon: "success"
+                    title: "Datos correctos",
+                    text: "Ingresando...",
+                    icon: "success"
                 }).then(function() {
-                    <?php if ($_SESSION['rol'] == "Administrador") { ?>
-                        window.location.href = "Administracion.php";
-                    <?php } else if ($_SESSION['rol'] == "Cliente") { ?>
-                        window.location.href = "PagCliente.php";
-                    <?php } ?>
+                    window.location.href = "<?php echo $_SESSION['rol'] == 'Administrador' ? 'Administracion.php' : 'PagCliente.php'; ?>";
                 });
             </script>     
             <?php 
@@ -79,9 +92,9 @@ if (!empty($_POST["btniniciar"])) {
             ?>
             <script>         
                 Swal.fire({
-                icon: "error",
-                title: "<h3 style='font-family: Barlow; font-style: italic'>Intente nuevamente</h3>",
-                text: "Datos incorrectos"
+                    icon: "error",
+                    title: "<h3 style='font-family: Barlow; font-style: italic'>Intente nuevamente</h3>",
+                    text: "Datos incorrectos"
                 });
             </script>
             <?php         

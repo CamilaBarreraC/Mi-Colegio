@@ -4,6 +4,7 @@
     @import url(https://fonts.googleapis.com/css2?family=Barlow:ital,wght@1,500&display=swap);
     @import url(https://fonts.googleapis.com/css2?family=Aleo&display=swap);
     @import url(https://fonts.googleapis.com/css2?family=Barlow:ital,wght@1,600&display=swap);
+    @import url(https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap);
 
     .logo1:hover{
         color: fuchsia;
@@ -13,16 +14,18 @@
         align-items: center;
         text-align:center; 
         color:#C5CEFF; 
-        font-weight: 800; 
-        font-size: 30px; 
         margin-top: 10px; 
         margin-right:25px;
         border-radius: 10px;
+        font-family: "Be Vietnam Pro", sans-serif;
+        font-size: 27px;
+        font-weight: 400;
+        font-style: italic;
     }
 
     .side:hover{
         color:white;
-        transform:rotate(6deg);
+        transform:rotate(3deg);
     }
 </style>
 
@@ -90,6 +93,9 @@
             <div class="d-flex align-items-center">
 
                 <div class="d-flex align-items-center" style="margin-right: 20px;">
+                    <a href="SobreNosotros.php">
+                        <h1 class="side d-none d-xl-inline-block ms-1 fw-semibold">Nosotros</h1>
+                    </a>
                     <a href="ProductosPagCliente.php">
                         <h1 class="side d-none d-xl-inline-block ms-1 fw-semibold">Productos</h1>
                     </a>

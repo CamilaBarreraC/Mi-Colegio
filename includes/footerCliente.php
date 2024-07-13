@@ -10,7 +10,6 @@
         width: 100%;
         height: 100%;
         flex-grow: 0;
-        margin: 249px 0 0;
         padding: 24.3px 189px 36px 105px;
         background-color: #5c46ea;
     }
@@ -88,6 +87,8 @@
     .bxl-gmail:hover{
         color: red;
     }
+
+    
 
 </style>
 

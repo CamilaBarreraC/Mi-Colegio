@@ -39,7 +39,7 @@
 </head>
 
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Arsenal:ital,wght@0,400;0,700;1,400;1,700&family=Barlow:ital,wght@1,500&display=swap');
+    @import url(https://fonts.googleapis.com/css2?family=Arsenal:ital,wght@0,400;0,700;1,400;1,700&family=Barlow:ital,wght@1,500&display=swap);
     @import url(https://fonts.googleapis.com/css2?family=Barlow:wght@100&display=swap);
     @import url(https://fonts.googleapis.com/css2?family=Barlow:wght@700&display=swap);
     @import url(https://fonts.googleapis.com/css2?family=Barlow:ital,wght@1,500&display=swap);
@@ -99,6 +99,74 @@
         letter-spacing: normal;
         text-align: center;
         color: #6100ff;
+    }
+
+    .img_sobre{
+        background-image: url(micolegioImg/sobrenosotros.png);
+        width: 90%;
+        height: 550px;
+        margin: 102px 49px 0 50px;
+        background-size: cover;
+        border-radius: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .titulo_sobre{
+        width: 100%;
+        font-family: Arsenal;
+        font-size: 60px;
+        font-weight: bold;
+        font-style: italic;
+        color: #ee008f;
+    }
+
+    .texto_sobre{
+        width: 80%;
+        margin-top: 20px;
+        font-family: Arsenal;
+        font-size: 30px;
+        font-style: italic;
+        color: #4d0099;
+    }
+
+    .btn_sobre{
+        width: 263.7px;
+        height: 64.2px;
+        margin-top: 20px;
+        border-radius: 20px;
+        background-color: #ff006b;
+        border: none;
+    }
+
+    .txt_btn_sobre{
+        width: 100%;
+        font-family: Barlow;
+        font-size: 45px;
+        font-weight: bold;
+        font-style: italic;
+        color: white;
+    }
+
+    @media (max-width: 768px) {
+        .texto_productos, .titulo_sobre, .texto_sobre {
+            font-size: 24px;
+        }
+        .btn_productos, .btn_sobre {
+            width: 100%;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .texto_productos, .titulo_sobre {
+            font-size: 18px;
+        }
+        .texto_sobre {
+            font-size: 16px;
+        }
     }
 
 </style>
@@ -170,6 +238,22 @@
             <button class="next" style="background-color: #7c49e8;"> > </button>
         </div>
 
+    </div>
+
+    <div class="container_productos" style="display: grid;place-items: center;background-color: white; width:100%">
+        <div class="img_sobre" style="width: 90%;"> 
+            <h1 class="titulo_sobre" style="width: 100%;">Sobre nosotros</h1>
+            <p class="texto_sobre">Mi Colegio es una innovadora plataforma enfocada en proporcionar <br>
+            listas de útiles escolares para familias y estudiantes en Chile. Nuestra <br>
+            misión es simplificar la compra de materiales escolares, asegurando que <br>
+            los estudiantes estén equipados con todo lo necesario para un exitoso <br>
+             año académico.</p>
+            <a href="SobreNosotros.php">
+                <button class="btn_sobre">
+                    <p class="txt_btn_sobre">Saber más</p>
+                </button>
+            </a>
+        </div>
     </div>
 
     <div class="container_productos" style="display: grid;place-items: center;background-color: white; width:100%">
