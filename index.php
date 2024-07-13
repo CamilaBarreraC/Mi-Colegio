@@ -150,8 +150,8 @@
                     <button class="ghost mt-5" id="signIn">Iniciar sesión</button>
                 </div>
                 <div class="overlay-panel overlay-right">
-                    <h1 style="font-size: 35px;">¡Registrate!</h1>
-                    <p style="font-size:15px">Registrate aquí si aún no tienes una cuenta </p>
+                    <h1 style="font-size: 35px;">¡Regístrate!</h1>
+                    <p style="font-size:15px">Regístrate aquí si aún no tienes una cuenta </p>
                     <button class="ghost" id="signUp">Registrarse</button>    
                 </div>
             </div>

@@ -53,7 +53,10 @@ class ModeloCategoria {
         $stmt2 = $this->PDO->prepare("DELETE FROM productos WHERE id_categoria = :id_categoria");
         $stmt2->bindParam(':id_categoria', $id_categoria);
 
-        return ($stmt2->execute() && $stmt->execute()) ? true : false;
+        $stmt3 = $this->PDO->prepare("DELETE FROM l1_productos WHERE id_producto IN (SELECT id_producto FROM productos WHERE id_categoria = :id_categoria)");
+        $stmt3->bindParam(':id_categoria', $id_categoria);
+
+        return ($stmt3->execute() && $stmt2->execute() && $stmt->execute()) ? true : false;
     }
 }
 ?>

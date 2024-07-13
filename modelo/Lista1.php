@@ -52,10 +52,10 @@ class ModeloLista1 {
         WHERE id_lista_1 = :id_lista_1");
         $stmt->bindParam(':id_lista_1', $id_lista_1);
 
-        //$stmt2 = $this->PDO->prepare("DELETE FROM lista_1 WHERE id_lista_1 = :id_lista_1");
-        //$stmt2->bindParam(':id_lista_1', $id_lista_1);
+        $stmt2 = $this->PDO->prepare("DELETE FROM l1_productos WHERE id_lista_1 = :id_lista_1");
+        $stmt2->bindParam(':id_lista_1', $id_lista_1);
 
-        return ($stmt->execute()) ? true : false;
+        return ($stmt2->execute() && $stmt->execute()) ? true : false;
     }
 }
 ?>
