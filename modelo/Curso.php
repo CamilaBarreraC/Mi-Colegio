@@ -48,7 +48,26 @@ class ModeloCurso {
 
         $stmt = $this->PDO->prepare("DELETE FROM curso WHERE id_curso = :id_curso");
         $stmt->bindParam(':id_curso', $id_curso);
-        return ($stmt->execute()) ? true : false;
+
+        $stmt2 = $this->PDO->prepare("DELETE FROM lista_1 WHERE id_curso = :id_curso");
+        $stmt2->bindParam(':id_curso', $id_curso);
+
+        $stmt3 = $this->PDO->prepare("DELETE FROM l1_productos WHERE id_lista_1 IN (SELECT id_lista_1 FROM lista_1 WHERE id_curso = :id_curso)");
+        $stmt3->bindParam(':id_curso', $id_curso);
+
+        $stmt4 = $this->PDO->prepare("DELETE FROM alumno WHERE id_curso = :id_curso");
+        $stmt4->bindParam(':id_curso', $id_curso);
+
+        $stmt5 = $this->PDO->prepare("DELETE FROM lista_2 WHERE id_curso = :id_curso");
+        $stmt5->bindParam(':id_curso', $id_curso);
+
+        $stmt6 = $this->PDO->prepare("DELETE FROM detalle_pedido WHERE id_lista_2 IN (SELECT id_lista_2 FROM lista_2 WHERE id_curso = :id_curso)");
+        $stmt6->bindParam(':id_curso', $id_curso);
+
+        $stmt7 = $this->PDO->prepare("DELETE FROM l2_productos WHERE id_lista_2 IN (SELECT id_lista_2 FROM lista_2 WHERE id_curso = :id_curso)");
+        $stmt7->bindParam(':id_curso', $id_curso);
+
+        return ($stmt7->execute() && $stmt6->execute() && $stmt5->execute() && $stmt4->execute() && $stmt3->execute() && $stmt2->execute() && $stmt->execute()) ? true : false;
     }
 }
 ?>

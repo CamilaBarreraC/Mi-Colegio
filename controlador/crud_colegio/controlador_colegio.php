@@ -32,7 +32,7 @@ class ControladorColegio {
     }
 
     public function eliminarColegio($id_colegio){
-        return ($this->modelo->eliminarColegio($id_colegio)) ? header("Location: alertas/AlertasColegios/alertaEliminar.php") : header("Location: alertas/AlertasColegio/alertaEliminar.php?id_colegio=".$id_colegio);
+        return ($this->modelo->eliminarColegio($id_colegio)) ? header("Location: alertas/AlertasColegio/alertasEliminar.php") : header("Location: alertas/AlertasColegio/alertasEliminar.php?id_colegio=".$id_colegio);
     }
 }
 ?>

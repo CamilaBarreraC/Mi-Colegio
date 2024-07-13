@@ -32,7 +32,7 @@ class ControladorCurso {
     }
 
     public function eliminarCurso($id_curso){
-        return ($this->modelo->eliminarCurso($id_curso)) ? header("Location: alertas/AlertasCurso/alertaEliminar.php") : header("Location: alertas/AlertasCurso/alertaEliminar.php?id_curso=".$id_curso);
+        return ($this->modelo->eliminarCurso($id_curso)) ? header("Location: alertas/AlertasCurso/alertasEliminar.php") : header("Location: alertas/AlertasCurso/alertasEliminar.php?id_curso=".$id_curso);
     }
 }
 ?>
