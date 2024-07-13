@@ -13,38 +13,22 @@ $sql = "SELECT id_colegio, nombre_de_colegio, colegio.id_comuna, direccion, nomb
     FROM colegio 
     JOIN comuna ON colegio.id_comuna = comuna.id_comuna 
     JOIN region ON comuna.id_region = region.id_region";
-$result = $conn->query($sql);
 
-$colegio = "";
-
-// Agrega WHERE según los valores de los selects con filtros
-if (empty($_POST['xcolegio'])) {
-    $sql = "SELECT id_colegio, nombre_de_colegio, colegio.id_comuna, direccion, nombre_comuna, nombre_region 
-    FROM colegio 
-    JOIN comuna ON colegio.id_comuna = comuna.id_comuna 
-    JOIN region ON comuna.id_region = region.id_region";
-}else{
+if (isset($_POST['xcolegio']) && !empty($_POST['xcolegio'])) {
     $colegio = $_POST['xcolegio'];
     $sql .= " WHERE comuna.id_region = $colegio";
 }
 
-$result = $conn->query($sql);
-
-//consulta sobre la comuna 
-
-$comuna = "";
-
-if (empty($_POST['xcomuna'])) {
-    $sql = "SELECT id_colegio, nombre_de_colegio, colegio.id_comuna, direccion, nombre_comuna, nombre_region 
-    FROM colegio 
-    JOIN comuna ON colegio.id_comuna = comuna.id_comuna 
-    JOIN region ON comuna.id_region = region.id_region";
-}else{
+if (isset($_POST['xcomuna']) && !empty($_POST['xcomuna'])) {
     $comuna = $_POST['xcomuna'];
-    $sql .= " WHERE comuna.id_comuna = $comuna";
+    if (strpos($sql, 'WHERE') !== false) {
+        $sql .= " AND comuna.id_comuna = $comuna";
+    } else {
+        $sql .= " WHERE comuna.id_comuna = $comuna";
+    }
 }
 
-$result1 = $conn->query($sql);
+$result = $conn->query($sql);
 
 ?>
 
