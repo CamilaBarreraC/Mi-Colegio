@@ -20,14 +20,20 @@ function limpiarRut($rut) {
 
 // Función para validar el RUT chileno
 function validarRut($rut) {
-    // Asegurarse de que el RUT tenga solo números y una "K" o "k" como DV
-    if (!preg_match('/^\d+([kK])?$/', $rut)) {
+    // Quitar puntos y guion
+    $rut = str_replace(['.', '-'], '', $rut);
+    // Verificar que el RUT tenga al menos 2 caracteres (número más dígito verificador)
+    if (strlen($rut) < 2) {
         return false;
     }
 
-    $rut = str_replace(['.', '-'], '', $rut);
     $cuerpo = substr($rut, 0, -1);
     $dv = strtoupper(substr($rut, -1));
+
+    // Verificar que el cuerpo del RUT sea numérico
+    if (!is_numeric($cuerpo)) {
+        return false;
+    }
 
     $suma = 0;
     $factor = 2;
@@ -36,8 +42,13 @@ function validarRut($rut) {
         $factor = $factor == 7 ? 2 : $factor + 1;
     }
     $dv_calculado = 11 - ($suma % 11);
-    if ($dv_calculado == 11) $dv_calculado = 0;
-    if ($dv_calculado == 10) $dv_calculado = 'K';
+    if ($dv_calculado == 11) {
+        $dv_calculado = '0';
+    } elseif ($dv_calculado == 10) {
+        $dv_calculado = 'K';
+    } else {
+        $dv_calculado = (string)$dv_calculado;
+    }
 
     return $dv == $dv_calculado;
 }
