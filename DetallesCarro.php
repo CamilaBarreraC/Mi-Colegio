@@ -212,7 +212,7 @@
 
                                                     <div class="input-step">
                                                         <button type="button" class="minus">–</button>
-                                                        <input type="number" class="product-quantity" name="cantidades[<?php echo $row['id_producto']; ?>]" value="<?php echo $row['cantidad']; ?>" min="1" max="<?php echo $row['stock']; ?>" readonly>
+                                                        <input type="number" class="product-quantity" name="cantidades[<?php echo $row['id_producto']; ?>]" value="<?php echo $row['cantidad']; ?>" min="1" max="100" readonly>
                                                         <button type="button" class="plus">+</button>
                                                     </div>
                                                 </div>
@@ -291,7 +291,7 @@
 
                                                     <div class="input-step">
                                                         <button type="button" class="minus">–</button>
-                                                        <input type="number" class="product-quantity" name="cantidades_extras[<?php echo $rowCurso['id_producto']; ?>]" value="<?php echo $rowCurso['cantidad']; ?>" min="1" max="<?php echo $rowCurso['stock']; ?>" readonly>
+                                                        <input type="number" class="product-quantity" name="cantidades_extras[<?php echo $rowCurso['id_producto']; ?>]" value="<?php echo $rowCurso['cantidad']; ?>" min="1" max="100" readonly>
                                                         <button type="button" class="plus">+</button>
                                                     </div>
                                                 </div>
