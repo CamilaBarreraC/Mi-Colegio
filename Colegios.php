@@ -97,73 +97,88 @@ $result = $conn->query($sql);
                                         Añadir colegio
                                     </button>
                                     <div class="accordion accordion-flush filter-accordion">
-    <div class="accordion-item">
-        <div id="flush-collapseBrands" class="accordion-collapse collapse show" aria-labelledby="flush-headingBrands">
-            <div class="accordion-body text-body pt-0">
-                <div class="d-flex flex-row align-items-center gap-2 mt-3 filter-check">
-                    <form class="d-flex flex-row align-items-center" method="post">
-                        <select name="xcolegio" class="form-select me-2">
-                            <option value="">Seleccione región</option>
-                            <?php
-                            // Consulta SQL para obtener las opciones
-                            $sql = "SELECT id_region, nombre_region FROM region";
-                            $resultCat = $conn->query($sql);
+                                        <div class="accordion-item">
+                                            <div id="flush-collapseBrands" class="accordion-collapse collapse show"
+                                                aria-labelledby="flush-headingBrands">
+                                                <div class="accordion-body text-body pt-0">
+                                                    <div
+                                                        class="d-flex flex-row align-items-center gap-2 mt-3 filter-check">
+                                                        <form class="d-flex flex-row align-items-center" method="post">
+                                                            <select name="xcolegio" class="form-select me-2">
+                                                                <option value="">Seleccione región</option>
+                                                                <?php
+                                                                // Consulta SQL para obtener las opciones
+                                                                $sql = "SELECT id_region, nombre_region FROM region";
+                                                                $resultCat = $conn->query($sql);
 
-                            // Confirma si hay resultados
-                            if ($resultCat->num_rows > 0) {
-                                while ($row = $resultCat->fetch_assoc()) {
-                                    echo "<option value='" . $row["id_region"] . "'>" . $row["nombre_region"] . "</option>";
-                                }
-                            } else {
-                                echo "<option value=''>No hay registros de categorías</option>";
-                            }
-                            ?>
-                        </select>
-                        <select name="xcomuna" class="form-select me-2">
-                            <option value="">Seleccione comuna</option>
-                            <?php
-                            // Consulta SQL para obtener las opciones
-                            $sql = "SELECT id_comuna, nombre_comuna FROM comuna";
-                            $resultCat = $conn->query($sql);
+                                                                // Confirma si hay resultados
+                                                                if ($resultCat->num_rows > 0) {
+                                                                    while ($row = $resultCat->fetch_assoc()) {
+                                                                        echo "<option value='" . $row["id_region"] . "'>" . $row["nombre_region"] . "</option>";
+                                                                    }
+                                                                } else {
+                                                                    echo "<option value=''>No hay registros de categorías</option>";
+                                                                }
+                                                                ?>
+                                                            </select>
+                                                            <select name="xcomuna" class="form-select me-2">
+                                                                <option value="">Seleccione comuna</option>
+                                                                <?php
+                                                                // Consulta SQL para obtener las opciones
+                                                                $sql = "SELECT id_comuna, nombre_comuna FROM comuna";
+                                                                $resultCat = $conn->query($sql);
 
-                            // Confirma si hay resultados
-                            if ($resultCat->num_rows > 0) {
-                                while ($row = $resultCat->fetch_assoc()) {
-                                    echo "<option value='" . $row["id_comuna"] . "'>" . $row["nombre_comuna"] . "</option>";
-                                }
-                            } else {
-                                echo "<option value=''>No hay registros de categorías</option>";
-                            }
-                            ?>
-                        </select>
-                        <button type="submit" class="btn btn-primary rounded-pill" style="font-size: 15px;" name="buscar"><i class="ri-equalizer-fill me-2 align-bottom"></i>Filtrar</button>
-                    </form>
-                    <a href="Colegios.php" class="link-secondary ms-3">Limpiar filtros</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-                                    <!--Excel-->
-                                    <form action="reporteExcel.php" method="post">
-                                        <button type="submit" class="btn btn-primary" name="reporte_colegio"
-                                            style="background-color:green; margin-bottom: 20px;">
-                                            <img style="width:20px; height:auto;" src="image/icono-excel.png"
-                                                alt="Excel Icon" class="icon">
-                                        </button>
-                                    </form>
+                                                                // Confirma si hay resultados
+                                                                if ($resultCat->num_rows > 0) {
+                                                                    while ($row = $resultCat->fetch_assoc()) {
+                                                                        echo "<option value='" . $row["id_comuna"] . "'>" . $row["nombre_comuna"] . "</option>";
+                                                                    }
+                                                                } else {
+                                                                    echo "<option value=''>No hay registros de categorías</option>";
+                                                                }
+                                                                ?>
+                                                            </select>
+                                                            <button type="submit" class="btn btn-primary rounded-pill"
+                                                                style="font-size: 15px;" name="buscar"><i
+                                                                    class="ri-equalizer-fill me-2 align-bottom"></i>Filtrar</button>
+                                                        </form>
+                                                        <a href="Colegios.php" class="link-secondary ms-3">Limpiar
+                                                            filtros</a>
 
-                                    <!--PDF-->
-                                    <form action="reportePDF.php" method="post">
-                                        <button type="submit" class="btn btn-primary" name="reporte_colegio"
-                                            style="background-color:red;margin-bottom: 20px">
-                                            <img style="width:20px; height:auto;" src="image/icono-pdf.png"
-                                                alt="PDF Icon" class="icon">
-                                        </button>
-                                    </form>
+                                                        <!--Excel-->
+                                                        <form action="reporteExcel.php" method="post">
+                                                            <input type="hidden" name="xcolegio"
+                                                                value="<?php echo isset($_POST['xcolegio']) ? $_POST['xcolegio'] : ''; ?>">
+                                                            <input type="hidden" name="xcomuna"
+                                                                value="<?php echo isset($_POST['xcomuna']) ? $_POST['xcomuna'] : ''; ?>">
+                                                            <button type="submit" class="btn btn-primary"
+                                                                name="reporte_colegio"
+                                                                style="background-color:green; margin-bottom: 20px; display:flex">
+                                                                <img style="width:20px; height:auto;"
+                                                                    src="image/icono-excel.png" alt="Excel Icon"
+                                                                    class="icon">
+                                                            </button>
+                                                        </form>
 
-
-
+                                                        <!--PDF-->
+                                                        <form action="reportePDF.php" method="post">
+                                                            <input type="hidden" name="xcolegio"
+                                                                value="<?php echo isset($_POST['xcolegio']) ? $_POST['xcolegio'] : ''; ?>">
+                                                            <input type="hidden" name="xcomuna"
+                                                                value="<?php echo isset($_POST['xcomuna']) ? $_POST['xcomuna'] : ''; ?>">
+                                                            <button type="submit" class="btn btn-primary"
+                                                                name="reporte_colegio"
+                                                                style="background-color:red;margin-bottom: 20px">
+                                                                <img style="width:20px; height:auto;"
+                                                                    src="image/icono-pdf.png" alt="PDF Icon"
+                                                                    class="icon">
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
 
                                     <table id="alternative-pagination"
                                         class="table nowrap dt-responsive align-middle table-hover table-bordered"
@@ -183,7 +198,7 @@ $result = $conn->query($sql);
                                                 <td style="color:blue"> <?= $row['id_colegio'] ?></td>
                                                 <td> <?= $row['nombre_de_colegio'] ?></td>
                                                 <td> <?= $row['nombre_comuna'] ?></td>
-                                                <td > <?= $row['nombre_region'] ?></td>
+                                                <td> <?= $row['nombre_region'] ?></td>
                                                 <td>
                                                     <div class='d-flex gap-2'>
                                                         <div class='edit'>
