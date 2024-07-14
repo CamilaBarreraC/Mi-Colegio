@@ -160,6 +160,9 @@
                                                 <div style="margin-bottom: 30px;">
                                                     <h4 class="mb-1">Información personal</h4>
                                                     <h8 class="mb-1">Verifique que la información esté correcta </h8>
+                                                    <a href="editarDatosCliente.php">
+                                                        <button type="submit" class="btn btn-primary rounded-pill" style="font-size: 15px; margin-left:400px" name="buscar"><i class="ri-edit-box-line align-bottom"></i>Editar datos</button>
+                                                    </a>
                                                 </div>
 
                                                 <div>
@@ -220,7 +223,7 @@
 
                                                         <div class="mb-3">
                                                             <label for="billinginfo-address" class="form-label">Dirección</label>
-                                                            <input class="form-control" id="billinginfo-address" placeholder="Ingrese dirección" value="<?= $usuario['direccion'] ?>"></input>
+                                                            <input class="form-control" id="billinginfo-address" placeholder="Ingrese dirección" value="<?= $usuario['direccion'] ?>" readonly></input>
                                                         </div>
                                                     </div>
 
@@ -246,7 +249,9 @@
                                                             <h5 class="fs-14 mb-0">Se enviará el pedido a esta dirección</h5>
                                                         </div>
                                                         <div class="flex-shrink-0">
-
+                                                            <a href="editarDatosCliente.php">
+                                                                <button type="submit" class="btn btn-primary rounded-pill" style="font-size: 15px; margin-left:400px" name="buscar"><i class="ri-edit-box-line align-bottom"></i>Editar datos</button>
+                                                            </a>
                                                         </div>
                                                     </div>
                                                     <div class="row gy-3">
