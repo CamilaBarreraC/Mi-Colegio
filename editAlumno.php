@@ -63,10 +63,9 @@
                             <?php if ($alumno): ?>
                             <form action="updateAlumno.php" method="post">
                                 <div class="row g-3">
-                                    <div class='col-xxl-6'>
+                                    <div class='col-xxl-6' style="display: none;">
                                         <div>    
-                                            <label for='id_alumno' class='form-label' >ID curso</label>
-                                            <input type='text' class='form-control' name="id_alumno" id="id_alumno" value="<?= $alumno['id_alumno'] ?>" readonly>                           
+                                            <input type='hidden' class='form-control' name="id_alumno" id="id_alumno" value="<?= $alumno['id_alumno'] ?>" readonly>                           
                                         </div>
                                     </div>
                                     
@@ -122,6 +121,35 @@
                                                 <option value="<?= $alumno['id_curso'] ?>"><?= $alumno['nombre_curso'] ?></option>
                                             </select>
 
+                                        </div>
+                                    </div><!--end col-->
+
+                                    <div class="col-xxl-6">
+                                        <div>
+                                            <label for="rut_apoderado" class="form-label" style="margin-top: 0px;">RUT apoderado</label>
+                                            <label for="rut_apoderado" class="form-label">RUT apoderado</label>
+                                            <select class="form-control" name="rut_apoderado" id="rut_apoderado" required>
+                                                <option value="<?= $alumno['rut_apoderado'] ?>"><?= $alumno['rut_apoderado'] ?></option>
+                                                <?php
+                                                    // Establecer conexión a la base de datos
+                                                    include("modelo\conexion_bd.php");
+
+                                                    // Consulta SQL para obtener las opciones
+                                                    $sql = "SELECT rut_cliente, nombre_cliente, apellido_cliente FROM cliente";
+                                                    $resultColegios = $conexion->query($sql);
+
+                                                    // Confirma si hay resultados, ordenandolos por id 
+                                                    // Si no hay datos, muestra la opción de no hay registros
+                                                    if ($resultColegios->num_rows > 0){
+                                                        while($row = $resultColegios->fetch_assoc()) {
+                                                            echo "<option value='" . $row["rut_cliente"] . "'>" . $row["rut_cliente"] . " " .$row["nombre_cliente"] . " " .$row["apellido_cliente"] . "</option>";
+                                                        }
+                                                    }else{
+                                                        echo "<option value=''>No hay registros de apoderados</option>";
+                                                    }
+                                                $conexion->close();
+                                                ?>
+                                            </select> 
                                         </div>
                                     </div><!--end col-->
 
