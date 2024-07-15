@@ -1,4 +1,5 @@
 <?php
+session_start(); // Inicia la sesión si no está iniciada aún
 require_once('controladorPagCliente/controlador_lista2productos/controlador_lista2productos.php');
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['productos'])) {
@@ -11,18 +12,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['productos'])) {
     $id_colegio = $_POST['id_colegio'];
     $rut_cliente = $_POST['rut_cliente'];
 
-    // Verificar si alguno de los productos ya existe en carro_productos o carro_productos_extra
-    $duplicado = false;
-    foreach ($productos as $producto) {
-        $id_producto = $producto['id_producto'];
-        if ($controlador->existeProductoEnCarro($rut_cliente, $id_producto)) {
-            $duplicado = true;
-            break;
-        }
-    }
-
-    if ($duplicado) {
-        // Si alguno de los productos ya existe, redireccionar a la página de alerta
+    // Verificar si la lista ya existe antes de insertar en lista_2
+    if ($controlador->existeLista2($rut_cliente, $id_curso, $id_colegio)) {
+        // Si la lista ya existe, redireccionar a la página de alerta
         header("Location: alertasPagCliente/AlertasLista2Productos/alertaIngresar.php?duplicado=true");
         exit();
     } else {
