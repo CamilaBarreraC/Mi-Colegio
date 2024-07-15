@@ -171,7 +171,7 @@
                                                                                                 <div class="mx-auto avatar-md mb-3">
                                                                                                     <img src="micolegioImg/logo.png" alt="" class="img-fluid rounded-circle">
                                                                                                 </div>
-                                                                                                <h5 class="card-title mb-1"><?=  $row['id_alumno'] ?></h5>
+                                                                                                <h5 class="card-title mb-1" style="display: none;"><?=  $row['id_alumno'] ?></h5>
                                                                                                 <h5 class="card-title mb-1"><?=  $row['nombre_alumno'] . " " . $row['apellido_paterno'] ?></h5>
                                                                                                 <p class="text-muted mb-0"><?=  $row['nombre_curso'] ?></p>
                                                                                                 <p class="text-muted mb-0"><?=  $row['nombre_de_colegio'] ?></p>
