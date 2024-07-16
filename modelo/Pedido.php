@@ -50,7 +50,11 @@ class ModeloPedido {
 
         $stmt = $this->PDO->prepare("DELETE FROM pedido WHERE id_pedido = :id_pedido");
         $stmt->bindParam(':id_pedido', $id_pedido);
-        return ($stmt->execute()) ? true : false;
+
+        $stmt2 = $this->PDO->prepare("DELETE FROM detalle_pedido WHERE id_pedido = :id_pedido");
+        $stmt2->bindParam(':id_pedido', $id_pedido);
+
+        return ($stmt2->execute() && $stmt->execute()) ? true : false;
     }
 }
 ?>
