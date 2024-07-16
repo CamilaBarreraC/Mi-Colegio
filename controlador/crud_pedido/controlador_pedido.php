@@ -1,3 +1,4 @@
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <?php
 
@@ -20,8 +21,8 @@ class ControladorPedido {
 
     }
 
-    public function actualizarPedido($precio_total, $estado, $id_medio_pago, $rut_cliente, $id_lista_2, $id_pedido){
-        return ($this->modelo->actualizarPedido($precio_total, $estado, $id_medio_pago, $rut_cliente, $id_lista_2, $id_pedido) != false) ? header("Location: alertas/AlertasPedidos/alertaActualizar.php?id_pedido=".$id_pedido) : header("Location: alertas/AlertasPedidos/alertaActualizar.php");
+    public function actualizarPedido($estado, $id_pedido){
+        return ($this->modelo->actualizarPedido($estado, $id_pedido) != false) ? header("Location: alertas/AlertasPedidos/alertaActualizar.php?id_pedido=".$id_pedido) : header("Location: alertas/AlertasPedidos/alertaActualizar.php");
     }
 
     public function showPedido($id_pedido){

@@ -13,6 +13,7 @@
     $pedido = $controlador->showPedido($id_pedido);
 ?>
 
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -57,7 +58,7 @@
                 <div class="container-fluid">
                     <div id="container" tabindex="-1" >
                         <div class="">
-                            <h5 id="exampleModalgridLabel" style="color: rgba(105, 94, 239, 1);font-size:30px; margin-bottom: 20px">ID Pedido: <?= $id_pedido ?></h5>
+                            <h5 id="exampleModalgridLabel" style="color: rgba(105, 94, 239, 1);font-size:30px; margin-bottom: 20px">Editar Pedidos</h5>
                         </div>
                         <div class="">
                             <?php if ($pedido): ?>
@@ -65,115 +66,17 @@
                                 <div class="row g-3">
                                     <div class='col-xxl-6'>
                                         <div>    
-                                            <label for='id_pedido' class='form-label' >ID pedido</label>
-                                            <input type='text' class='form-control' name="id_pedido" id="id_pedido" value="<?= $pedido['id_pedido'] ?>" readonly>                           
-                                        </div>
+                                        <label for="estado" class="form-label">Estado</label>
+                                            <select class="form-control" data-trigger name="estado" id="estado" required >
+                                                <div class="invalid-feedback">Ingrese el estado.</div>
+                                                <option value="Finalizado">Finalizado</option>
+                                                <option value="Pendiente">Pendiente</option>
+                                            </select>                                        </div>
                                     </div>
                                     
                                     <div class="col-xxl-6">
                                         <div>
-                                            <!-- SELECT PARA MOSTRAR TODOS LOS RUTS DISPONIBLES -->
-                                            <label for="choices-single-default" class="form-label" style="margin-top: 0px;">RUT Cliente</label>
-                                            <select class="form-control" data-choices name="rut_cliente" id="choices-single-default" required>
-                                                <option value="<?= $pedido['rut_cliente'] ?>"><?= $pedido['rut_cliente'] ?></option>
-                                                <?php
-                                                // Establecer conexión a la base de datos
-                                                include("modelo\conexion_bd.php");
-
-                                                // Consulta SQL para obtener las opciones
-                                                $sql = "SELECT rut_cliente, nombre_cliente FROM cliente";
-                                                $resultClientes = $conexion->query($sql);
-
-                                                // Confirma si hay resultados, ordenandolos por id 
-                                                // Si no hay datos, muestra la opción de no hay registros
-                                                if ($result->num_rows > 0){
-                                                    while($row = $resultClientes->fetch_assoc()) {
-                                                        echo "<option value='" . $row["rut_cliente"] . "'> RUT de: " . $row["nombre_cliente"], $row["rut_cliente"] . "</option>";
-                                                    }
-                                                }else{
-                                                    echo "<option value=''>No hay registros de RUT</option>";
-                                                }
-
-                                                $conexion->close();
-                                                ?>
-                                            </select>   
-                                        </div>
-                                    </div><!--end col-->
-                                    <div class="col-xxl-6">
-                                        <div>
-                                        <label for="choices-single-default" class="form-label" style="margin-top: 0px;">Listas</label>
-                                        <select class="form-control" data-choices name="id_lista_2" id="choices-single-default" required>
-                                            <option value="<?= $pedido["id_lista_2"] ?>">Lista de RUT: <?= $pedido["rut_cliente"] ?></option>
-                                            <?php
-                                            // Establecer conexión a la base de datos
-                                            include("modelo\conexion_bd.php");
-
-                                            // Consulta SQL para obtener las opciones
-                                            $sql = "SELECT id_lista_2, rut_cliente FROM lista_2";
-                                            $resultListas = $conexion->query($sql);
-
-                                            // Confirma si hay resultados, ordenandolos por id 
-                                            // Si no hay datos, muestra la opción de no hay registros
-                                            if ($result->num_rows > 0){
-                                                while($row = $resultListas->fetch_assoc()) {
-                                                    echo "<option value='" . $row["id_lista_2"] . "'> Lista de RUT: " . $row["rut_cliente"] . "</option>";
-                                                }
-                                            }else{
-                                                echo "<option value=''>No hay registros de listas</option>";
-                                            }
-
-                                            $conexion->close();
-                                            ?>
-                                        </select>
-                                        </div>
-                                    </div><!--end col-->
-
-                                    <div class="col-xxl-6">
-                                        <div>
-                                            <label for="precio_total" class="form-label">Precio total</label>
-                                            <input type="text" class="form-control" id="precio_total" name="precio_total" required value="<?= $pedido['precio_total'] ?>">
-                                            <div class="invalid-feedback">Ingrese el precio total.</div>
-                                        </div>
-                                    </div><!--end col-->
-
-                                    <div class="col-xxl-6">
-                                        <div>
-                                        <label for="choices-single-default" class="form-label" style="margin-top: 0px;">Medio de pago</label>
-                                        <select class="form-control" data-choices name="id_medio_pago" id="choices-single-default" required>
-                                        <option value="<?= $pedido["id_medio_pago"] ?>">Lista de RUT: <?= $pedido["id_medio_pago"] ?></option>
-                                            <?php
-                                            // Establecer conexión a la base de datos
-                                            include("modelo\conexion_bd.php");
-
-                                            // Consulta SQL para obtener las opciones
-                                            $sql = "SELECT id_medio_pago, nombre_medio_pago FROM medios_de_pago";
-                                            $resultPagos = $conexion->query($sql);
-
-                                            // Confirma si hay resultados, ordenandolos por id 
-                                            // Si no hay datos, muestra la opción de no hay registros
-                                            if ($result->num_rows > 0){
-                                                while($row = $resultPagos->fetch_assoc()) {
-                                                    echo "<option value='" . $row["id_medio_pago"] . "'>" . $row["nombre_medio_pago"] . "</option>";
-                                                }
-                                            }else{
-                                                echo "<option value=''>No hay registros de medios de pago</option>";
-                                            }
-
-                                            $conexion->close();
-                                            ?>
-                                        </select>
-                                        </div>
-                                    </div><!--end col-->
-
-                                    <div class="col-xxl-6">
-                                        <div>
-                                            <label for="estado" class="form-label">Estado</label>
-                                            <select class="form-control" data-trigger name="estado" id="estado" required >
-                                                <div class="invalid-feedback">Ingrese el estado.</div>
-                                                <option value="<?= $pedido['estado'] ?>"><?= $pedido['estado'] ?></option>
-                                                <option value="Finalizado">Finalizado</option>
-                                                <option value="Pendiente">Pendiente</option>
-                                            </select>
+                                            <input type='hidden' class='form-control' name="id_pedido" id="id_pedido" value="<?= $pedido['id_pedido'] ?>" readonly>                           
                                         </div>
                                     </div><!--end col-->
 

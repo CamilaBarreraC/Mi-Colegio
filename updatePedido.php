@@ -5,6 +5,6 @@
     require_once ('controlador/crud_pedido/controlador_pedido.php');
 
     $obj = new ControladorPedido();
-    $obj->actualizarPedido($_POST['precio_total'], $_POST['estado'], $_POST['id_medio_pago'], $_POST['rut_cliente'], $_POST['id_lista_2'], $_POST['id_pedido']);
+    $obj->actualizarPedido($_POST['estado'], $_POST['id_pedido']);
 
 ?>

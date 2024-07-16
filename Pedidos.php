@@ -16,6 +16,24 @@
     JOIN detalle_pedido ON pedido.id_pedido = detalle_pedido.id_pedido
     JOIN lista_2 ON lista_2.id_lista_2 = detalle_pedido.id_lista_2";
     $result = $conn->query($sql);
+
+    $estado = "";
+
+// Agrega WHERE según los valores de los selects con filtros
+if (empty($_POST['xestado'])) {
+    $sql = "SELECT *
+    FROM pedido 
+    JOIN medios_de_pago ON pedido.id_medio_pago = medios_de_pago.id_medio_pago 
+    JOIN cliente ON pedido.rut_cliente = cliente.rut_cliente
+    JOIN detalle_pedido ON pedido.id_pedido = detalle_pedido.id_pedido
+    JOIN lista_2 ON lista_2.id_lista_2 = detalle_pedido.id_lista_2";
+} else {
+    $estado = $_POST['xestado'];
+    $sql .= " WHERE pedido.estado = '$estado' ORDER BY fecha";
+}
+
+$result = $conn->query($sql);
+    
 ?>
 
 <head>
@@ -51,20 +69,34 @@
             <div class="page-content">
                 <div class="container-fluid">
 
-                    <?php includeFileWithVariables('layouts/page-title.php', array('pagetitle' => 'Tables', 'title' => 'Basic Tables')); ?>
+                    <?php includeFileWithVariables('layouts/page-title.php', array('pagetitle' => 'Tables', 'title' => 'Pedidos')); ?>
 
                     <div class="row">
                         <div class="col-xl-12">
-                            <div class="card">
+                            <div class="card">                         
                                 <div class="card-header align-items-center d-flex">
                                     <h4 class="card-title mb-0 flex-grow-1" style="font-size: 35px;">Pedidos</h4>
+                                    
                                 </div><!-- end card header -->
-
                                 <div class="card-body">
 
                                     <div class="live-preview" style="margin-top: 35px;">
                                         <div class="table-responsive table-card">
+                                        <form class="d-flex flex-row align-items-center" method="post">
+                                                            <select name="xestado" class="form-select me-2">
+                                                                <option value="">Seleccione Estado</option>
+                                                                <option value="Pendiente">Pendiente</option>
+                                                                <option value="Finalizado">Finalizado</option>
+                                                                
+                                                            </select>
+                                                            <button type="submit" class="btn btn-primary rounded-pill"
+                                                                style="font-size: 15px;" name="buscar"><i
+                                                                    class="ri-equalizer-fill me-2 align-bottom"></i>Filtrar</button>
+                                                        </form>
+                                                        <a href="Pedidos.php" class="link-secondary ms-3">Limpiar
+                                                            filtros</a>
                                             <table class="table align-middle table-nowrap table-striped-columns mb-0" >
+                                                
                                                 <thead class="table-light">
                                                     <tr>
                                                         <th scope="col" style="width: 46px;">
@@ -79,11 +111,13 @@
                                                         <th scope="col">RUT cliente</th>
                                                         <th scope="col">Nombre cliente</th>
                                                         <th scope="col">Estado</th>
-                                                        <th scope="col" style="width: 150px;">Detalles</th>
+                                                        <th scope="col">Fecha Pedido</th>
+                                                        <th scope="col" style="width: 150px;">Opciones</th>
+                                                        <th scope="col">Detalles</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <?php while ($row = $result->fetch_assoc()): ?>
+                                                <?php while ($row = $result->fetch_assoc()): ?>
                                                     <tr>
                                                         <td>
                                                             <div class='form-check'>
@@ -95,7 +129,7 @@
                                                         <td> $<?= $row['precio_total'] ?></td>
                                                         <td> <?= $row['nombre_medio_pago'] ?></td>
                                                         <td> <?= $row['rut_cliente'] ?></td>
-                                                        <td> <?= $row['nombre_cliente'] ?></td>
+                                                        <td> <?= $row['nombre_cliente'] . " " . $row['apellido_cliente'] ?></td>
                                                         <?php $color_estado = ($row['estado'] == 'Pendiente') ? 'badge bg-danger' : 'badge bg-success'; 
                                                         // Verifica el resultado de la consulta, si el resultado es 'Pendiente', 
                                                         // se guarda 'badge bg-danger, el cual es la clase del span, con el color naranjo,
@@ -103,6 +137,7 @@
                                                         // Si es falsa, corresponderá a 'Finalizado', el cual será la la clase con span verde
                                                         // Luego se pone la variable guardada en la clase del span, con verde o naranjo ?>
                                                         <td><span class='<?= $color_estado ?>'> <?= $row['estado'] ?></span></td>
+                                                        <td> <?= $row['fecha'] ?></td>
                                                         <td>
                                                             <div class='d-flex gap-2'>
                                                                 <div class='edit'>
@@ -116,6 +151,15 @@
 
                                                             </div>
                                                         </td>
+                                                        <td>                                                    <div class='d-flex gap-2'>
+                                                        <div class='edit'>
+                                                            <a
+                                                                href="DetallesPedidosADM.php?id_pedido=<?= $row['id_pedido'] ?>">
+                                                                <button type='button'
+                                                                    class='btn btn-sm btn-info edit-item-btn' style="font-size: 15px;">Ver detalles</button>
+                                                            </a>
+                                                        </div>
+                                                    </div></td>
                                                     </tr>
                                                     <?php endwhile; ?>
                                                 </tbody>

@@ -1,3 +1,4 @@
+
 <?php
 class ModeloPedido {
     private $PDO;
@@ -32,14 +33,10 @@ class ModeloPedido {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function actualizarPedido($precio_total, $estado, $id_medio_pago, $rut_cliente, $id_lista_2, $id_pedido){
-        $stmt = $this->PDO->prepare("UPDATE pedido SET precio_total = :precio_total, estado = :estado, id_medio_pago = :id_medio_pago, rut_cliente = :rut_cliente, id_lista_2 = :id_lista_2 WHERE id_pedido = :id_pedido");
+    public function actualizarPedido($estado, $id_pedido){
+        $stmt = $this->PDO->prepare("UPDATE pedido SET estado = :estado WHERE id_pedido = :id_pedido");
         
-        $stmt->bindParam(':precio_total', $precio_total);
         $stmt->bindParam(':estado', $estado);
-        $stmt->bindParam(':id_medio_pago', $id_medio_pago);
-        $stmt->bindParam(':rut_cliente', $rut_cliente);
-        $stmt->bindParam(':id_lista_2', $id_lista_2);
         $stmt->bindParam(':id_pedido', $id_pedido);
         
         return ($stmt->execute()) ? $id_pedido : false;
@@ -50,11 +47,7 @@ class ModeloPedido {
 
         $stmt = $this->PDO->prepare("DELETE FROM pedido WHERE id_pedido = :id_pedido");
         $stmt->bindParam(':id_pedido', $id_pedido);
-
-        $stmt2 = $this->PDO->prepare("DELETE FROM detalle_pedido WHERE id_pedido = :id_pedido");
-        $stmt2->bindParam(':id_pedido', $id_pedido);
-
-        return ($stmt2->execute() && $stmt->execute()) ? true : false;
+        return ($stmt->execute()) ? true : false;
     }
 }
 ?>
