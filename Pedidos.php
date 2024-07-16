@@ -78,12 +78,12 @@ $result = $conn->query($sql);
                                     <h4 class="card-title mb-0 flex-grow-1" style="font-size: 35px;">Pedidos</h4>
                                     
                                 </div><!-- end card header -->
-                                <div class="card-body">
 
+                                <div class="card-body">
                                     <div class="live-preview" style="margin-top: 35px;">
                                         <div class="table-responsive table-card">
-                                        <form class="d-flex flex-row align-items-center" method="post">
-                                                            <select name="xestado" class="form-select me-2">
+                                            <form class="d-flex flex-row align-items-center" method="post">
+                                                            <select name="xestado" class="form-select me-2" style="width: 200px;">
                                                                 <option value="">Seleccione Estado</option>
                                                                 <option value="Pendiente">Pendiente</option>
                                                                 <option value="Finalizado">Finalizado</option>
@@ -91,10 +91,11 @@ $result = $conn->query($sql);
                                                             </select>
                                                             <button type="submit" class="btn btn-primary rounded-pill"
                                                                 style="font-size: 15px;" name="buscar"><i
-                                                                    class="ri-equalizer-fill me-2 align-bottom"></i>Filtrar</button>
+                                                                class="ri-equalizer-fill me-2 align-bottom"></i>Filtrar
+                                                            </button>
+                                                            <a href="Pedidos.php" class="link-secondary ms-3">Limpiar filtros</a>
                                                         </form>
-                                                        <a href="Pedidos.php" class="link-secondary ms-3">Limpiar
-                                                            filtros</a>
+                                                        
                                             <table class="table align-middle table-nowrap table-striped-columns mb-0" >
                                                 
                                                 <thead class="table-light">
