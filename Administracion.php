@@ -17,8 +17,6 @@ use LDAP\Result;
     FROM pedido 
     JOIN medios_de_pago ON pedido.id_medio_pago = medios_de_pago.id_medio_pago 
     JOIN cliente ON pedido.rut_cliente = cliente.rut_cliente
-    JOIN detalle_pedido ON pedido.id_pedido = detalle_pedido.id_pedido
-    JOIN lista_2 ON lista_2.id_lista_2 = detalle_pedido.id_lista_2
     ORDER BY pedido.id_pedido";
     $result = $conn->query($sql);
 ?>
@@ -172,7 +170,7 @@ use LDAP\Result;
                                                                     $sqlcountclientes = "SELECT count(*) as 'total' FROM cliente";
                                                                     $resultcountclientes = mysqli_query($conn, $sqlcountclientes);
                                                                     $datacountclientes=mysqli_fetch_array($resultcountclientes);
-                                                                    $totalcountclientes = $datacount['total'];
+                                                                    $totalcountclientes = $datacountclientes['total'];
                                                                     echo $totalcountclientes;
                                                                 ?>
                                                                 </div>
