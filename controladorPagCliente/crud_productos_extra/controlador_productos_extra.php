@@ -45,7 +45,21 @@ class ControladorProductoExtra {
     }
 
     public function eliminarProductoExtra($id_producto){
-        return ($this->modelo->eliminarProductoExtra($id_producto)) ? header("Location: alertasPagCliente/AlertasProductosExtra/alertasEliminar.php") : header("Location: alertasPagCliente/AlertasProductosExtra/alertasEliminar.php?id_producto=".$id_producto);
+        // Llamar a la función del modelo para eliminar el producto del carrito
+        $deleted = $this->modelo->eliminarProductoExtra($id_producto);
+
+        // Verificar si se eliminó correctamente del carrito
+        if ($deleted) {
+            // Eliminar el ID del producto del carrito del array en $_SESSION
+            $key = array_search($id_producto, $_SESSION['producto_extra_ids']);
+            if ($key !== false) {
+                unset($_SESSION['producto_extra_ids'][$key]);
+            }
+            header("Location: alertasPagCliente/AlertasProductosExtra/alertasEliminar.php");
+        } else {
+            header("Location: alertasPagCliente/AlertasProductosExtra/alertasEliminar.php?id_producto=$id_producto");
+        }
+        exit();    
     }
 
     public function eliminarProductoExtra2($id_producto){
