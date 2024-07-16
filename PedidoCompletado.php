@@ -134,8 +134,21 @@
 
                     <div class="card flex-item">
                         <div class="card-header">
-                            <h5 class="card-title mb-0"><i class="ri-currency-line align-middle me-1 text-muted"></i>Boleta electrónica</h5>
-                            <h5 class="card-title mb-0">RUT : <?= $rut_cliente ?></h5>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h5 class="card-title mb-0"><i class="ri-currency-line align-middle me-1 text-muted"></i>Boleta electrónica</h5>
+                                    <h5 class="card-title mb-0">RUT : <?= $rut_cliente ?></h5>
+                                </div>
+                                <div class="ms-auto">
+                                    <!--Boleta Electrónica-->
+                                    <form action="boletaPDF.php" method="post">
+                                        <input type="hidden" name="id_pedido" value="<?= $id_pedido ?>">
+                                        <button type="submit" class="btn btn-primary" name="boleta_pedido" style="background-color:red; margin-bottom: 20px;">
+                                            <img style="width:20px; height:auto;" src="image/icono-pdf.png" alt="PDF Icon" class="icon">
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="card-body">
