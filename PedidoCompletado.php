@@ -129,7 +129,7 @@
                         <h5>Gracias por su compra</h5>
                         <p class="text-muted">Aquí están los detalles de su compra.</p>
 
-                        <h3 class="fw-semibold"><a href="DatosUsuario.php" class="text-decoration-underline">Mis pedidos</a></h3>
+                        <h3 class="fw-semibold"><a href="PedidosUsuario.php" class="text-decoration-underline">Mis pedidos</a></h3>
                     </div>
 
                     <div class="card flex-item">
