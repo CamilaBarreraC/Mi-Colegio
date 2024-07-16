@@ -265,7 +265,7 @@ $result = $conn->query($sql);
                                     <label for="nombre_de_colegio" class="form-label" style="margin-top: 0px;">Nombre
                                         colegio</label>
                                     <input type="text" class="form-control" id="nombre_de_colegio"
-                                        name="nombre_de_colegio" value="" placeholder="Nombre colegio">
+                                        name="nombre_de_colegio" value="" placeholder="Nombre colegio" oninput="capitalizeFirstLetter(this)">
                                 </div>
                             </div>
                             <!--end col-->
@@ -305,7 +305,7 @@ $result = $conn->query($sql);
                                 <div>
                                     <label for="direccion" class="form-label">Dirección</label>
                                     <input type="text" class="form-control" id="direccion" name="direccion" value=""
-                                        placeholder="Dirección" required>
+                                        placeholder="Dirección" required oninput="capitalizeFirstLetter(this)">
                                 </div>
                             </div>
                             <!--end col-->
@@ -375,6 +375,18 @@ $result = $conn->query($sql);
             });
         });
     });
+    </script>
+
+    <script>
+        function capitalizeFirstLetter(input) {
+            const words = input.value.split(' ');
+            for (let i = 0; i < words.length; i++) {
+                if (words[i].length > 0) {
+                    words[i] = words[i][0].toUpperCase() + words[i].substring(1).toLowerCase();
+                }
+            }
+            input.value = words.join(' ');
+        }
     </script>
 
     <?php include 'layouts/vendor-scripts.php'; ?>

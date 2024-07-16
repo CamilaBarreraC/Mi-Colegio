@@ -183,14 +183,8 @@ $resultCurso = $conn->query($sqlCurso);
                             <div class="col-xxl-6">
                                 <div>
                                     <label for="cantidad_alumnos" class="form-label">Cantidad de alumnos</label>
-                                    <select class="form-control" data-trigger name="cantidad_alumnos" id="status-field"
-                                        required>
-                                        <option value="">Seleccione la cantidad</option>
-                                        <option value="25" required>25</option>
-                                        <option value="30" required>30</option>
-                                        <option value="35" required>35</option>
-                                        <option value="40" required>40</option>
-                                    </select>
+                                    <input type="number" class="form-control" id="cantidad_alumnos" name="cantidad_alumnos" value=""
+                                        placeholder="Cantidad de alumnos" required>
                                 </div>
                             </div>
                             <!--end col-->

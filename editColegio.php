@@ -63,7 +63,7 @@
                             <?php if ($colegio): ?>
                             <form action="updateColegio.php" method="post">
                                 <div class="row g-3">
-                                    <div class='col-xxl-6'>
+                                    <div class='col-xxl-6' style="display: none;">
                                         <div>    
                                             <label for='id_colegio' class='form-label' >ID colegio</label>
                                             <input type='text' class='form-control' name="id_colegio" id="id_colegio" value="<?= $colegio['id_colegio'] ?>" readonly>                           
@@ -73,7 +73,7 @@
                                     <div class="col-xxl-6">
                                         <div>
                                             <label for="nombre_de_colegio" class="form-label" style="margin-top: 0px;">Nombre colegio</label>
-                                            <input type="text" class="form-control" id="nombre_de_colegio" name="nombre_de_colegio" value="<?= $colegio['nombre_de_colegio'] ?>">
+                                            <input type="text" class="form-control" id="nombre_de_colegio" name="nombre_de_colegio" value="<?= $colegio['nombre_de_colegio'] ?>" oninput="capitalizeFirstLetter(this)">
                                         </div>
                                     </div><!--end col-->
                                     <div class="col-xxl-6">
@@ -109,7 +109,7 @@
                                     <div class="col-xxl-6">
                                         <div>
                                             <label for="direccion" class="form-label">Dirección</label>
-                                            <input type="text" class="form-control" id="direccion" name="direccion" required value="<?= $colegio['direccion'] ?>">
+                                            <input type="text" class="form-control" id="direccion" name="direccion" required value="<?= $colegio['direccion'] ?>" oninput="capitalizeFirstLetter(this)">
                                             <div class="invalid-feedback">Ingrese la dirección.</div>
                                         </div>
                                     </div><!--end col-->
@@ -131,6 +131,18 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function capitalizeFirstLetter(input) {
+            const words = input.value.split(' ');
+            for (let i = 0; i < words.length; i++) {
+                if (words[i].length > 0) {
+                    words[i] = words[i][0].toUpperCase() + words[i].substring(1).toLowerCase();
+                }
+            }
+            input.value = words.join(' ');
+        }
+    </script>
 
     <?php include 'layouts/vendor-scripts.php'; ?>
     <!-- prismjs plugin -->

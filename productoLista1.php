@@ -200,7 +200,7 @@
                                 </div>
                             </div><!--end col-->
 
-                            <div class="col-xxl-6">
+                            <div class="col-xxl-6" style="display: none;">
                                 <div>
                                     <label for="id_lista_1" class="form-label">ID lista</label>
                                     <input type="text" class="form-control" id="id_lista_1" name="id_lista_1" value="<?= $id_lista_1 ?>" readonly>

@@ -63,7 +63,7 @@
                             <?php if ($lista1): ?>
                             <form action="updateLista1.php" method="post">
                                 <div class="row g-3">
-                                    <div class='col-xxl-6'>
+                                    <div class='col-xxl-6' style="display: none;">
                                         <div>    
                                             <label for='id_lista_1' class='form-label' >ID lista</label>
                                             <input type='text' class='form-control' name="id_lista_1" id="id_lista_1" value="<?= $lista1['id_lista_1'] ?>" readonly>                           
