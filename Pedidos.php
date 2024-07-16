@@ -83,18 +83,18 @@ $result = $conn->query($sql);
                                     <div class="live-preview" style="margin-top: 35px;">
                                         <div class="table-responsive table-card">
                                             <form class="d-flex flex-row align-items-center" method="post">
-                                                            <select name="xestado" class="form-select me-2" style="width: 200px;">
-                                                                <option value="">Seleccione Estado</option>
-                                                                <option value="Pendiente">Pendiente</option>
-                                                                <option value="Finalizado">Finalizado</option>
+                                                <select name="xestado" class="form-select me-2" style="width: 200px;">
+                                                    <option value="">Seleccione Estado</option>
+                                                    <option value="Pendiente">Pendiente</option>
+                                                    <option value="Finalizado">Finalizado</option>
                                                                 
-                                                            </select>
-                                                            <button type="submit" class="btn btn-primary rounded-pill"
-                                                                style="font-size: 15px;" name="buscar"><i
-                                                                class="ri-equalizer-fill me-2 align-bottom"></i>Filtrar
-                                                            </button>
-                                                            <a href="Pedidos.php" class="link-secondary ms-3">Limpiar filtros</a>
-                                                        </form>
+                                                </select>
+                                                <button type="submit" class="btn btn-primary rounded-pill"
+                                                    style="font-size: 15px;" name="buscar"><i
+                                                    class="ri-equalizer-fill me-2 align-bottom"></i>Filtrar
+                                                </button>
+                                                <a href="Pedidos.php" class="link-secondary ms-3">Limpiar filtros</a>
+                                            </form>
                                                         
                                             <table class="table align-middle table-nowrap table-striped-columns mb-0" >
                                                 
