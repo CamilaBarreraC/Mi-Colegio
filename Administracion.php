@@ -21,6 +21,31 @@ use LDAP\Result;
     $result = $conn->query($sql);
 ?>
 
+<?php
+    include("modelo/conexion_bd.php");
+    $conn = $conexion;
+
+    $sqlProductosMasVendidos = "
+        SELECT p.nombre_producto, SUM(lp.cantidad) as total_vendido
+        FROM productos p
+        JOIN l2_productos lp ON p.id_producto = lp.id_producto
+        GROUP BY p.id_producto
+        ORDER BY total_vendido DESC
+        LIMIT 5"; // Limitamos a los 5 productos más vendidos
+
+    $resultProductosMasVendidos = $conn->query($sqlProductosMasVendidos);
+
+    $productos = [];
+    $cantidades = [];
+
+    while ($row = $resultProductosMasVendidos->fetch_assoc()) {
+        $productos[] = $row['nombre_producto'];
+        $cantidades[] = $row['total_vendido'];
+    }
+
+    $productosJson = json_encode($productos);
+    $cantidadesJson = json_encode($cantidades);
+?>
 
 <head>
     <meta charset="UTF-8">
@@ -52,6 +77,11 @@ use LDAP\Result;
         width: 1440px; 
         height: 1024px; 
     }
+
+    .apexcharts-menu-icon {
+        display: none;
+    }
+    
 </style>
 
 <body>
@@ -186,28 +216,75 @@ use LDAP\Result;
                                         </div><!-- end col -->
 
                                         <div class="col-xl-3 col-md-6">
-                                            <!-- card -->
                                             <div class="card card-animate">
                                                 <div class="card-body">
                                                     <div class="d-flex align-items-center">
                                                         <div class="flex-grow-1 overflow-hidden">
-                                                            <p class="text-uppercase fw-medium text-muted text-truncate mb-0"> WIP</p>
+                                                            <p class="text-uppercase fw-medium text-muted text-truncate mb-0">Valor Promedio por Pedido</p>
                                                         </div>
                                                     </div>
                                                     <div class="d-flex align-items-end justify-content-between mt-4">
                                                         <div>
-                                                            <!-- ESPACIO PARA RELLENAR CON TABLA/GRÁFICO O DEJAR EN BLANCO -->
-                                                            <h4 class="fs-22 fw-semibold ff-secondary mb-4">$<span class="counter-value" data-target="165.89">0</span>k </h4>
+                                                            <div class="fs-22 fw-semibold ff-secondary mb-4">
+                                                            <?php 
+                                                                $sqlPromedioPedido = "SELECT AVG(precio_total) as promedio FROM pedido";
+                                                                $resultPromedioPedido = mysqli_query($conn, $sqlPromedioPedido);
+                                                                $dataPromedioPedido = mysqli_fetch_array($resultPromedioPedido);
+                                                                $promedioPedido = $dataPromedioPedido['promedio'];
+                                                                echo '$'.$promedioPedido;
+                                                            ?>
+                                                            </div>
                                                         </div>
                                                         <div class="avatar-sm flex-shrink-0">
-                                                            <span class="avatar-title bg-info-subtle rounded fs-3">
-                                                                <i class="bx bx-wallet text-info"></i>
+                                                            <span class="avatar-title bg-warning-subtle rounded fs-3">
+                                                                <i class="bx bx-line-chart text-warning"></i>
                                                             </span>
                                                         </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-xl-8">
+                                            <div class="card">
+                                                <div class="card-header border-0 align-items-center d-flex">
+                                                    <h4 class="card-title mb-0 flex-grow-1">Productos más vendidos</h4>
+                                                </div><!-- end card header -->
+
+                                                <div class="card-body p-0 pb-2">
+                                                    <div class="w-100">
+                                                        <div id="productos_mas_vendidos_chart" class="apex-charts" dir="ltr"></div>
                                                     </div>
                                                 </div><!-- end card body -->
                                             </div><!-- end card -->
                                         </div><!-- end col -->
+
+                                        <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+                                        <script>
+                                            document.addEventListener("DOMContentLoaded", function () {
+                                                var options = {
+                                                    chart: {
+                                                        type: 'bar',
+                                                        height: 350
+                                                    },
+                                                    series: [{
+                                                        name: 'Cantidad Vendida',
+                                                        data: <?php echo $cantidadesJson; ?>
+                                                    }],
+                                                    xaxis: {
+                                                        categories: <?php echo $productosJson; ?>
+                                                    },
+                                                    title: {
+                                                        text: 'Productos más vendidos'
+                                                    },
+                                                    colors: ['#00E396']
+                                                };
+
+                                                var chart = new ApexCharts(document.querySelector("#productos_mas_vendidos_chart"), options);
+                                                chart.render();
+                                            });
+                                        </script>
+
                                     </div> <!-- end row-->                          
 
                                     <div class="row">                                       
