@@ -243,14 +243,14 @@
                                 <div class="col-xxl-6">
                                     <div>
                                         <label for="nombre_alumno" class="form-label" style="margin-top: 0px;">Nombre alumno</label>
-                                        <input type="text" class="form-control" id="nombre_alumno" name="nombre_alumno" value="" placeholder="Nombre alumno" required>
+                                        <input type="text" class="form-control" id="nombre_alumno" name="nombre_alumno" value="" placeholder="Nombre alumno" oninput="capitalizeFirstLetter(this)" required>
                                     </div>
                                 </div><!--end col-->
 
                                 <div class="col-xxl-6">
                                     <div>
                                         <label for="apellido_paterno" class="form-label" style="margin-top: 0px;">Apellido alumno</label>
-                                        <input type="text" class="form-control" id="apellido_paterno" name="apellido_paterno" value="" placeholder="Apellido alumno" required>
+                                        <input type="text" class="form-control" id="apellido_paterno" name="apellido_paterno" value="" placeholder="Apellido alumno" oninput="capitalizeFirstLetter(this)" required>
                                     </div>
                                 </div><!--end col-->
                                 
@@ -367,6 +367,18 @@
                     });
                 });
             });
+        </script>
+
+        <script>
+            function capitalizeFirstLetter(input) {
+                const words = input.value.split(' ');
+                for (let i = 0; i < words.length; i++) {
+                    if (words[i].length > 0) {
+                        words[i] = words[i][0].toUpperCase() + words[i].substring(1).toLowerCase();
+                    }
+                }
+                input.value = words.join(' ');
+            }
         </script>
                                                   
 
