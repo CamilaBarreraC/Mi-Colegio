@@ -63,7 +63,7 @@
                             <?php if ($productolista1): ?>
                             <form action="updateLista1Productos.php" method="post">
                                 <div class="row g-3">
-                                    <div class='col-xxl-6'>
+                                    <div class='col-xxl-6' style="display: none;">
                                         <div>    
                                             <label for='id_lista_1_productos' class='form-label' >ID producto</label>
                                             <input type='text' class='form-control' name="id_lista_1_productos" id="id_lista_1_productos" value="<?= $productolista1['id_lista_1_productos'] ?>" readonly>                           
@@ -106,7 +106,7 @@
                                         </div>
                                     </div><!--end col-->
 
-                                    <div class="col-xxl-6">
+                                    <div class="col-xxl-6" style="display: none;">
                                         <div>
                                             <label for="id_lista_1" class="form-label" style="margin-top: 0px;">ID lista</label>
                                             <input type='text' class='form-control' name="id_lista_1" id="id_lista_1" value="N°<?= $productolista1['id_lista_1'] . " " . $productolista1['nombre_l1']?>" readonly>                           
@@ -115,7 +115,7 @@
 
                                     <div class="col-lg-12">
                                         <div class="hstack gap-2 justify-content-end">
-                                            <a href="productoLista1.php">
+                                            <a href="productoLista1.php?id_lista_1=<?= $productolista1['id_lista_1'] . " " . $productolista1['nombre_l1']?>">
                                                 <button type="button" class="btn btn-light">Volver</button>
                                             </a>
                                             <button type="submit" class="btn btn-primary" value="Actualizar">Actualizar</button>

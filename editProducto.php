@@ -5,9 +5,9 @@
 <?php include 'layouts/main.php'; ?>
 
 <?php
-    // Obtener el ID del colegio desde la URL
+    // Obtener el ID del producto desde la URL
     $id_producto = $_GET['id_producto'];
-    // Llamar al controlador para obtener los datos del colegio
+    // Llamar al controlador para obtener los datos del producto
     require_once ('controlador/crud_producto/controlador_producto.php');
     $controlador = new ControladorProducto();
     $producto = $controlador->showProducto($id_producto);
@@ -51,7 +51,7 @@
 
     <!-- Begin page -->
     <div id="layout-wrapper">
-        <!-- PÁGINA PARA EDITAR DATOS DEL PEDIDO -->
+        <!-- PÁGINA PARA EDITAR DATOS DEL PRODUCTO -->
         <div class="main-content">
             <div class="page-content">
                 <div class="container-fluid">
@@ -122,13 +122,20 @@
 
                                     <div class="col-xxl-6">
                                         <div>
-                                            <label for="formFile" class="form-label" style="margin-top: 0px;">Imagen</label>
+                                            <label for="formFile" class="form-label" style="margin-top: 0px;">Imagen Actual</label>
                                             <!-- Mostrar la imagen actual del producto -->
-                                            <img src="<?= $producto['dir'] ?>" alt="Imagen del producto" style="max-width: 100px; display: block; margin-bottom: 10px;">
-                                            <!-- Input para seleccionar una nueva imagen -->
-                                            <input class="form-control" type="file" id="imagen" name="imagen">
-                                         </div>
-                                     </div><!--end col-->
+                                            <img id="imagenActual" src="<?= $producto['dir'] ?>" alt="Imagen del producto" style="max-width: 100px; display: block; margin-bottom: 10px; height:100px">
+                                            <!-- Campo oculto para almacenar la imagen actual -->
+                                            <input type="hidden" name="imagen_actual" value="<?= $producto['dir'] ?>">
+                                        </div>
+                                    </div><!--end col-->
+
+                                    <div>
+                                        <label for="imagen" class="form-label" style="margin-top: 0px;">Seleccionar nueva imagen</label>
+                                        <!-- Input para seleccionar una nueva imagen -->
+                                        <input class="form-control" type="file" id="imagen" name="imagen">
+                                        <small class="text-muted">Seleccione una nueva imagen si desea actualizarla.</small>
+                                    </div>
 
                                     <div class="col-lg-12">
                                         <div class="hstack gap-2 justify-content-end">

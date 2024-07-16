@@ -57,13 +57,13 @@
                 <div class="container-fluid">
                     <div id="container" tabindex="-1" >
                         <div class="">
-                            <h5 id="exampleModalgridLabel" style="color: rgba(105, 94, 239, 1);font-size:30px; margin-bottom: 20px">ID Categoría: <?= $id_categoria ?></h5>
+                            <h5 id="exampleModalgridLabel" style="color: rgba(105, 94, 239, 1);font-size:30px; margin-bottom: 20px">Editando categoría</h5>
                         </div>
                         <div class="">
                             <?php if ($categoria): ?>
                             <form action="updateCategoria.php" method="post">
                                 <div class="row g-3">
-                                    <div class='col-xxl-6'>
+                                    <div class='col-xxl-6' style="display: none;">
                                         <div>    
                                             <label for='id_categoria' class='form-label' >ID categoria</label>
                                             <input type='text' class='form-control' name="id_categoria" id="id_categoria" value="<?= $categoria['id_categoria'] ?>" readonly>                           
@@ -79,7 +79,7 @@
                                     
                                     <div class="col-lg-12">
                                         <div class="hstack gap-2 justify-content-end">
-                                            <a href="Productos.php">
+                                            <a href="Categorias.php">
                                                 <button type="button" class="btn btn-light">Volver</button>
                                             </a>
                                             <button type="submit" class="btn btn-primary" value="Actualizar">Actualizar</button>

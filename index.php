@@ -76,7 +76,7 @@ if(isset($_GET['invalido'])){
                 <h1 style="margin-bottom: 20px;color:indigo; font-size:35px; ">
                 Iniciar Sesión</h1>
                 <label>
-                    <input type="text" name="rut_cliente" id="rut_cliente_login" placeholder="Usuario" required style="background: #eee; border: none; border-radius: 50px; padding: 12px 15px;width:100%"/>
+                    <input type="text" name="rut_cliente" id="rut_cliente_login" placeholder="RUT" required style="background: #eee; border: none; border-radius: 50px; padding: 12px 15px;width:100%"/>
                 </label>
                 <label>
                     <input type="password" name="clave" placeholder="Contraseña" required style="background: #eee; border: none; border-radius: 50px; padding: 12px 15px;width:100%; margin-top:5px"/>

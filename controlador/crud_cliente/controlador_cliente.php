@@ -18,12 +18,12 @@ class ControladorCliente {
         // Verificar si el rut_cliente está duplicado
         if ($this->existeCliente($rut_cliente)) {
             // Si es duplicado redirecciona a la página de alertas con error
-            header("Location: alertasPagCliente/AlertasCliente/alertas.php?duplicado=true");
+            header("Location: alertas/AlertasCliente/alertas.php?duplicado=true");
             exit(); // Detener el proceso
         }else{
             // Si no hay duplicados, procede con la inserción del cliente
             $rut_cliente = $this->modelo->insertar($rut_cliente, $nombre_cliente, $apellido_cliente, $email, $telefono, $direccion, $parentesco, $rol, $id_comuna, $clave);
-            return ($rut_cliente != false) ? header("Location: alertasPagCliente/AlertasCliente/alertas.php?rut_cliente=".$rut_cliente) : header("Location: alertasPagCliente/AlertasCliente/alertas.php");        
+            return ($rut_cliente != false) ? header("Location: alertas/AlertasCliente/alertas.php?rut_cliente=".$rut_cliente) : header("Location: alertas/AlertasCliente/alertas.php");        
         } 
     }
 
@@ -40,7 +40,7 @@ class ControladorCliente {
     }
 
     public function actualizar($rut_cliente, $nombre_cliente, $apellido_cliente, $email, $telefono, $direccion, $parentesco, $id_comuna, $clave){
-        return ($this->modelo->actualizar($rut_cliente, $nombre_cliente, $apellido_cliente, $email, $telefono, $direccion, $parentesco, $id_comuna, $clave) != false) ? header("Location:alertasPagCliente/AlertasCliente/alertasActualizar.php?rut_cliente=".$rut_cliente) : header("Location:alertasPagCliente/AlertasCliente/alertasActualizar.php");
+        return ($this->modelo->actualizar($rut_cliente, $nombre_cliente, $apellido_cliente, $email, $telefono, $direccion, $parentesco, $id_comuna, $clave) != false) ? header("Location:alertas/AlertasCliente/alertasActualizar.php?rut_cliente=".$rut_cliente) : header("Location:alertas/AlertasCliente/alertasActualizar.php");
     }
 
     public function show($rut_cliente){
@@ -51,7 +51,7 @@ class ControladorCliente {
     }
 
     public function eliminar($rut_cliente){
-        return ($this->modelo->eliminar($rut_cliente)) ? header("Location:alertasPagCliente/AlertasCliente/alertasEliminar.php") : header("Location:alertasPagCliente/AlertasCliente/alertasEliminar.php?rut_cliente=".$rut_cliente);
+        return ($this->modelo->eliminar($rut_cliente)) ? header("Location:alertas/AlertasCliente/alertasEliminar.php") : header("Location:alertas/AlertasCliente/alertasEliminar.php?rut_cliente=".$rut_cliente);
     }
 }
 ?>

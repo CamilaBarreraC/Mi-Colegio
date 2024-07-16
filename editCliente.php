@@ -61,12 +61,12 @@
                         </div>
                         <div class="">
                             <?php if ($usuario): ?>
-                            <form action="updateClientePag.php" method="post">
+                            <form action="update.php" method="post">
                                 <div class="row g-3">
-                                    <div class='col-xxl-6'>
-                                        <div>    
+                                    <div class='col-xxl-6' style="display: none;">
+                                        <div style="display: none;">    
                                             <label for='rut_cliente' class='form-label' >RUT cliente</label>
-                                            <input type='text' class='form-control' name="rut_cliente" id="rut_cliente" value="<?= $usuario['rut_cliente'] ?>">
+                                            <input type='text' class='form-control' name="rut_cliente" id="rut_cliente" value="<?= $usuario['rut_cliente'] ?>" readonly>
                                             <div class="invalid-feedback">Ingrese el RUT.</div>                                
                                         </div>
                                     </div>

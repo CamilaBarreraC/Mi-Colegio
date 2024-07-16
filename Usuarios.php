@@ -15,6 +15,22 @@
     require_once ('controlador/crud_cliente/controlador_cliente.php');
     $obj = new ControladorCliente();
 
+    if(isset($_GET['estado'])){
+
+        if ($_GET['estado'] === 'invalido') {
+            echo '.';
+            echo '<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>';
+            echo '<script>
+                    Swal.fire({
+                        icon: "warning",
+                        title: "RUT inválido",
+                        text: "El RUT está incorrecto.",
+                        showConfirmButton: false
+                    });
+                </script>';
+        }
+    }
+
 ?>
 
 <head>
@@ -178,20 +194,19 @@
                                 <form action="procesar.php" method="post" class="tablelist-form" autocomplete="off">
                                     <div class="modal-body">
                                         <div class="mb-3" id="modal-id">
-                                            <label for="id-field" class="form-label">RUT</label>
-                                            <input type="number" id="id-field" class="form-control" placeholder="RUT" name="rut_cliente" required/>
-                                            <div class="invalid-feedback">Ingrese el RUT.</div>
+                                            <label for="id-rut_cliente" class="form-label">RUT</label>
+                                            <input type="text" id="rut_cliente" class="form-control" placeholder="RUT" name="rut_cliente" required oninput="formatAndValidateRut(this)"/>
                                         </div>
 
                                         <div class="mb-3">
                                             <label for="customername-field" class="form-label">Nombre Apoderado</label>
-                                            <input type="text" id="customername-field" class="form-control" placeholder="Nombre" required name="nombre_cliente"/>
+                                            <input type="text" id="customername-field" class="form-control" placeholder="Nombre" required name="nombre_cliente" oninput="capitalizeFirstLetter(this)"/>
                                             <div class="invalid-feedback">Ingrese el nombre.</div>
                                         </div>
 
                                         <div class="mb-3">
                                             <label for="customername-field" class="form-label">Apellido Apoderado</label>
-                                            <input type="text" id="customername-field" class="form-control" placeholder="Apellido" required name="apellido_cliente"/>
+                                            <input type="text" id="customername-field" class="form-control" placeholder="Apellido" required name="apellido_cliente" oninput="capitalizeFirstLetter(this)"/>
                                             <div class="invalid-feedback">Ingrese el apellido.</div>
                                         </div>
 
@@ -215,7 +230,7 @@
 
                                         <div class="mb-3">
                                             <label for="date-field" class="form-label">Dirección</label>
-                                            <input type="text" id="date-field" class="form-control" placeholder="Dirección" required name="direccion"/>
+                                            <input type="text" id="date-field" class="form-control" placeholder="Dirección" required name="direccion" oninput="capitalizeFirstLetter(this)"/>
                                             <div class="invalid-feedback">Ingrese la dirección.</div>
                                         </div>
 
@@ -338,6 +353,55 @@
 
     </div>
     <!-- END layout-wrapper -->
+
+    <script>
+        function capitalizeFirstLetter(input) {
+            const words = input.value.split(' ');
+            for (let i = 0; i < words.length; i++) {
+                if (words[i].length > 0) {
+                    words[i] = words[i][0].toUpperCase() + words[i].substring(1).toLowerCase();
+                }
+            }
+            input.value = words.join(' ');
+        }
+    </script>
+
+    <script>
+        function formatAndValidateRut(input) {
+            let rut = input.value.trim();
+
+            // Elimina puntos y guión existentes
+            rut = rut.replace(/[.-]/g, '');
+
+            // Divide en cuerpo y dígito verificador
+            let cuerpo = rut.slice(0, -1);
+            let dv = rut.slice(-1).toUpperCase();
+
+            // Añade puntos cada tres dígitos
+            cuerpo = cuerpo.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+
+            // Formatea el RUT completo
+            let rutFormateado = `${cuerpo}-${dv}`;
+
+            // Valida el RUT usando función isValidRut
+            if (isValidRut(rut)) {
+                input.value = rutFormateado;
+                document.getElementById('rut-invalid-feedback').style.display = 'none';
+            } else {
+                document.getElementById('rut-invalid-feedback').style.display = 'block';
+            }
+        }
+
+        // Función para validar el RUT
+        function isValidRut(rut) {
+            rut = rut.replace(/[.-]/g, '');
+            if (!/^\d{1,9}-?[\dkK]$/.test(rut)) return false;
+            let t = parseInt(rut.slice(0, -1), 10), m = 0, s = 1;
+            while (t > 0) { s = (s + t % 10 * (9 - m++ % 6)) % 11; t = Math.floor(t / 10); }
+            let v = s ? s - 1 : 'k';
+            return v === rut.slice(-1).toLowerCase();
+        }
+    </script>
 
     <?php include 'layouts/vendor-scripts.php'; ?>
     <!-- prismjs plugin -->

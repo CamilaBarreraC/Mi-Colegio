@@ -63,7 +63,7 @@
                             <?php if ($curso): ?>
                             <form action="updateCurso.php" method="post">
                                 <div class="row g-3">
-                                    <div class='col-xxl-6'>
+                                    <div class='col-xxl-6' style="display: none;">
                                         <div>    
                                             <label for='id_curso' class='form-label' >ID curso</label>
                                             <input type='text' class='form-control' name="id_curso" id="id_curso" value="<?= $curso['id_curso'] ?>" readonly>                           
@@ -136,7 +136,7 @@
 
                                     <div class="col-lg-12">
                                         <div class="hstack gap-2 justify-content-end">
-                                            <a href="Colegios.php">
+                                            <a href="Cursos.php">
                                                 <button type="button" class="btn btn-light">Volver</button>
                                             </a>
                                             <button type="submit" class="btn btn-primary" value="Actualizar">Actualizar</button>
