@@ -57,7 +57,7 @@
                 <div class="container-fluid">
                     <div id="container" tabindex="-1" >
                         <div class="">
-                            <h5 id="exampleModalgridLabel" style="color: rgba(105, 94, 239, 1);font-size:30px; margin-bottom: 20px">ID Lista: <?= $id_lista_1 ?></h5>
+                            <h5 id="exampleModalgridLabel" style="color: rgba(105, 94, 239, 1);font-size:30px; margin-bottom: 20px">Editar lista</h5>
                         </div>
                         <div class="">
                             <?php if ($lista1): ?>

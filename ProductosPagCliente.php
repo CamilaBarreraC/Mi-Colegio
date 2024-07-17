@@ -12,55 +12,54 @@
     $por_pagina=9;
 
     if(isset($_GET['pagina'])){
-        $pagina=$_GET['pagina'];
+        $pagina = $_GET['pagina'];
     }else{
-        $pagina=1;
+        $pagina = 1;
     }
-
-    $empieza = ($pagina-1) * $por_pagina;
-
+    
+    $empieza = ($pagina - 1) * $por_pagina;
+    
+    // Determinar el orden predeterminado
+    $orden = "DESC"; // Por defecto, orden ascendente
+    
+    // Verificar si se ha enviado un criterio de orden desde el formulario
+    if (!empty($_POST['precio'])) {
+        $precioOrden = $_POST['precio'];
+        $orden = ($precioOrden == 'DESC') ? 'DESC' : 'ASC'; // Validar y establecer el orden correcto
+    }
+    
+    // Consulta SQL principal para obtener los productos con filtros y ordenamiento
     $query = "SELECT id_producto, nombre_producto, productos.id_categoria, precio,
-    dir, nombre_categoria
-    FROM productos 
-    JOIN categoria ON productos.id_categoria = categoria.id_categoria";
-
-    $searchTerm = "";
-    $categoria = "";
-    $precioOrden = "";
-
-    // Construcción de las condiciones para la búsqueda
-    $conditions = array();
-
-    if (isset($_POST['buscar'])) {
-        if (!empty($_POST['search'])) {
-            $searchTerm = $_POST['search'];
-            $conditions[] = "nombre_producto LIKE '%$searchTerm%'";
-        }
-
-        if (!empty($_POST['categoria'])) {
-            $categoria = $_POST['categoria'];
-            $conditions[] = "productos.id_categoria = $categoria";
-        }
-
-        if (!empty($_POST['precio'])) {
-            $precioOrden = $_POST['precio'];
-        }
+                dir, nombre_categoria
+                FROM productos 
+                JOIN categoria ON productos.id_categoria = categoria.id_categoria";
+    
+    // Si selecciona una opción del select categoria, lo ordena por el seleccionado
+    if (!empty($_POST['categoria'])) {
+        $categoria = $_POST['categoria'];
+        $query .= " WHERE productos.id_categoria = $categoria";
     }
-
-    // Añadir condiciones a la consulta
-    if (!empty($conditions)) {
-        $query .= " WHERE " . implode(" AND ", $conditions);
-    }
-
-    // Añadir ordenamiento por precio si se seleccionó
-    if (!empty($precioOrden)) {
-        $query .= " ORDER BY precio $precioOrden";
-    }
-
-    // Añadir limitación de paginación
+    
+    // Aplicar el orde by 
+    $query .= " ORDER BY precio $orden";
+    
     $query .= " LIMIT $empieza, $por_pagina";
-
-    // Ejecución de la consulta
+    
+    // Consulta SQL para contar el número total de registros después de aplicar filtros
+    // y poder hacer la paginación al final de la página
+    $query_count = "SELECT COUNT(*) as total
+                    FROM productos 
+                    JOIN categoria ON productos.id_categoria = categoria.id_categoria";
+    
+    if (!empty($_POST['categoria'])) {
+        $categoria = $_POST['categoria'];
+        $query_count .= " WHERE productos.id_categoria = $categoria";
+    }
+    
+    $resultado_count = mysqli_query($conn, $query_count);
+    $total_registros = mysqli_fetch_assoc($resultado_count)['total'];
+    $total_paginas = ceil($total_registros / $por_pagina);
+    
     $resultado = mysqli_query($conn, $query);
 
 ?>
@@ -148,23 +147,25 @@
                         </div>
 
                         <div class="accordion accordion-flush filter-accordion">
-                        
 
                             <div class="accordion-item">
 
                                 <div id="flush-collapseBrands" class="accordion-collapse collapse show" aria-labelledby="flush-headingBrands">
                                     <div class="accordion-body text-body pt-0">
-                                    <div class="mb-3">
+
+                                        <h5 class="fs-16" style="margin-top:15px">Categorías</h5>
+                                       
+                                        <div class="d-flex flex-column gap-2 mt-3 filter-check">
                                             <form method="post">
-                                                <input type="text" class="form-control" name="search" placeholder="Buscar por nombre" value="<?= htmlspecialchars($searchTerm) ?>">
-                                                <h5 class="fs-16" style="margin-top:15px">Categorías</h5>
                                                 <select class="form-control" data-choices name="categoria" id="categoria">
                                                     <option value="">Seleccione categoría</option>
                                                     <?php
                                                         // Consulta SQL para obtener las opciones
                                                         $sql = "SELECT id_categoria, nombre_categoria FROM categoria";
                                                         $resultCat = $conn->query($sql);
-                                                        // Confirma si hay resultados
+
+                                                        // Confirma si hay resultados, ordenandolos por id 
+                                                        // Si no hay datos, muestra la opción de no hay registros
                                                         if ($resultCat->num_rows > 0){
                                                             while($row = $resultCat->fetch_assoc()) {
                                                                 echo "<option value='" . $row["id_categoria"] . "'>" . $row["nombre_categoria"] . "</option>";
@@ -174,18 +175,26 @@
                                                         }
                                                     ?>
                                                 </select>
-                                                <h5 class="fs-16" style="margin-top:10px; margin-bottom:15px">Precio</h5>
-                                                <select class="form-control" data-choices name="precio" id="precio" style="width: 100%;">
-                                                    <option value="">Seleccione</option>
-                                                    <option value="DESC">De mayor a menor</option>
-                                                    <option value="ASC">De menor a mayor</option>
-                                                </select>
+
                                                 <div class="card-body border-bottom">
-                                                    <div style="display: flex;align-items: center;flex-direction: column">
-                                                        <button type="submit" class="btn rounded-pill btn-primary waves-effect waves-light" style="font-size: 15px;width:70%" name="buscar">Buscar</button>
+                                                    <div>
+                                                        <h5 class="fs-16" style="margin-top:10px; margin-bottom:15px">Precio</h5>
+                                                        <select class="form-control" data-choices name="precio" id="precio" style="width: 100%;" >
+                                                            <option value="">Seleccione</option>
+                                                            <option value="DESC">De mayor a menor</option>
+                                                            <option value="ASC">De menor a mayor</option>
+                                                        </select>
+
+                                                        <div class="card-body border-bottom">
+                                                            <div style="display: flex;align-items: center;flex-direction: column">
+                                                                <button type="submit" class="btn rounded-pill btn-primary waves-effect waves-light" 
+                                                                style="font-size: 15px;width:70%" name="buscar">Buscar</button>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </form> 
+                                            <!-- Se redirige a la misma página sin los parámetros de categoría -->
                                             <a href="ProductosPagCliente.php" style="align-items: center;display:flex; flex-direction:column">Limpiar filtros</a>
                                         </div>
                                     </div>
@@ -255,45 +264,14 @@
                                     
                                 </form>
 
-                                <?php
-                                    // Agrega WHERE si el select no está vacío
-                                    if (empty($_POST['precio'])) {
-                                        // Si está vacío el select de filtro, solo muestra todos los productos con 
-                                        // límite de 9 por cada paginación
-                                        $query = "SELECT id_producto, nombre_producto, productos.id_categoria, precio,
-                                        dir, nombre_categoria
-                                        FROM productos 
-                                        JOIN categoria ON productos.id_categoria = categoria.id_categoria ";
-
-                                        $resultado = mysqli_query($conn, $query); 
-
-                                    }else{
-                                        //Si el select para categoría no está vacío, ejecuta la sentencia
-                                        // hecha al principio, y cuenta la cantidad de resultados en la BD
-                                        // y los divide por 9, que son el límite de cada paginación
-                                        $resultado = mysqli_query($conn, $query);
-                                    }
-
-                                    // Calcula cuántos resultado se obtuvieron en la consulta
-                                    $total_registros=mysqli_num_rows($resultado);
-                                    // Divide los resultados obtenidos por 9
-                                    // Para así obtener el máximo de la paginación, dependiendo del resultado
-                                    $total_paginas = ceil($total_registros/$por_pagina);
-
-                                    echo "<nav aria-label='Page navigation example'>";
-                                    echo "<ul class='pagination justify-content-center' style='margin-top:50px;'>";
-
-                                    echo "<li class='page-item " . ($pagina <= 1 ? 'disabled' : '') . "'><a class='page-link' href='ProductosPagCliente.php?pagina=".($pagina - 1)."'>Anterior</a></li>";
-
-                                    for ($i = 1; $i <= $total_paginas; $i++) {
-                                        echo "<li class='page-item'><a class='page-link' href='ProductosPagCliente.php?pagina=" . $i . "'>" . $i . "</a></li>";
-                                    }
-
-                                    echo "<li class='page-item'><a class='page-link' href='ProductosPagCliente.php?pagina=" . ($pagina + 1) . "'>Siguiente</a></li>";
-
-                                    echo "</ul>";
-                                    echo "</nav>";
-                                ?>
+                                <!-- Código para mostrar la paginación con el ordenamiento -->
+                                <ul class="pagination pagination-separated justify-content-center justify-content-sm-end mb-0" style="margin-top: 50px; margin-right:300px">
+                                    <?php for ($i = 1; $i <= $total_paginas; $i++): ?>
+                                        <li class="page-item <?= ($pagina == $i) ? 'active' : '' ?>">
+                                            <a href="?pagina=<?= $i ?>&orden=<?= $orden ?>" class="page-link"><?= $i ?></a>
+                                        </li>
+                                    <?php endfor; ?>
+                                </ul>
 
                             </div>
                             <!-- end card body -->

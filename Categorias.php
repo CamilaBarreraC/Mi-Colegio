@@ -155,7 +155,7 @@
                             <div class="col-xxl-6">
                                 <div>
                                     <label for="nombre_categoria" class="form-label">Nombre categoría</label>
-                                    <input type="text" class="form-control" id="nombre_categoria" name="nombre_categoria" value="" placeholder="Nombre categoría" required>
+                                    <input type="text" class="form-control" id="nombre_categoria" name="nombre_categoria" value="" placeholder="Nombre categoría" required oninput="capitalizeFirstLetter(this)">
                                 </div>
                             </div><!--end col-->
                             
@@ -220,6 +220,18 @@
                 });
             });
         });
+    </script>
+
+    <script>
+        function capitalizeFirstLetter(input) {
+            const words = input.value.split(' ');
+            for (let i = 0; i < words.length; i++) {
+                if (words[i].length > 0) {
+                    words[i] = words[i][0].toUpperCase() + words[i].substring(1).toLowerCase();
+                }
+            }
+            input.value = words.join(' ');
+        }
     </script>
 
     <?php include 'layouts/vendor-scripts.php'; ?>
